@@ -1,0 +1,4 @@
+<h1>AJAX</h1>
+<p>This text has been changed through Ajax</p>
+<p>It lets us access our server from a web page</p>
+<p>AJAX stands for Asynchronous JavaScript And XML.</p>
