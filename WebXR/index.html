@@ -57,10 +57,10 @@
                 });
                 
                 // create a position reference near the user
-                const referenceSpace = await session.requestReferenceSpace('local');
+                var referenceSpace = await session.requestReferenceSpace('local');
 
                 // render loop for drawing in AR
-                const onXRFrame = (time, frame) => {
+                function onXRFrame(time, frame){
                     // next draw request
                     session.requestAnimationFrame(onXRFrame);
 
