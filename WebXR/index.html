@@ -70,7 +70,7 @@
                     // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
                     const pose = frame.getViewerPose(referenceSpace);
 
-                    if (pose) {
+                    if (pose == null) {
                         const view = pose.views[pose.views.length - 1];
 
                         const viewport = session.renderState.baseLayer.getViewport(view);
