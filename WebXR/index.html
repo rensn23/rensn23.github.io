@@ -13,8 +13,17 @@
 
     <body>
         <button onclick="activateXR()">Start WebXR</button>
+        <button onclick="getPos()">Get current position</button>
 
         <script>
+            async function getPos() {
+                const session = await navigator.xr.requestSession("immersive-ar");
+
+                const referenceSpace = await session.requestReferenceSpace('local');
+
+                print(referenceSpace);
+            }
+
             async function activateXR() {
                 const canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
