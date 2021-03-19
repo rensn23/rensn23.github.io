@@ -21,7 +21,7 @@
 
                 const referenceSpace = await session.requestReferenceSpace('local');
 
-                session.requestAnimationFrame((time, xrFrame) => {
+                session.requestAnimationFrame((time, xrFrame, referenceSpace) => {
                     let viewer = xrFrame.getViewerPose(referenceSpace);
                     console.log(viewer);
                 });
