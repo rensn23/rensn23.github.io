@@ -21,12 +21,12 @@
 
                 const referenceSpace = await session.requestReferenceSpace('local');
 
-                console.log(referenceSpace);
-                async function shutdownXR(session) {
-                    if (session) {
-                    await session.end();
-                    }
-                }
+                session.requestAnimationFrame((time, xrFrame) => {
+                    let viewer = xrFrame.getViewerPose(xrReferenceSpace);
+                    console.log(viewer);
+                });
+
+                session.end();
 
             }
 
