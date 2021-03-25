@@ -25,6 +25,10 @@ async function activateXR() {
   // To be continued in upcoming steps.
   const scene = new THREE.Scene();
 
+    // add light source
+  const light = new THREE.AmbientLight();
+  scene.add(light);
+
     // The cube will have a different color on each side.
     const materials = [
         new THREE.MeshBasicMaterial({color: 0xff0000}),
