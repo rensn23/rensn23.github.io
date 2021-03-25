@@ -92,7 +92,7 @@ async function activateXR() {
         if (flower) {
             const clone = flower.clone();
             clone.position.copy(reticle.position);
-            clone.rotateZ(THREE.Math.degToRad(Math.floor(Math.random() * 91)));
+            clone.rotateY(THREE.Math.degToRad(Math.floor(Math.random() * 181)));
             scene.add(clone);
         }
     });
