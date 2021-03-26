@@ -92,16 +92,20 @@
                         let jump = true;
 
                         if (jump && cube) {
-                            cube.translateY(0.1);
                             let down = false;
 
-                            if (cube.position.y > 0.3) {
-                                down = true
+                            if (cube.position.y <= 0.3) {
+                                cube.translateY(0.1);
+                            }
+                            else {
+                                down = true;
                             }
 
                             if (down) {
-                                cube.translateY(-0.1);
-                                if (cube.position.y < 0) {
+                                if (cube.position.y >= 0) {
+                                    cube.translateY(-0.1);
+                                }
+                                else {
                                     down = false;
                                     jump = false;
                                 }
