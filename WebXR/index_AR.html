@@ -62,6 +62,12 @@
                 // create a position reference near the user
                 const referenceSpace = await session.requestReferenceSpace('local');
 
+                session.addEventListener("select", (event) => {
+                    if (cube) {
+                        cube.translateY(0.1);
+                    }
+                });
+
                 // render loop for drawing in AR
                 const onXRFrame = (time, frame) => {
                     // next draw request
