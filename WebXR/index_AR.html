@@ -62,11 +62,6 @@
                 // create a position reference near the user
                 const referenceSpace = await session.requestReferenceSpace('local');
 
-                session.addEventListener("select", (event) => {
-                    if (cube) {
-                        cube.translateY(0.1);
-                    }
-                });
 
                 // render loop for drawing in AR
                 const onXRFrame = (time, frame) => {
@@ -78,6 +73,25 @@
 
                     // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
                     const pose = frame.getViewerPose(referenceSpace);
+
+                    session.addEventListener("select", (event) => {
+                    if (cube) {
+                        cube.translateY(0.1);
+                        let down = false;
+
+                        if (cube.position.Y >= 0.5) {
+                            down = true
+                        }
+
+                        if (down) {
+                            cube.translateY(-0.1);
+                            if (cube.position.Y <= 0) {
+                                down = false;
+                            }
+                        }
+
+                        }
+                    });
 
                     if (pose != null) {
                         const view = pose.views[0];
