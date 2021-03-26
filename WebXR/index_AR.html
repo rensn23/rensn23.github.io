@@ -75,20 +75,23 @@
                     const pose = frame.getViewerPose(referenceSpace);
 
                     session.addEventListener("select", (event) => {
-                    if (cube) {
-                        cube.translateY(0.1);
-                        let down = false;
+                        let jump = true;
 
-                        if (cube.position.Y >= 0.5) {
-                            down = true
-                        }
+                        if (jump && cube) {
+                            cube.translateY(0.1);
+                            let down = false;
 
-                        if (down) {
-                            cube.translateY(-0.1);
-                            if (cube.position.Y <= 0) {
-                                down = false;
+                            if (cube.position.Y >= 0.5) {
+                                down = true
                             }
-                        }
+
+                            if (down) {
+                                cube.translateY(-0.1);
+                                if (cube.position.Y <= 0) {
+                                    down = false;
+                                    jump = false;
+                                }
+                            }
 
                         }
                     });
