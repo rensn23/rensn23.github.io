@@ -16,6 +16,8 @@
 
         <script>
             async function activateXR() {
+                let jump = false;
+
                 const canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
                 const gl = canvas.getContext("webgl", {xrCompatible: true});
@@ -62,6 +64,12 @@
                 // create a position reference near the user
                 const referenceSpace = await session.requestReferenceSpace('local');
 
+                session.addEventListener("select", (event) => {
+                    if (!jump) {
+                        jump = true;
+                    }
+                });
+
 
                 // render loop for drawing in AR
                 const onXRFrame = (time, frame) => {
@@ -88,9 +96,7 @@
                         // render the scene with THREE.WebGLRenderer
                     }
 
-                    session.addEventListener("select", (event) => {
-                        let jump = true;
-
+                    if (jump) {
                         if (jump && cube) {
                             let down = false;
 
@@ -112,7 +118,7 @@
                             }
 
                         }
-                    });
+                    }
 
                     renderer.render(scene, camera);
                 }
