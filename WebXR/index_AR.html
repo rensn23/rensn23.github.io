@@ -112,14 +112,12 @@
                         }
 
                         // goes back down
-                        if (down) {
-                            if (cube.position.y >= 0.0) {
-                                cube.translateY(-0.1);
-                            }
-                            else {
-                                down = false;
-                                jump = false;
-                            }
+                        if (cube.position.y >= 0.0 && down) {
+                            cube.translateY(-0.1);
+                        }
+                        else {
+                            down = false;
+                            jump = false;
                         }
 
                     }
