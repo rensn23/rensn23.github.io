@@ -95,13 +95,13 @@
                             cube.translateY(0.1);
                             let down = false;
 
-                            if (cube.position.Y > 0.3) {
+                            if (cube.position.y > 0.3) {
                                 down = true
                             }
 
                             if (down) {
                                 cube.translateY(-0.1);
-                                if (cube.position.Y < 0) {
+                                if (cube.position.y < 0) {
                                     down = false;
                                     jump = false;
                                 }
