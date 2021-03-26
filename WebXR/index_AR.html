@@ -94,7 +94,7 @@
                         if (jump && cube) {
                             let down = false;
 
-                            if (cube.position.y <= 0.3) {
+                            if (cube.position.y <= 0.5) {
                                 cube.translateY(0.1);
                             }
                             else {
@@ -102,7 +102,7 @@
                             }
 
                             if (down) {
-                                if (cube.position.y >= 0) {
+                                if (cube.position.y >= 0.0) {
                                     cube.translateY(-0.1);
                                 }
                                 else {
