@@ -17,6 +17,7 @@
         <script>
             async function activateXR() {
                 let jump = false;
+                let down = false;
 
                 const canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
@@ -96,28 +97,25 @@
                         // render the scene with THREE.WebGLRenderer
                     }
 
-                    if (jump) {
-                        if (jump && cube) {
-                            let down = false;
+                    if (jump && cube) {
 
-                            if (cube.position.y <= 0.5) {
-                                cube.translateY(0.1);
+                        if (cube.position.y <= 0.5 && !down) {
+                            cube.translateY(0.1);
+                        }
+                        else {
+                            down = true;
+                        }
+
+                        if (down) {
+                            if (cube.position.y >= 0.0) {
+                                cube.translateY(-0.1);
                             }
                             else {
-                                down = true;
+                                down = false;
+                                jump = false;
                             }
-
-                            if (down) {
-                                if (cube.position.y >= 0.0) {
-                                    cube.translateY(-0.1);
-                                }
-                                else {
-                                    down = false;
-                                    jump = false;
-                                }
-                            }
-
                         }
+
                     }
 
                     renderer.render(scene, camera);
