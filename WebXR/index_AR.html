@@ -74,6 +74,20 @@
                     // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
                     const pose = frame.getViewerPose(referenceSpace);
 
+                    if (pose != null) {
+                        const view = pose.views[0];
+
+                        const viewport = session.renderState.baseLayer.getViewport(view);
+                        renderer.setSize(viewport.width, viewport.height)
+
+                        // Use the view's transform matrix and projection matrix to configure the THREE.camera
+                        camera.matrix.fromArray(view.transform.matrix);
+                        camera.projectionMatrix.fromArray(view.projectionMatrix);
+                        camera.updateMatrixWorld(true);
+
+                        // render the scene with THREE.WebGLRenderer
+                    }
+
                     session.addEventListener("select", (event) => {
                         let jump = true;
 
@@ -96,20 +110,7 @@
                         }
                     });
 
-                    if (pose != null) {
-                        const view = pose.views[0];
-
-                        const viewport = session.renderState.baseLayer.getViewport(view);
-                        renderer.setSize(viewport.width, viewport.height)
-
-                        // Use the view's transform matrix and projection matrix to configure the THREE.camera
-                        camera.matrix.fromArray(view.transform.matrix);
-                        camera.projectionMatrix.fromArray(view.projectionMatrix);
-                        camera.updateMatrixWorld(true);
-
-                        // render the scene with THREE.WebGLRenderer
-                        renderer.render(scene, camera);
-                    }
+                    renderer.render(scene, camera);
                 }
                 session.requestAnimationFrame(onXRFrame);
             }
