@@ -9,6 +9,7 @@
 
         <!-- include three.js -->
         <script src="https://threejs.org/build/three.js"></script>
+        <script src="./game.js"></script>
     </head>
 
     <body>
@@ -20,6 +21,19 @@
                 const canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
                 const gl = canvas.getContext("webgl", {xrCompatible: true});
+
+                // game-mechanics initialization
+                let instanceHandler = new InstanceHandler(1, UpdateView);
+                instanceHandler.Init();
+
+                //get an instance and start the game
+                let game = instanceHandler.GetInstance();
+                instanceHandler.Start();
+
+                function UpdateView() {
+                    // update backend
+                    instanceHandler.Act(Predict(instanceHandler.GetState()));
+                }
 
                 // three.js initialization
                 const scene = new THREE.Scene();
@@ -127,6 +141,56 @@
                     renderer.render(scene, camera);
                 }
                 session.requestAnimationFrame(onXRFrame);
+
+                bDuck = false;
+                //function to Predict
+                function Predict(state){
+                    if(state.bGame == false ||state.arrNObstaclesID[0] == 3){
+                    return enumAction.none;
+                    }
+
+                    if(state.arrDDistance[1]+0.12*state.nScore - state.arrDDistance[0]+0.12*state.nScore<250 && state.arrDDistance[0]<120+0.12*state.nScore && (state.arrNObstaclesID[0] == 0||state.arrNObstaclesID[0] == 1||state.arrNObstaclesID[0] == 4||state.arrNObstaclesID[0] == 5)){
+                        if(bDuck){
+                            bDuck = false;
+                            return enumAction.unduck;
+                        }
+                        return enumAction.jump;
+                    }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>0+0.12*state.nScore &&(state.arrNObstaclesID[0] == 0)){
+                        if(bDuck){
+                            bDuck = false;
+                            return enumAction.unduck;
+                        }
+                        return enumAction.jump;
+                    }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>0+0.12*state.nScore &&(state.arrNObstaclesID[0] == 1)){
+                        if(bDuck){
+                            bDuck = false;
+                            return enumAction.unduck;
+                        }
+                        return enumAction.jump;
+                    }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-25-0.12*state.nScore &&(state.arrNObstaclesID[0] == 4)){
+                        if(bDuck){
+                            bDuck = false;
+                            return enumAction.unduck;
+                        }
+                        return enumAction.jump;
+                    }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-35-0.12*state.nScore &&(state.arrNObstaclesID[0] == 5)){
+                        if(bDuck){
+                            bDuck = false;
+                            return enumAction.unduck;
+                        }
+                        return enumAction.jump;
+                    }else if (state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-38&&!(state.arrNObstaclesID[0] == 0 || state.arrNObstaclesID[0] == 1|| state.arrNObstaclesID[0] == 4|| state.arrNObstaclesID[0] == 5)){
+                        bDuck = true;
+                        return enumAction.duck;
+                    }else{
+                        if(!state.bGrounded){
+                            bDuck = true;
+                            return enumAction.duck;
+                        }
+                        bDuck = false;
+                        return enumAction.unduck;
+                    }
+                }
             }
         </script>
     </body>
