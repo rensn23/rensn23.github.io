@@ -30,16 +30,24 @@
                 let game = instanceHandler.GetInstance();
                 instanceHandler.Start();
 
-                function UpdateView() {
-                    // update backend
-                    instanceHandler.Act(Predict(instanceHandler.GetState()));
-                }
-
                 // three.js initialization
                 const scene = new THREE.Scene();
 
                 const axesHelper = new THREE.AxesHelper(20);
                 scene.add(axesHelper);
+
+                // function for updating the objects and the viewer
+                function UpdateView() {
+                    // update backend
+                    instanceHandler.Act(Predict(instanceHandler.GetState()));
+
+                    // if there are obsatcles in the array
+                    if (game.gameHandler.arrObstacles.length > 0) {
+                        game.gameHandler.arrObstacles.forEach(function(obstacle){
+                            
+                        });
+                    }
+                }
 
                 const materials = [
                     new THREE.MeshBasicMaterial({color: 0xff0000}),
@@ -114,29 +122,29 @@
                         // render the scene with THREE.WebGLRenderer
                     }
 
-                    // for jumping
-                    if (jump && cube) {
+                    // // for jumping
+                    // if (jump && cube) {
 
-                        // jumps up
-                        if (cube.position.y <= 0.5 && !down) {
-                            cube.translateY(0.1);
-                        }
-                        else {
-                            down = true;
-                        }
+                    //     // jumps up
+                    //     if (cube.position.y <= 0.5 && !down) {
+                    //         cube.translateY(0.1);
+                    //     }
+                    //     else {
+                    //         down = true;
+                    //     }
 
-                        // goes back down
-                        if (down) {
-                            if (cube.position.y >= 0.0) {
-                                cube.translateY(-0.1);
-                            }
-                            else {
-                                down = false;
-                                jump = false;
-                            }
-                        }
+                    //     // goes back down
+                    //     if (down) {
+                    //         if (cube.position.y >= 0.0) {
+                    //             cube.translateY(-0.1);
+                    //         }
+                    //         else {
+                    //             down = false;
+                    //             jump = false;
+                    //         }
+                    //     }
 
-                    }
+                    // }
 
                     renderer.render(scene, camera);
                 }
