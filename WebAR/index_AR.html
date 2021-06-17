@@ -20,7 +20,7 @@
 
             //Constants
             const SCALE = 250;
-            const ENEMY_GEOMETRY = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+            const PLAYER_MATERIAL = new THREE.MeshBasicMaterial( {color: 0x000000} );
             const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
 
             //List of Objects which get destroyed after every frame
@@ -112,8 +112,7 @@
                 instanceHandler.Start();
 
                 let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
-                let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
-                player = new THREE.Mesh(playerGeometry, playerMaterial);
+                player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
                 player.position.z = -1;
                 scene.add(player);
 
@@ -161,6 +160,7 @@
                         //Update Player
                         if (player === null) return;
                         player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
+                        player.scale.y = game.gameHandler.player.dHeight / SCALE;
                     //}
                 }
 
