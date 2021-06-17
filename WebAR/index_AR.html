@@ -19,8 +19,8 @@
         <script>
 
             //Constants
-            const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
-            const material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+            const ENEMY_GEOMETRY = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+            const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
 
             async function activateXR() {
 
@@ -114,10 +114,10 @@
                     game.gameHandler.arrObstacles.forEach(function(obstacle) {
                         //draw obstacle if it is inside the canvas
                         if(obstacle.v2Pos.dX >- 10) {
-                            let cube = new THREE.Mesh( geometry, material );
-                            cube.position.y = obstacle.v2Pos.dY / 100;
-                            cube.position.x = obstacle.v2Pos.dX / 500;
-                            scene.add(cube);
+                            let enemy = new THREE.Mesh(ENEMY_GEOMETRY, ENEMY_MATERIAL);
+                            enemy.position.y = obstacle.v2Pos.dY / 100;
+                            enemy.position.x = obstacle.v2Pos.dX / 500;
+                            scene.add(enemy);
                         }
                     });
             }
