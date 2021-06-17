@@ -77,17 +77,19 @@
                 const hitTestSource = await session.requestHitTestSource({space: viewerSpace});
 
                 // for loading 3D objects
-                const loader = new THREE.GLTFLoader();
+                const gltfLoader = new THREE.GLTFLoader();
+                const objectLoader = new THREE.ObjectLoader();
                 let arrow;
-                loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function(gltf) {
+                gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function(gltf) {
                     arrow = gltf.scene;
                     arrow.visible = false;
                     scene.add(arrow);
                 })
 
                 let dino_idle;
-                loader.load("./src/models/Dino_Idle.gltf", function(gltf) {
-                    dino_idle = gltf.scene;
+                objectLoader("./src/models/Dino_Walk01.obj", function(object) {
+                    dino_idle = object.scene;
+                    dino_idle.position.z = -1;
                     dino_idle.scale.x = 0.1;
                     dino_idle.scale.y = 0.1;
                     dino_idle.scale.z = 0.1;
