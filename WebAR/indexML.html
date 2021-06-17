@@ -1,0 +1,129 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Test the game</title>
+</head>
+
+<body>
+  <script src="./game.js"></script>
+  <canvas id="myCanvas" width="1000" height="150" style="border:1px solid #000000;"></canvas>
+  <div id="score">0</div>
+  <button onclick="PlayReset()">Play/Reset</button>
+  <script>
+        //Get all elements
+        var c = document.getElementById("myCanvas");
+        var score = document.getElementById("score");
+
+        let instanceHandler = new InstanceHandler(1, UpdateView);
+        instanceHandler.Init();
+
+        //get an instance and start the game
+        let game = instanceHandler.GetInstance();
+
+        //Only for performance evaluation
+        var dMeanTime = 0;
+        var nCount =0;
+        var t0 = performance.now();
+        var t1 = performance.now();
+
+        instanceHandler.Start();
+
+        //Function called to update the status of the game
+        function UpdateView(){
+            var ctx = c.getContext("2d");
+            //update the backend
+            instanceHandler.Act(Predict(instanceHandler.GetState()));
+
+            //clear the canvas
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            //if there are obstacles in the game
+            if(game.gameHandler.arrObstacles.length>0){
+                //draw each obstacles
+                game.gameHandler.arrObstacles.forEach(function(obstacle){
+                    //draw obstacle if it is inside the canvas
+                    if(obstacle.v2Pos.dX>-50){
+                        ctx.beginPath();
+                        ctx.strokeStyle = "#000000";
+                        ctx.rect(obstacle.v2Pos.dX, c.height-obstacle.dHeight-obstacle.v2Pos.dY, obstacle.dWidth, obstacle.dHeight);
+                        ctx.stroke();
+                    }
+                });
+            }
+            //draw the player
+            ctx.beginPath();
+            ctx.strokeStyle = "#00FF00";
+            ctx.rect(game.gameHandler.player.v2Pos.dX, c.height-game.gameHandler.player.v2Pos.dY-game.gameHandler.player.dHeight, game.gameHandler.player.dWidth, game.gameHandler.player.dHeight);
+            ctx.stroke();
+
+            //measure performance
+            t0 = performance.now();
+            dMeanTime = (dMeanTime*nCount+(t0- t1))/(nCount+1);
+            score.innerHTML = dMeanTime+ " milliseconds."+game.gameHandler.nScore;
+            nCount++;
+            t1 = performance.now()
+        }
+
+        //reset and start the game
+        function PlayReset(){
+            game.Reset();
+            game.Play();
+            UpdateView();
+        }
+
+        bDuck = false;
+        //function to Predict
+        function Predict(state){
+            if(state.bGame == false ||state.arrNObstaclesID[0] == 3){
+                return enumAction.none;
+            }
+
+            if(state.arrDDistance[1]+0.12*state.nScore - state.arrDDistance[0]+0.12*state.nScore<250 && state.arrDDistance[0]<120+0.12*state.nScore && (state.arrNObstaclesID[0] == 0||state.arrNObstaclesID[0] == 1||state.arrNObstaclesID[0] == 4||state.arrNObstaclesID[0] == 5)){
+                if(bDuck){
+                    bDuck = false;
+                    return enumAction.unduck;
+                }
+                return enumAction.jump;
+            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>0+0.12*state.nScore &&(state.arrNObstaclesID[0] == 0)){
+                if(bDuck){
+                    bDuck = false;
+                    return enumAction.unduck;
+                }
+                return enumAction.jump;
+            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>0+0.12*state.nScore &&(state.arrNObstaclesID[0] == 1)){
+                if(bDuck){
+                    bDuck = false;
+                    return enumAction.unduck;
+                }
+                return enumAction.jump;
+            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-25-0.12*state.nScore &&(state.arrNObstaclesID[0] == 4)){
+                if(bDuck){
+                    bDuck = false;
+                    return enumAction.unduck;
+                }
+                return enumAction.jump;
+            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-35-0.12*state.nScore &&(state.arrNObstaclesID[0] == 5)){
+                if(bDuck){
+                    bDuck = false;
+                    return enumAction.unduck;
+                }
+                return enumAction.jump;
+            }else if (state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-38&&!(state.arrNObstaclesID[0] == 0 || state.arrNObstaclesID[0] == 1|| state.arrNObstaclesID[0] == 4|| state.arrNObstaclesID[0] == 5)){
+                bDuck = true;
+                return enumAction.duck;
+            }else{
+                if(!state.bGrounded){
+                    bDuck = true;
+                    return enumAction.duck;
+                }
+                bDuck = false;
+                return enumAction.unduck;
+            }
+        }
+
+  </script>
+</body>
+</html>
