@@ -24,7 +24,8 @@
 
             //List of Objects which get destroyed after every frame
             let arrObjectsToDestroy = [];
-
+            let id = 1;
+            
             async function activateXR() {
 
                 // add a canvas
@@ -112,8 +113,6 @@
                 function gameLoop() {
                     //if there are obstacles in the game
                     if(game.gameHandler.arrObstacles.length > 0) {
-
-                        let id = 1;
 
                         //Remove all objects
                         arrObjectsToDestroy.forEach(object => {
