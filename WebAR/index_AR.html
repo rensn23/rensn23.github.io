@@ -46,6 +46,9 @@
                 cube.position.set(0, 0, -1);
                 scene.add(cube);
 
+                const ambientLight = new THREE.AmbientLight( 0xffffff );
+                scene.add( ambientLight );
+
                 // WebGLRenderer
                 const renderer = new THREE.WebGLRenderer({
                     alpha: true,
@@ -85,20 +88,11 @@
                 let dino_idle;
                 loader.load("./src/models/Dino_Idle.gltf", function(gltf) {
                     dino_idle = gltf.scene;
+                    dino_idle.scale.x = 0.2;
+                    dino_idle.scale.y = 0.2;
+                    dino_idle.scale.z = 0.2;
                     scene.add(dino_idle);
                 })
-
-                // // variables for jumping
-                // let jump = false;
-                // let down = false;
-
-                // // When user touches the screen
-                // session.addEventListener("select", (event) => {
-                //     // When there is not a jump currently happening
-                //     if (!jump) {
-                //         jump = true;
-                //     }
-                // });
 
                 //Game Instance/Mechanics
                 let instanceHandler = new InstanceHandler(1, gameLoop);
@@ -151,29 +145,6 @@
                         renderer.render(scene, camera);
                     }
 
-                    // // for jumping
-                    // if (jump && cube) {
-
-                    //     // jumps up
-                    //     if (cube.position.y <= 0.5 && !down) {
-                    //         cube.translateY(0.1);
-                    //     }
-                    //     else {
-                    //         down = true;
-                    //     }
-
-                    //     // goes back down
-                    //     if (down) {
-                    //         if (cube.position.y >= 0.0) {
-                    //             cube.translateY(-0.1);
-                    //         }
-                    //         else {
-                    //             down = false;
-                    //             jump = false;
-                    //         }
-                    //     }
-
-                    // }
                     
                 }
                 session.requestAnimationFrame(onXRFrame);
