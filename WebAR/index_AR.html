@@ -122,8 +122,8 @@
                 });
 
                 function gameLoop() {
-                    
-                    Predict(instanceHandler.GetState())
+
+                    instanceHandler.Act(Predict(instanceHandler.GetState()));
                     //if there are obstacles in the game
                     // if(game.gameHandler.arrObstacles.length > 0) {
 
