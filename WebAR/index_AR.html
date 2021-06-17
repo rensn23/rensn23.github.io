@@ -159,7 +159,7 @@
 
                         //Update Player
                         if (player === null) return;
-                        console.log(player.scale.y, game.gameHandler.player.dHeight);
+                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
                         player.scale.y = game.gameHandler.player.dHeight;
                     //}
                 }
