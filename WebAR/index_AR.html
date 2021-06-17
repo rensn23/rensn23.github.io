@@ -19,6 +19,7 @@
         <script>
 
             //Constants
+            const SCALE = 200;
             const ENEMY_GEOMETRY = new THREE.BoxGeometry(0.1, 0.1, 0.1);
             const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
 
@@ -89,17 +90,19 @@
                     scene.add(arrow);
                 })
 
-                let dino_idle;
-                //objectLoader.load("./src/models/Dino_Walk01.obj", function(object) {
-                gltfLoader.load("./src/models/Dino_Idle.gltf", function(gltf) {
-                    dino_idle = gltf.scene;
-                    dino_idle.position.z = -1;
-                    dino_idle.scale.x = 0.1;
-                    dino_idle.scale.y = 0.1;
-                    dino_idle.scale.z = 0.1;
-                    scene.add(dino_idle);
-                })
+                // let dino_idle;
+                // gltfLoader.load("./src/models/Dino_Idle.gltf", function(gltf) {
+                //     dino_idle = gltf.scene;
+                //     dino_idle.position.z = -1;
+                //     dino_idle.scale.x = 0.1;
+                //     dino_idle.scale.y = 0.1;
+                //     dino_idle.scale.z = 0.1;
+                //     scene.add(dino_idle);
+                // })
 
+                let playerGeometry = new THREE.BoxGeometry(game.gameHandler.player.dWidth / RATIO, game.gameHandler.player.dHeight / RATIO, game.gameHandler.player.dWidth / RATIO);
+                let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
+                let player = new THREE.Mesh(playerGeometry, playerMaterial);
 
                 //Game Instance/Mechanics
                 let instanceHandler = new InstanceHandler(1, gameLoop);
@@ -116,42 +119,42 @@
 
                 function gameLoop() {
                     //if there are obstacles in the game
-                    if(game.gameHandler.arrObstacles.length > 0) {
+                    // if(game.gameHandler.arrObstacles.length > 0) {
 
-                        //Remove all objects
-                        arrObjectsToDestroy.forEach(object => {
-                            removeEntity(object);
-                        });
+                    //     //Remove all objects
+                    //     arrObjectsToDestroy.forEach(object => {
+                    //         removeEntity(object);
+                    //     });
 
-                        arrObjectsToDestroy = [];
+                    //     arrObjectsToDestroy = [];
 
-                        //Add each enemy to array
-                        game.gameHandler.arrObstacles.forEach(function(obstacle) {
+                    //     //Add each enemy to array
+                    //     game.gameHandler.arrObstacles.forEach(function(obstacle) {
 
-                            //draw obstacle if it is inside the canvas
-                            if(obstacle.v2Pos.dX >- 100) {
-                                gltfLoader.load("./src/models/Cactus_1x1.gltf", function(gltf) {
-                                    let enemy = gltf.scene;
-                                    enemy.name = id.toString();
-                                    id++;
+                    //         //draw obstacle if it is inside the canvas
+                    //         if(obstacle.v2Pos.dX >- 100) {
+                    //             gltfLoader.load("./src/models/Cactus_1x1.gltf", function(gltf) {
+                    //                 let enemy = gltf.scene;
+                    //                 enemy.name = id.toString();
+                    //                 id++;
 
-                                    enemy.position.x = obstacle.v2Pos.dX / 500;
-                                    enemy.position.y = obstacle.v2Pos.dY / 100;
-                                    enemy.position.z = -1;
+                    //                 enemy.position.x = obstacle.v2Pos.dX / 500;
+                    //                 enemy.position.y = obstacle.v2Pos.dY / 100;
+                    //                 enemy.position.z = -1;
 
-                                    arrObjectsToDestroy.push(enemy);
-                                })
-                            }
-                        });
+                    //                 arrObjectsToDestroy.push(enemy);
+                    //             })
+                    //         }
+                    //     });
                         
-                        //Draw all new Objects
-                        arrObjectsToDestroy.forEach(object => {
-                            scene.add(object);
-                        });
+                    //     //Draw all new Objects
+                    //     arrObjectsToDestroy.forEach(object => {
+                    //         scene.add(object);
+                    //     });
 
                         //Update Player
-                        dino_idle.position.y = game.gameHandler.player.v2Pos.dY / 100;
-                    }
+                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
+                    //}
                 }
 
                 function removeEntity(object) {
