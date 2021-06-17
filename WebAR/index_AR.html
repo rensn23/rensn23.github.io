@@ -10,6 +10,7 @@
         <!-- include three.js -->
         <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
         <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+        <script src="./game.js"></script>
     </head>
 
     <body>
@@ -92,6 +93,19 @@
                 //         jump = true;
                 //     }
                 // });
+
+                //Game Instance/Mechanics
+                let instanceHandler = new InstanceHandler(1, gameLoop);
+                instanceHandler.Init();
+
+                //get an instance and start the game
+                let game = instanceHandler.GetInstance();
+
+                instanceHandler.Start();
+                
+                function gameLoop() {
+                    console.log("gameloop");
+                }
 
                 // render loop for drawing in AR
                 const onXRFrame = (time, frame) => {
