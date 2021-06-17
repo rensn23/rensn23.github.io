@@ -109,7 +109,7 @@
 
                 instanceHandler.Start();
 
-                let playerGeometry = new THREE.BoxGeometry(25 / RATIO, 50 / RATIO, 25 / RATIO);
+                let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                 let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
                 let player = new THREE.Mesh(playerGeometry, playerMaterial);
 
@@ -153,7 +153,8 @@
                     //     });
 
                         //Update Player
-                        //player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
+                        if (!game.gameHandler.bPlay) return;
+                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
                     //}
                 }
 
