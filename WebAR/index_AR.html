@@ -133,6 +133,8 @@
                                 let enemy;
                                 gltfLoader.load("./src/models/Cactus_1x1_2.gltf", function(gltf) {
                                     enemy = gltf.asset;
+                                    console.log(gltf);
+                                    console.log(enemy);
                                 })
                                 enemy.name = id.toString();
                                 id++;
