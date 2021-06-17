@@ -112,7 +112,7 @@
                 let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                 let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
                 let player = new THREE.Mesh(playerGeometry, playerMaterial);
-                player.position.z = -2;
+                player.position.z = -1;
                 scene.add(player);
 
                 session.addEventListener("select", (event) => {
@@ -155,8 +155,8 @@
                     //     });
 
                         //Update Player
-                        // if (!game.gameHandler.bPlay) return;
-                        // player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
+                        if (!game.gameHandler.bPlay) return;
+                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
                     //}
                 }
 
