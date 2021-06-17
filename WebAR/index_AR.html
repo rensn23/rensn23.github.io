@@ -144,7 +144,8 @@
                 }
 
                 function removeEntity(object) {
-                    var selectedObject = scene.getObjectByName(object.name);
+                    let selectedObject = scene.getObjectByName(object.name);
+                    console.log(object.name);
                     scene.remove(selectedObject);
                 }
 
