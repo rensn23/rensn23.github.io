@@ -100,10 +100,6 @@
                 //     scene.add(dino_idle);
                 // })
 
-                let playerGeometry = new THREE.BoxGeometry(game.gameHandler.player.dWidth / RATIO, game.gameHandler.player.dHeight / RATIO, game.gameHandler.player.dWidth / RATIO);
-                let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
-                let player = new THREE.Mesh(playerGeometry, playerMaterial);
-
                 //Game Instance/Mechanics
                 let instanceHandler = new InstanceHandler(1, gameLoop);
                 instanceHandler.Init();
@@ -111,8 +107,12 @@
                 //get an instance and start the game
                 let game = instanceHandler.GetInstance();
 
+                let playerGeometry = new THREE.BoxGeometry(game.gameHandler.player.dWidth / RATIO, game.gameHandler.player.dHeight / RATIO, game.gameHandler.player.dWidth / RATIO);
+                let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
+                let player = new THREE.Mesh(playerGeometry, playerMaterial);
+
                 instanceHandler.Start();
-                
+
                 session.addEventListener("select", (event) => {
                     instanceHandler.Act(1);
                 });
