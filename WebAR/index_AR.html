@@ -98,6 +98,11 @@
                     // next draw request
                     session.requestAnimationFrame(onXRFrame);
 
+                    //rotate cube
+                    cube.rotation.x += 0.01;
+                    cube.rotation.y += 0.02;
+                    cube.rotation.z += 0.015;
+
                     // bind graphics framebuffer to baseLayer framebuffer
                     gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
