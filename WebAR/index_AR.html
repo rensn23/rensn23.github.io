@@ -87,7 +87,7 @@
                 })
 
                 let dino_idle;
-                objectLoader("./src/models/Dino_Walk01.obj", function(object) {
+                objectLoader.load("./src/models/Dino_Walk01.obj", function(object) {
                     dino_idle = object.scene;
                     dino_idle.position.z = -1;
                     dino_idle.scale.x = 0.1;
