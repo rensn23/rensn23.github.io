@@ -22,13 +22,14 @@
 
         //get an instance and start the game
         let game = instanceHandler.GetInstance();
-        instanceHandler.Start();
 
         //Only for performance evaluation
         var dMeanTime = 0;
         var nCount =0;
         var t0 = performance.now();
         var t1 = performance.now();
+
+        instanceHandler.Start();
 
         //Function called to update the status of the game
         function UpdateView(){

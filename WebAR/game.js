@@ -24,9 +24,29 @@ class InstanceHandler{
         if(this.nCurrentInstance>=this.nNumInstances){
             this.nCurrentInstance = 0;
         }
-        if(this.GetState().bGame == false){
+    }
+
+    NextInstanceAutoReset(){
+        this.nCurrentInstance +=1;
+        if(this.nCurrentInstance>=this.nNumInstances){
+            this.nCurrentInstance = 0;
+        }
+        if(this.GetState().bGame === false){
             this.arrGames[this.nCurrentInstance].Reset();
             this.arrGames[this.nCurrentInstance].Play();
+        }
+    }
+
+    Reset(){
+        for(let i = 0 ; i< this.nNumInstances; i++){
+            this.arrGames[i].Reset();
+        }
+    }
+
+    Restart(){
+        for(let i = 0 ; i< this.nNumInstances; i++){
+            this.arrGames[i].Reset();
+            this.arrGames[i].Play();
         }
     }
 
@@ -47,6 +67,7 @@ class InstanceHandler{
         }else if(eAct === enumAction.unduck){
             this.arrGames[this.nCurrentInstance].UnDuck();
         }
+        return this.GetState();
     }
 
     Start(){
@@ -81,14 +102,15 @@ class Game{
         this.nModus = 0;
         //settings that should be changed
         this.dSpeed = 500;
+        this.dSpeedMax = 500;
         this.dWidth = 1000;
         this.dGravitation  = 400;
         this.dJumpSpeed = 300;
         this.dAddedSpeed = 500;
-        this.dMultiplierObstaclesTime = 0.9945;
+        this.dMultiplierObstaclesTime = 0.9845;
         this.arrObstacleSize = 25;
-        this.dTimeBetweenObstacles = 1.1;
-        this.dTimeBetweenObstaclesMin = 0.3;
+        this.dTimeBetweenObstacles = 1;
+        this.dTimeBetweenObstaclesMin = 0.15;
         this.dGravitationMultiplier = 5;
         this.dAddToObstaclesTimeMax = 0.5;
         this.dJumpSpeedMultiplier = 3;
@@ -109,7 +131,7 @@ class Game{
     }
 
     Reset(){
-        this.gameHandler =  new GameHandler(this.dSpeed, this.dWidth, this.dGravitation, this.dJumpSpeed, this.dAddedSpeed, this.dMultiplierObstaclesTime, this.arrObstacleSize, this.dTimeBetweenObstacles, this.dAddToObstaclesTimeMax, this.dSpeedMax, this.dJumpSpeedMultiplier, this.dFallSpeedMultiplier,this.obstacleDistributionMultiplier, this.dTimeBetweenObstaclesMin);
+        this.gameHandler = new GameHandler(this.dSpeed, this.dWidth, this.dGravitation, this.dJumpSpeed, this.dAddedSpeed, this.dMultiplierObstaclesTime, this.arrObstacleSize, this.dTimeBetweenObstacles, this.dAddToObstaclesTimeMax, this.dSpeedMax, this.dJumpSpeedMultiplier, this.dFallSpeedMultiplier,this.obstacleDistributionMultiplier, this.dTimeBetweenObstaclesMin);
     }
 
     Jump(){
@@ -199,7 +221,7 @@ class GameHandler{
             //remove a obstacle after it has passed out of view
             if(this.arrObstacles[i].v2Pos.dX<-this.player.dWidth*2){
                 try{ //some errors here that i can't explain => try, catch
-                    this.arrObstacles.splice(this.arrObstacles.indexOf(this.arrObstacles[i]), 1);
+                    this.arrObstacles.splice(i, 1);
                     this.nScore+=1;
                     //increase the difficulty
                     this.dSpeed = this.GetSpeed();
@@ -232,6 +254,7 @@ class GameHandler{
                 this.player.v2Velocity.dY-=0.001;
             }
         }
+
         //if the player gets "underground" move him to ground-level and remove any velocity left
         if(this.player.v2Pos.dY <= 0){
             this.player.v2Velocity.dY = 0;
@@ -458,9 +481,13 @@ function j(x){
     return Math.cos((x-75707.96)/2000)/10;
 }
 
+function l(x){
+    return (x-500)*0.3
+}
+
 function k(x){
     if(x>60000){
-        return i(x)+j(x);
+        return i(x)+j(x)+l(x);
     }else{
         return i(x);
     }

@@ -8,15 +8,23 @@
         <title>WebXR Demo</title>
 
         <!-- include three.js -->
-        <script src="https://threejs.org/build/three.js"></script>
+        <!-- <script src="https://threejs.org/build/three.js"></script>
+        <script src="https://unpkg.com/three@0.126.0/examples/jsm/loaders/GLTFLoader.js"></script> -->
     </head>
 
     <body>
         <button onclick="activateXR()">Start WebXR</button>
 
-        <script>
+        <script type="module">
+
+            import * as THREE from 'https://unpkg.com/three@0.126.0/build/three.module.js';
+            import { GLTFLoader } from 'https://unpkg.com/three@0.126.0/examples/jsm/loaders/GLTFLoader.js';
+
             async function activateXR() {
                 
+                
+
+                // add a canvas
                 const canvas = document.createElement("canvas");
                 document.body.appendChild(canvas);
                 const gl = canvas.getContext("webgl", {xrCompatible: true});
@@ -27,6 +35,7 @@
                 const axesHelper = new THREE.AxesHelper(20);
                 scene.add(axesHelper);
 
+                // test cube materials
                 const materials = [
                     new THREE.MeshBasicMaterial({color: 0xff0000}),
                     new THREE.MeshBasicMaterial({color: 0x0000ff}),
@@ -55,25 +64,39 @@
                 camera.matrixAutoUpdate = false;
 
                 // Initialize WebXR session using "immersive-ar"
-                const session = await navigator.xr.requestSession("immersive-ar");
+                const session = await navigator.xr.requestSession("immersive-ar", {requiredFeatures: ['hit-test']});
                 session.updateRenderState({
-                    baseLayer: new XRWebGLLayer(session, gl)
+                    baseLayer: new XRWebGLLayer(session, gl)    
                 });
                 
                 // create a position reference near the user
-                const referenceSpace = await session.requestReferenceSpace('bounded-floor');
+                const referenceSpace = await session.requestReferenceSpace('local');
 
-                // variables for jumping
-                let jump = false;
-                let down = false;
+                const viewerSpace = await session.requestReferenceSpace('viewer');
 
-                // When user touches the screen
-                session.addEventListener("select", (event) => {
-                    // When there is not a jump currently happening
-                    if (!jump) {
-                        jump = true;
-                    }
-                });
+                // hit testing with user as the origin
+                const hitTestSource = await session.requestHitTestSource({space: viewerSpace});
+
+                // for loading 3D objects
+                const loader = new THREE.GLTFLoader();
+                let arrow;
+                loader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function(gltf) {
+                    arrow = gltf.scene;
+                    arrow.visible = false;
+                    scene.add(arrow);
+                })
+
+                // // variables for jumping
+                // let jump = false;
+                // let down = false;
+
+                // // When user touches the screen
+                // session.addEventListener("select", (event) => {
+                //     // When there is not a jump currently happening
+                //     if (!jump) {
+                //         jump = true;
+                //     }
+                // });
 
                 // render loop for drawing in AR
                 const onXRFrame = (time, frame) => {
@@ -97,34 +120,41 @@
                         camera.projectionMatrix.fromArray(view.projectionMatrix);
                         camera.updateMatrixWorld(true);
 
-                        // render the scene with THREE.WebGLRenderer
+                        const hitTestResults = frame.getHitTestResults(hitTestSource);
+                        if (hitTestResults.length > 0 && arrow) {
+                            const hitPose = hitTestResults[0].getPose(referenceSpace);
+                            arrow.visible = true;
+                            arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+                            arrow.updateMatrixWorld(true);
+                        }
+                        // render the scene
+                        renderer.render(scene, camera);
                     }
 
-                    // for jumping
-                    if (jump && cube) {
+                    // // for jumping
+                    // if (jump && cube) {
 
-                        // jumps up
-                        if (cube.position.y <= 0.5 && !down) {
-                            cube.translateY(0.1);
-                        }
-                        else {
-                            down = true;
-                        }
+                    //     // jumps up
+                    //     if (cube.position.y <= 0.5 && !down) {
+                    //         cube.translateY(0.1);
+                    //     }
+                    //     else {
+                    //         down = true;
+                    //     }
 
-                        // goes back down
-                        if (down) {
-                            if (cube.position.y >= 0.0) {
-                                cube.translateY(-0.1);
-                            }
-                            else {
-                                down = false;
-                                jump = false;
-                            }
-                        }
+                    //     // goes back down
+                    //     if (down) {
+                    //         if (cube.position.y >= 0.0) {
+                    //             cube.translateY(-0.1);
+                    //         }
+                    //         else {
+                    //             down = false;
+                    //             jump = false;
+                    //         }
+                    //     }
 
-                    }
-
-                    renderer.render(scene, camera);
+                    // }
+                    
                 }
                 session.requestAnimationFrame(onXRFrame);
             }
