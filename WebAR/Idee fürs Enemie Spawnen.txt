@@ -1,0 +1,18 @@
+Wos griag i fam game:
+array mid enemies
+	Eindeutige ID wäre toll
+
+gameloop
+selben enemies können für längere zeit im enemie array bleiben, 
+nicht nur für eine GameLoop => id's zum überprüfen notwendig
+
+Array mit aktuellen Enemies (in der Scene)
+nur deren ID's
+
+jede Gameloop überprüfe ich die ID's und füge neue enemies hinzu
+anhand der höhe und position ein neues object spawnen
+
+enemie name = id vom game
+wenn enemie außerhalb des spielbereichs => aus dem array löschen
+
+durch alle scene-enemies durchloopen und position updaten
