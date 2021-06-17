@@ -22,6 +22,9 @@
             const ENEMY_GEOMETRY = new THREE.BoxGeometry(0.1, 0.1, 0.1);
             const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
 
+            //List of Objects which get destroyed after every frame
+            let arrObjectsToDestroy = [];
+
             async function activateXR() {
 
                 // add a canvas
@@ -107,28 +110,42 @@
                 instanceHandler.Start();
                 
                 function gameLoop() {
+                    //if there are obstacles in the game
+                    if(game.gameHandler.arrObstacles.length > 0) {
 
-                //if there are obstacles in the game
-                if(game.gameHandler.arrObstacles.length > 0) {
-                    //draw each obstacle
-                    game.gameHandler.arrObstacles.forEach(function(obstacle) {
-                        //clear canvas
-                        while(scene.children.length > 0){ 
-                            scene.remove(scene.children[0]); 
-                        }
+                        let id = 1;
 
-                        //add axes helper back
-                        scene.add(axesHelper);
+                        //Remove all objects
+                        arrObjectsToDelete.forEach(object => {
+                            removeEntity(object);
+                        });
 
-                        //draw obstacle if it is inside the canvas
-                        if(obstacle.v2Pos.dX >- 100) {
-                            let enemy = new THREE.Mesh(ENEMY_GEOMETRY, ENEMY_MATERIAL);
-                            enemy.position.y = obstacle.v2Pos.dY / 100;
-                            enemy.position.x = obstacle.v2Pos.dX / 500;
-                            scene.add(enemy);
-                        }
-                    });
-            }
+                        //Add each enemy to array
+                        game.gameHandler.arrObstacles.forEach(function(obstacle) {
+
+                            //draw obstacle if it is inside the canvas
+                            if(obstacle.v2Pos.dX >- 100) {
+                                let enemy = new THREE.Mesh(ENEMY_GEOMETRY, ENEMY_MATERIAL);
+
+                                enemy.name = id.toString();
+                                id++;
+
+                                enemy.position.y = obstacle.v2Pos.dY / 100;
+                                enemy.position.x = obstacle.v2Pos.dX / 500;
+                                arrObjectsToDestroy.push(enemy);
+                            }
+                        });
+                        
+                        //Draw all new Objects
+                        arrObjectsToDelete.forEach(object => {
+                            scene.add(object);
+                        });
+                    }
+                }
+
+                function removeEntity(object) {
+                    var selectedObject = scene.getObjectByName(object.name);
+                    scene.remove(selectedObject);
                 }
 
                 // render loop for drawing in AR
