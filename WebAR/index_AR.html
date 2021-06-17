@@ -8,21 +8,16 @@
         <title>WebXR Demo</title>
 
         <!-- include three.js -->
-        <!-- <script src="https://threejs.org/build/three.js"></script>
-        <script src="https://unpkg.com/three@0.126.0/examples/jsm/loaders/GLTFLoader.js"></script> -->
+        <script src="https://unpkg.com/three@0.126.0/build/three.module.js"></script>
+        <script src="https://unpkg.com/three@0.126.0/examples/jsm/loaders/GLTFLoader.js"></script>
     </head>
 
     <body>
         <button onclick="activateXR()">Start WebXR</button>
 
-        <script type="module">
-
-            import * as THREE from 'https://unpkg.com/three@0.126.0/build/three.module.js';
-            import { GLTFLoader } from 'https://unpkg.com/three@0.126.0/examples/jsm/loaders/GLTFLoader.js';
+        <script>
 
             async function activateXR() {
-                
-                
 
                 // add a canvas
                 const canvas = document.createElement("canvas");
