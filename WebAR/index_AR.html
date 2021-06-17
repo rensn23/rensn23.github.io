@@ -110,6 +110,10 @@
 
                 instanceHandler.Start();
                 
+                session.addEventListener("select", (event) => {
+                   console.log("Touch");
+                });
+
                 function gameLoop() {
                     //if there are obstacles in the game
                     if(game.gameHandler.arrObstacles.length > 0) {
@@ -131,8 +135,10 @@
                                 enemy.name = id.toString();
                                 id++;
 
-                                enemy.position.y = obstacle.v2Pos.dY / 100;
                                 enemy.position.x = obstacle.v2Pos.dX / 500;
+                                enemy.position.y = obstacle.v2Pos.dY / 100;
+                                enemy.position.z = -1;
+
                                 arrObjectsToDestroy.push(enemy);
                             }
                         });
@@ -141,6 +147,9 @@
                         arrObjectsToDestroy.forEach(object => {
                             scene.add(object);
                         });
+
+                        //Update Player
+                        dino_idle.position.y = game.gameHandler.player.v2Pos.dY / 100;
                     }
                 }
 
