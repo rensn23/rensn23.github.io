@@ -111,7 +111,7 @@
                 instanceHandler.Start();
                 
                 session.addEventListener("select", (event) => {
-                   console.log("Touch");
+                    instanceHandler.Act(1);
                 });
 
                 function gameLoop() {
