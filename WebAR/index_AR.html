@@ -159,8 +159,8 @@
 
                         //Update Player
                         if (player === null) return;
-                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE;
                         player.scale.y = game.gameHandler.player.dHeight / 50;
+                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
                     //}
                 }
 
