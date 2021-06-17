@@ -109,7 +109,7 @@
 
                 instanceHandler.Start();
 
-                let playerGeometry = new THREE.BoxGeometry(game.gameHandler.player.dWidth / RATIO, game.gameHandler.player.dHeight / RATIO, game.gameHandler.player.dWidth / RATIO);
+                let playerGeometry = new THREE.BoxGeometry(25 / RATIO, 50 / RATIO, 25 / RATIO);
                 let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
                 let player = new THREE.Mesh(playerGeometry, playerMaterial);
 
