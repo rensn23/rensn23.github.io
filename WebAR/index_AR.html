@@ -112,10 +112,17 @@
                 if(game.gameHandler.arrObstacles.length > 0) {
                     //draw each obstacle
                     game.gameHandler.arrObstacles.forEach(function(obstacle) {
+                        //clear canvas
+                        while(scene.children.length > 0){ 
+                            scene.remove(scene.children[0]); 
+                        }
+
+                        //add axes helper back
+                        scene.add(axesHelper);
+
                         //draw obstacle if it is inside the canvas
-                        if(obstacle.v2Pos.dX >- 10) {
-                            let rand_mat = new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} );
-                            let enemy = new THREE.Mesh(ENEMY_GEOMETRY, rand_mat);
+                        if(obstacle.v2Pos.dX >- 100) {
+                            let enemy = new THREE.Mesh(ENEMY_GEOMETRY, ENEMY_MATERIAL);
                             enemy.position.y = obstacle.v2Pos.dY / 100;
                             enemy.position.x = obstacle.v2Pos.dX / 500;
                             scene.add(enemy);
