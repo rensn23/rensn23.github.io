@@ -114,7 +114,8 @@
                     game.gameHandler.arrObstacles.forEach(function(obstacle) {
                         //draw obstacle if it is inside the canvas
                         if(obstacle.v2Pos.dX >- 10) {
-                            let enemy = new THREE.Mesh(ENEMY_GEOMETRY, ENEMY_MATERIAL);
+                            let rand_mat = new THREE.MeshBasicMaterial( {color: Math.random() * 0xffffff} );
+                            let enemy = new THREE.Mesh(ENEMY_GEOMETRY, rand_mat);
                             enemy.position.y = obstacle.v2Pos.dY / 100;
                             enemy.position.x = obstacle.v2Pos.dX / 500;
                             scene.add(enemy);
