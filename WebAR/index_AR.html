@@ -112,6 +112,7 @@
                 let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                 let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
                 let player = new THREE.Mesh(playerGeometry, playerMaterial);
+                scene.add(player);
 
                 session.addEventListener("select", (event) => {
                     instanceHandler.Act(1);
