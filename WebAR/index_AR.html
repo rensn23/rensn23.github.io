@@ -19,7 +19,7 @@
         <script>
 
             //Constants
-            const SCALE = 200;
+            const SCALE = 250;
             const ENEMY_GEOMETRY = new THREE.BoxGeometry(0.1, 0.1, 0.1);
             const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
 
@@ -112,6 +112,7 @@
                 let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                 let playerMaterial = new THREE.MeshBasicMaterial( {color: 0x000000} );
                 let player = new THREE.Mesh(playerGeometry, playerMaterial);
+                player.position.z = -2;
                 scene.add(player);
 
                 session.addEventListener("select", (event) => {
