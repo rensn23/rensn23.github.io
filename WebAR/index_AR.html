@@ -209,6 +209,7 @@
                         const hitPose = hitTestResults[0].getPose(referenceSpace);
                         arrow.visible = true;
                         arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+                        console.log(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
                         arrow.updateMatrixWorld(true);
                     }
                     // render the scene
