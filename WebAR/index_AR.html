@@ -176,8 +176,10 @@
 
                 //Update Player
                 if (player === null) return;
-                player.scale.y = game.gameHandler.player.dHeight / 50;
-                player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
+                let playerGame = game.gameHandler.player;
+                player.scale.y = playerGame.dHeight / 50;
+                player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE);
+                player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE);
             }
 
             // render loop for drawing in AR
