@@ -129,13 +129,13 @@
 
                 game.gameHandler.arrObstacles.forEach(enemie => {
                     if (!arrCurrentEnemies.includes(enemie.nObstacleUID)) {
-                        console.log("Test");
                         let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         newEnemie.position.y = enemie.v2Pos.dY / SCALE + (25 * newEnemie.scale.y / SCALE);
                         newEnemie.position.z = -1;
                         newEnemie.name = enemie.nObstacleUID.toString();
-                        arrCurrentEnemies.push(newEnemie);
+                        arrCurrentEnemies.push(enemie.nObstacleUID);
+                        scene.add(newEnemie);
                     }
                 });
 
@@ -143,7 +143,7 @@
 
                 //Update current enemie's positions
                 arrCurrentEnemies.forEach(curEnemie => {
-                    if (curEnemie.position.x <= -1) {
+                    if (scene.getObjectByName(curEnemie.name).position.x <= -1) {
                         arrObjectsToRemove.push(curEnemie);
                         arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
                         return;
@@ -156,8 +156,8 @@
                 });
 
                 //Remove all objects
-                arrObjectsToRemove.forEach(object => {
-                    removeEntity(object);
+                arrObjectsToRemove.forEach(objectID => {
+                    removeEntity(objectID.toString());
                 });
 
                 //Update Player
@@ -202,8 +202,8 @@
             session.requestAnimationFrame(onXRFrame);
         }
 
-        function removeEntity(object) {
-            let selectedObject = scene.getObjectByName(object.name);
+        function removeEntity(objectName) {
+            let selectedObject = scene.getObjectByName(objectName);
             scene.remove(selectedObject);
         }
 
