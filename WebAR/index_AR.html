@@ -128,7 +128,7 @@
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
                 //if there are obstacles in the game
-                if(game.gameHandler.arrObstacles.length > 0) { 
+                if (game.gameHandler.arrObstacles.length > 0) {
                     game.gameHandler.arrObstacles.forEach(enemie => {
                         arrCurrentEnemies.forEach(curEnemie => {
                             if (curEnemie.indexOf(enemie.nObstacleUID) == -1) {
@@ -167,6 +167,39 @@
                 player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
             }
 
+            // render loop for drawing in AR
+            const onXRFrame = (time, frame) => {
+                // next draw request
+                session.requestAnimationFrame(onXRFrame);
+
+                // bind graphics framebuffer to baseLayer framebuffer
+                gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+
+                // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
+                const pose = frame.getViewerPose(referenceSpace);
+
+                if (pose != null) {
+                    const view = pose.views[0];
+
+                    const viewport = session.renderState.baseLayer.getViewport(view);
+                    renderer.setSize(viewport.width, viewport.height)
+
+                    // Use the view's transform matrix and projection matrix to configure the THREE.camera
+                    camera.matrix.fromArray(view.transform.matrix);
+                    camera.projectionMatrix.fromArray(view.projectionMatrix);
+                    camera.updateMatrixWorld(true);
+
+                    const hitTestResults = frame.getHitTestResults(hitTestSource);
+                    if (hitTestResults.length > 0 && arrow) {
+                        const hitPose = hitTestResults[0].getPose(referenceSpace);
+                        arrow.visible = true;
+                        arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+                        arrow.updateMatrixWorld(true);
+                    }
+                    // render the scene
+                    renderer.render(scene, camera);
+                }
+            }
             session.requestAnimationFrame(onXRFrame);
         }
 
@@ -175,39 +208,7 @@
             scene.remove(selectedObject);
         }
 
-        // render loop for drawing in AR
-        const onXRFrame = (time, frame) => {
-            // next draw request
-            session.requestAnimationFrame(onXRFrame);
 
-            // bind graphics framebuffer to baseLayer framebuffer
-            gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
-
-            // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
-            const pose = frame.getViewerPose(referenceSpace);
-
-            if (pose != null) {
-                const view = pose.views[0];
-
-                const viewport = session.renderState.baseLayer.getViewport(view);
-                renderer.setSize(viewport.width, viewport.height)
-
-                // Use the view's transform matrix and projection matrix to configure the THREE.camera
-                camera.matrix.fromArray(view.transform.matrix);
-                camera.projectionMatrix.fromArray(view.projectionMatrix);
-                camera.updateMatrixWorld(true);
-
-                const hitTestResults = frame.getHitTestResults(hitTestSource);
-                if (hitTestResults.length > 0 && arrow) {
-                    const hitPose = hitTestResults[0].getPose(referenceSpace);
-                    arrow.visible = true;
-                    arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
-                    arrow.updateMatrixWorld(true);
-                }
-                // render the scene
-                renderer.render(scene, camera);
-            }
-        }
 
         //function to Predict
         function Predict(state) {
