@@ -143,7 +143,7 @@
 
                 //Update current enemie's positions
                 arrCurrentEnemies.forEach(curEnemie => {
-                    if (scene.getObjectByName(curEnemie.name).position.x <= -1) {
+                    if (scene.getObjectByName(curEnemie.toString()).position.x <= -1) {
                         arrObjectsToRemove.push(curEnemie);
                         arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
                         return;
