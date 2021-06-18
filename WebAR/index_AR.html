@@ -129,9 +129,13 @@
 
                 //if there are obstacles in the game
                 if (game.gameHandler.arrObstacles.length > 0) {
+                    console.log("1");
                     game.gameHandler.arrObstacles.forEach(enemie => {
+                        console.log("2");
                         arrCurrentEnemies.forEach(curEnemie => {
+                            console.log("3");
                             if (curEnemie.indexOf(enemie.nObstacleUID) == -1) {
+                                console.log("4");
                                 let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
                                 let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                                 newEnemie.position.y = enemie.v2Pos.dY / SCALE + (25 * newEnemie.scale.y / SCALE);
@@ -142,8 +146,6 @@
                     });
                 }
 
-
-                console.log(arrCurrentEnemies);
                 //Update current enemie's positions
                 arrCurrentEnemies.forEach(curEnemie => {
                     // if (curEnemie.position.x <= -1) {
