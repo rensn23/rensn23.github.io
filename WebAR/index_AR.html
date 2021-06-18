@@ -150,7 +150,7 @@
                     game.gameHandler.arrObstacles.forEach(enemie => {
                         if (curEnemie == enemie.nObstacleUID) {
                             console.log("2");
-                            curEnemie.position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
+                            scene.getObjectByName(curEnemie.toString()).position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
                         }
                     });
                 });
