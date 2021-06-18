@@ -118,7 +118,7 @@
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                         reticle2 = gltf.scene;
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
-                        direction = (reticle2.position.add(reticle1.negate())).normalize();
+                        direction = (reticle2.position.add(reticle1.position.negate())).normalize();
                         arrow.visible = false;
                         scene.add(reticle2);
                     })
