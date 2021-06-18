@@ -120,8 +120,7 @@
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
                         let v1 = new THREE.Vector3(1, 1, 1);
                         let v2 = new THREE.Vector3(1, 0, 2);
-                        console.log(v1 - v2);
-                        console.log(v1.add(-v2));
+                        console.log(v2.add(v1.negate()));
                         arrow.visible = false;
                         scene.add(reticle2);
                     })
