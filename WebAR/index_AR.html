@@ -156,13 +156,12 @@
                     if (curEnemieObject === null) return;
 
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
+                        console.log("1");
                         arrObjectsToRemove.push(curSceneEnemieID);
                         arrCurrentSceneEnemieIDs.splice(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
-                            console.log("1");
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
-                                console.log("2");
                                 curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE);
                             }
                         });
