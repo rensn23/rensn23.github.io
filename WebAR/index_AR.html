@@ -23,6 +23,8 @@
         const SCALE = 250;
         const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
+        const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
         //List of Objects which get destroyed after frame
         let arrObjectsToRemove = [];
@@ -121,15 +123,13 @@
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
 
                         direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
-                        let v1 = new THREE.Vector3(1, 0, 0);
-                        
+                        let UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
+
                         if (reticle2.position.z < reticle1.position.z) {
-                            reticleAngle = -v1.angleTo(direction);
+                            reticleAngle = -UNIT_VECTOR_X.angleTo(direction);
                         } else {
-                            reticleAngle = v1.angleTo(direction);
+                            reticleAngle = UNIT_VECTOR_X.angleTo(direction);
                         }
-                        
-                        console.log(reticleAngle * 180 / Math.PI);
 
                         arrow.visible = false;
                         scene.add(reticle2);
@@ -167,9 +167,12 @@
                         let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, 25 / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
 
-                        newEnemie.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1.position.x;
-                        newEnemie.position.y = enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE) + reticle1.position.y;
-                        newEnemie.position.z = reticle1.position.z;
+                        let enemieGamePos = new THREE.Vector3(enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE), enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE), 0);
+                        enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
+
+                        newEnemie.position.x = enemieGamePos.x + reticle1.position.x;
+                        newEnemie.position.y = enemieGamePos.y + reticle1.position.y;
+                        newEnemie.position.z = enemieGamePos.z + reticle1.position.z;
 
                         newEnemie.name = enemieGame.nObstacleUID.toString();
 
@@ -189,7 +192,10 @@
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
-                                curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1.position.x;
+                                let enemieGamePos = new THREE.Vector3(enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE), enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE), 0);
+                                enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
+                                curEnemieObject.position.x = enemieGamePos.x + reticle1.position.x;
+                                curEnemieObject.position.z = enemieGamePos.z + reticle1.position.z;
                             }
                         });
                     }
