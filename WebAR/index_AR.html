@@ -127,7 +127,7 @@
 
                 arrCurrentGameEnemieIDs = [];
                 arrObjectsToRemove = [];
-            
+
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
                 game.gameHandler.arrObstacles.forEach(enemieGame => {
@@ -158,14 +158,13 @@
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
                         arrObjectsToRemove.push(curSceneEnemieID);
                         arrCurrentSceneEnemieIDs.splice(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
-                        break;
+                    } else {
+                        game.gameHandler.arrObstacles.forEach(enemieGame => {
+                            if (curSceneEnemieID == enemieGame.nObstacleUID) {
+                                curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE);
+                            }
+                        });
                     }
-                    
-                    game.gameHandler.arrObstacles.forEach(enemieGame => {
-                        if (curSceneEnemieID == enemieGame.nObstacleUID) {
-                            curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE);
-                        }
-                    });
                 });
 
                 //Remove all objects
