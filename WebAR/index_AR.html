@@ -169,7 +169,7 @@
                 });
 
                 //Update Player
-                if (!player === null) {
+                if (!player === null || !player === undefined) {
                     console.log("Test");
                     let playerGame = game.gameHandler.player;
                     player.scale.y = playerGame.dHeight / 50;
