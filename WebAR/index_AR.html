@@ -45,16 +45,6 @@
             const axesHelper = new THREE.AxesHelper(20);
             scene.add(axesHelper);
 
-            // test cube materials
-            const materials = [
-                new THREE.MeshBasicMaterial({ color: 0xff0000 }),
-                new THREE.MeshBasicMaterial({ color: 0x0000ff }),
-                new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
-                new THREE.MeshBasicMaterial({ color: 0xff00ff }),
-                new THREE.MeshBasicMaterial({ color: 0x00ffff }),
-                new THREE.MeshBasicMaterial({ color: 0xffff00 })
-            ];
-
             const ambientLight = new THREE.AmbientLight();
             scene.add(ambientLight);
 
@@ -114,11 +104,6 @@
 
             instanceHandler.Start();
 
-            let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
-            player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-            player.position.z = -1;
-            scene.add(player);
-
             session.addEventListener("select", (event) => {
                 console.log(arrow.position.x, arrow.position.y, arrow.position.z);
             });
@@ -174,7 +159,13 @@
                     player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE);
                     player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE);
                 }
-                
+                else {
+                    let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
+                    player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
+                    player.position.z = -1;
+                    scene.add(player);
+                }
+
                 //Remove all objects
                 arrObjectsToRemove.forEach(objectID => {
                     let selectedObject = scene.getObjectByName(objectID.toString());
