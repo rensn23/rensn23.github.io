@@ -127,24 +127,16 @@
                 arrObjectsToRemove = [];
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
-                //if there are obstacles in the game
-                if (game.gameHandler.arrObstacles.length > 0) {
-                    console.log("1");
-                    game.gameHandler.arrObstacles.forEach(enemie => {
-                        console.log("2");
-                        arrCurrentEnemies.forEach(curEnemie => {
-                            console.log("3");
-                            if (curEnemie.indexOf(enemie.nObstacleUID) == -1) {
-                                console.log("4");
-                                let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
-                                let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
-                                newEnemie.position.y = enemie.v2Pos.dY / SCALE + (25 * newEnemie.scale.y / SCALE);
-                                newEnemie.name = enemie.nObstacleUID.toString();
-                                arrCurrentEnemies.push(newEnemie);
-                            }
-                        });
-                    });
-                }
+                game.gameHandler.arrObstacles.forEach(enemie => {
+                    if (arrCurrentEnemies.includes(enemie.nObstacleUID)) {
+                        console.log("Test");
+                        let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
+                        let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                        newEnemie.position.y = enemie.v2Pos.dY / SCALE + (25 * newEnemie.scale.y / SCALE);
+                        newEnemie.name = enemie.nObstacleUID.toString();
+                        arrCurrentEnemies.push(newEnemie);
+                    }
+                });
 
                 //Update current enemie's positions
                 arrCurrentEnemies.forEach(curEnemie => {
