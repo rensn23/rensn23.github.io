@@ -113,6 +113,7 @@
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                         reticle1 = gltf.scene;
                         reticle1.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
+                        reticle1.name = "reticle1";
                         scene.add(reticle1);
                     })
                     bReticle1Placed = true;
@@ -121,6 +122,7 @@
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                         reticle2 = gltf.scene;
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
+                        reticle2.name = "reticle2";
 
                         direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
 
@@ -131,9 +133,9 @@
                         }
 
                         arrow.visible = false;
-                        scene.add(reticle2);
                     })
                     bReticle2Placed = true;
+                    scene.remove(scene.getObjectByName("reticle1"));
                     setTimeout(startGame, 100);
                 }
             });
