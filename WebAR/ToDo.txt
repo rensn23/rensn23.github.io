@@ -1,0 +1,16 @@
+ToDo:
+1)
+Button pressed
+Reticle appears which follows raycast
+Touch => Game will start and play on that position
+
+2)
+2 Touches
+1st Touch => reticle stays, new reticle is spawned, also follows raycast
+Game plays in the direction of the 2 reticles
+
+3)
+Scale all objects depending on the reticle distance
+
+4)
+Add (dashed) line between those 2 points

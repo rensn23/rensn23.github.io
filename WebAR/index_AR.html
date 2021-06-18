@@ -120,7 +120,7 @@
             scene.add(player);
 
             session.addEventListener("select", (event) => {
-                instanceHandler.Act(1);
+                console.log(arrow.position.x, arrow.position.y, arrow.position.z);
             });
 
             function gameLoop() {
@@ -209,7 +209,6 @@
                         const hitPose = hitTestResults[0].getPose(referenceSpace);
                         arrow.visible = true;
                         arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
-                        console.log(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
                         arrow.updateMatrixWorld(true);
                     }
                     // render the scene
