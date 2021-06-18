@@ -152,7 +152,7 @@
 
                 //Update current enemie's positions
                 arrCurrentSceneEnemieIDs.forEach(curSceneEnemieID => {
-                    let curEnemieObject = scene.getObjectByName(curEnemieID.toString());
+                    let curEnemieObject = scene.getObjectByName(curSceneEnemieID.toString());
                     if (curEnemieObject === null) return;
 
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
