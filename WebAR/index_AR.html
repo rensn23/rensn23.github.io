@@ -142,7 +142,10 @@
 
                 //Update current enemie's positions
                 arrCurrentEnemies.forEach(curEnemie => {
-                    if (scene.getObjectByName(curEnemie.toString()).position.x <= -1) {
+                    let curEnemieObject = scene.getObjectByName(curEnemie.toString());
+                    if (curEnemieObject === null) return;
+
+                    if (curEnemieObject.position.x <= -1) {
                         arrObjectsToRemove.push(curEnemie);
                         arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
                         return;
@@ -150,7 +153,7 @@
                     game.gameHandler.arrObstacles.forEach(enemie => {
                         if (curEnemie == enemie.nObstacleUID) {
                             console.log("2");
-                            scene.getObjectByName(curEnemie.toString()).position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
+                            curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
                         }
                     });
                 });
