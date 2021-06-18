@@ -195,7 +195,6 @@
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
                                 let enemieGamePos = new THREE.Vector3(enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE), enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE), 0);
                                 enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-                                curEnemieObject.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
                                 curEnemieObject.position.x = enemieGamePos.x + reticle1.position.x;
                                 curEnemieObject.position.z = enemieGamePos.z + reticle1.position.z;
@@ -211,7 +210,6 @@
 
                     let playerGamePos = new THREE.Vector3(playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE), playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE), 0);
                     playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-                    player.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
                     player.position.x = playerGamePos.x + reticle1.position.x;
                     player.position.y = playerGamePos.y + reticle1.position.y;
