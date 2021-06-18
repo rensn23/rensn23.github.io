@@ -1,6 +1,6 @@
 Wos griag i fam game:
 array mid enemies
-	Eindeutige ID wäre toll
+Eindeutige ID wäre toll, beginnend bei 1
 
 gameloop
 selben enemies können für längere zeit im enemie array bleiben, 
@@ -9,7 +9,7 @@ nicht nur für eine GameLoop => id's zum überprüfen notwendig
 Array mit aktuellen Enemies (in der Scene)
 nur deren ID's
 
-jede Gameloop überprüfe ich die ID's und füge neue enemies hinzu
+jede Gameloop überprüfe der ID's und neue enemies hinzufügen
 anhand der höhe und position ein neues object spawnen
 
 enemie name = id vom game
