@@ -24,9 +24,6 @@
         const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-        //Three.js
-        let scene;
-
         //List of Objects which get destroyed after frame
         let arrObjectsToRemove = [];
         //List of Enemies which currently exist in the scene
@@ -42,7 +39,7 @@
             const gl = canvas.getContext("webgl", { xrCompatible: true });
 
             // three.js initialization
-            scene = new THREE.Scene();
+            const scene = new THREE.Scene();
 
             const axesHelper = new THREE.AxesHelper(20);
             scene.add(axesHelper);
@@ -163,7 +160,8 @@
 
                 //Remove all objects
                 arrObjectsToRemove.forEach(objectID => {
-                    removeEntity(objectID.toString());
+                    let selectedObject = scene.getObjectByName(objectID.toString);
+                    scene.remove(selectedObject);
                 });
 
                 //Update Player
@@ -207,13 +205,6 @@
             }
             session.requestAnimationFrame(onXRFrame);
         }
-
-        function removeEntity(objectName) {
-            let selectedObject = scene.getObjectByName(objectName);
-            scene.remove(selectedObject);
-        }
-
-
 
         //function to Predict
         function Predict(state) {
