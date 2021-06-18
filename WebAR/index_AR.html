@@ -118,7 +118,7 @@
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                         reticle2 = gltf.scene;
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
-                        direction = (reticle2.position.add(reticle1.position.negate())).normalize();
+                        direction = (new THREE.Vector2(reticle2.position.x - reticle1.position.x, reticle2.position.y - reticle1.position.y)).normalize();
                         arrow.visible = false;
                         scene.add(reticle2);
                     })
@@ -194,7 +194,6 @@
                     let playerGame = game.gameHandler.player;
                     let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                     player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-                    console.log(direction, reticle1);
                     player.position.x = (playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE)) * direction.x + reticle1.position.x;
                     player.position.y = (playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE)) * direction.y + reticle1.position.y;
                     player.position.z = reticle1.position.z;
