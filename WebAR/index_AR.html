@@ -131,6 +131,7 @@
                     if (!arrCurrentEnemies.includes(enemie.nObstacleUID)) {
                         let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                        newEnemie.position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
                         newEnemie.position.y = enemie.v2Pos.dY / SCALE + (25 * newEnemie.scale.y / SCALE);
                         newEnemie.position.z = -1;
                         newEnemie.name = enemie.nObstacleUID.toString();
