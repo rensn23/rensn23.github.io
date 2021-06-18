@@ -331,8 +331,8 @@ class Obstacle{
         this.dWidth = dWidth;
         this.dHeight = dHeight;
         this.boxCol = new BoxCollider(dWidth, dHeight, v2Pos); //adding a collider
-        this.nObstacleUID = nObstacleUID;
-        nObstacleUID +=1;
+        this.nObstacleUID = Obstacle.nObstacleUID;
+        Obstacle.nObstacleUID +=1;
     }
 
     //Move the obstacle to the left
