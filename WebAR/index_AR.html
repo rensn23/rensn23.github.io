@@ -27,7 +27,8 @@
         //List of Objects which get destroyed after frame
         let arrObjectsToRemove = [];
         //List of Enemies which currently exist in the scene
-        let arrCurrentEnemies = [];
+        let arrCurrentSceneEnemieIDs = [];
+        let arrCurrentGameEnemieIDs = [];
 
         let player = null;
 
@@ -124,35 +125,45 @@
 
             function gameLoop() {
 
+                arrCurrentGameEnemieIDs = [];
                 arrObjectsToRemove = [];
+            
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
-                game.gameHandler.arrObstacles.forEach(enemie => {
-                    if (!arrCurrentEnemies.includes(enemie.nObstacleUID)) {
-                        let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
+                game.gameHandler.arrObstacles.forEach(enemieGame => {
+
+                    arrCurrentGameEnemieIDs.push(enemieGame.nObstacleUID);
+
+                    if (!arrCurrentSceneEnemieIDs.includes(enemieGame.nObstacleUID)) {
+
+                        let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, enemieGame.dWidth / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
-                        newEnemie.position.x = enemie.v2Pos.dX / SCALE + (enemie.dWidth / 2 / SCALE);
-                        newEnemie.position.y = enemie.v2Pos.dY / SCALE + (enemie.dHeight / 2 / SCALE);
+
+                        newEnemie.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE);
+                        newEnemie.position.y = enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE);
                         newEnemie.position.z = -1;
-                        newEnemie.name = enemie.nObstacleUID.toString();
-                        arrCurrentEnemies.push(enemie.nObstacleUID);
+
+                        newEnemie.name = enemieGame.nObstacleUID.toString();
+
+                        arrCurrentSceneEnemieIDs.push(enemieGame.nObstacleUID);
                         scene.add(newEnemie);
                     }
                 });
 
                 //Update current enemie's positions
-                arrCurrentEnemies.forEach(curEnemie => {
-                    let curEnemieObject = scene.getObjectByName(curEnemie.toString());
+                arrCurrentSceneEnemieIDs.forEach(curSceneEnemieID => {
+                    let curEnemieObject = scene.getObjectByName(curEnemieID.toString());
                     if (curEnemieObject === null) return;
 
-                    // if (curEnemieObject.position.x <= 0) {
-                    //     arrObjectsToRemove.push(curEnemie);
-                    //     arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
-                    //     return;
-                    // }
-                    game.gameHandler.arrObstacles.forEach(enemie => {
-                        if (curEnemie == enemie.nObstacleUID) {
-                            curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (enemie.dWidth / 2 / SCALE);
+                    if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
+                        arrObjectsToRemove.push(curSceneEnemieID);
+                        arrCurrentSceneEnemieIDs.splice(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
+                        return;
+                    }
+                    
+                    game.gameHandler.arrObstacles.forEach(enemieGame => {
+                        if (curSceneEnemieID == enemieGame.nObstacleUID) {
+                            curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE);
                         }
                     });
                 });
