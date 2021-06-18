@@ -153,7 +153,7 @@
                     game.gameHandler.arrObstacles.forEach(enemie => {
                         if (curEnemie == enemie.nObstacleUID) {
                             console.log("2");
-                            curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
+                            curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (enemie.v2Pos.dWidth / 2 / SCALE);
                         }
                     });
                 });
