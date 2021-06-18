@@ -221,7 +221,6 @@
 
                     let playerGamePos = new THREE.Vector3(playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE), playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE), 0);
                     playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-                    console.log(reticleAngle);
                     player.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
                     player.position.x = playerGamePos.x + reticle1.position.x;
