@@ -145,12 +145,11 @@
                     let curEnemieObject = scene.getObjectByName(curEnemie.toString());
                     if (curEnemieObject === null) return;
 
-                    if (curEnemieObject.position.x <= 0) {
-                        console.log("test");
-                        arrObjectsToRemove.push(curEnemie);
-                        arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
-                        return;
-                    }
+                    // if (curEnemieObject.position.x <= 0) {
+                    //     arrObjectsToRemove.push(curEnemie);
+                    //     arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
+                    //     return;
+                    // }
                     game.gameHandler.arrObstacles.forEach(enemie => {
                         if (curEnemie == enemie.nObstacleUID) {
                             curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (enemie.dWidth / 2 / SCALE);
