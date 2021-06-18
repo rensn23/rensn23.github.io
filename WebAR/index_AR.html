@@ -1,241 +1,242 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 
-        <title>WebXR Demo</title>
+    <title>WebXR Demo</title>
 
-        <!-- include three.js -->
-        <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
-        <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
-        <script src="./game.js"></script>
-    </head>
+    <!-- include three.js -->
+    <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
+    <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="./game.js"></script>
+</head>
 
-    <body>
-        <button onclick="activateXR()">Start WebXR</button>
+<body>
+    <button onclick="activateXR()">Start WebXR</button>
 
-        <script>
+    <script>
 
-            //Constants
-            const SCALE = 250;
-            const PLAYER_MATERIAL = new THREE.MeshBasicMaterial( {color: 0x000000} );
-            const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+        //Constants
+        const SCALE = 250;
+        const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
-            //List of Objects which get destroyed after frame
-            let arrObjectsToDestroy = [];
-            //List of Enemies which currently exist in the scene
-            let arrCurrentEnemies = [];
-            
-            let player = null;
+        //List of Objects which get destroyed after frame
+        let arrObjectsToDestroy = [];
+        //List of Enemies which currently exist in the scene
+        let arrCurrentEnemies = [];
 
-            async function activateXR() {
+        let player = null;
 
-                // add a canvas
-                const canvas = document.createElement("canvas");
-                document.body.appendChild(canvas);
-                const gl = canvas.getContext("webgl", {xrCompatible: true});
+        async function activateXR() {
 
-                // three.js initialization
-                const scene = new THREE.Scene();
+            // add a canvas
+            const canvas = document.createElement("canvas");
+            document.body.appendChild(canvas);
+            const gl = canvas.getContext("webgl", { xrCompatible: true });
 
-                const axesHelper = new THREE.AxesHelper(20);
-                scene.add(axesHelper);
+            // three.js initialization
+            const scene = new THREE.Scene();
 
-                // test cube materials
-                const materials = [
-                    new THREE.MeshBasicMaterial({color: 0xff0000}),
-                    new THREE.MeshBasicMaterial({color: 0x0000ff}),
-                    new THREE.MeshBasicMaterial({color: 0x00ff00}),
-                    new THREE.MeshBasicMaterial({color: 0xff00ff}),
-                    new THREE.MeshBasicMaterial({color: 0x00ffff}),
-                    new THREE.MeshBasicMaterial({color: 0xffff00})
-                ];
+            const axesHelper = new THREE.AxesHelper(20);
+            scene.add(axesHelper);
 
-                const ambientLight = new THREE.AmbientLight();
-                scene.add(ambientLight);
+            // test cube materials
+            const materials = [
+                new THREE.MeshBasicMaterial({ color: 0xff0000 }),
+                new THREE.MeshBasicMaterial({ color: 0x0000ff }),
+                new THREE.MeshBasicMaterial({ color: 0x00ff00 }),
+                new THREE.MeshBasicMaterial({ color: 0xff00ff }),
+                new THREE.MeshBasicMaterial({ color: 0x00ffff }),
+                new THREE.MeshBasicMaterial({ color: 0xffff00 })
+            ];
 
-                // WebGLRenderer
-                const renderer = new THREE.WebGLRenderer({
-                    alpha: true,
-                    preserveDrawingBuffer: true,
-                    canvas: canvas,
-                    context: gl
+            const ambientLight = new THREE.AmbientLight();
+            scene.add(ambientLight);
+
+            // WebGLRenderer
+            const renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                preserveDrawingBuffer: true,
+                canvas: canvas,
+                context: gl
+            });
+            renderer.autoClear = false;
+
+            // disable matrix auto updates from three.js
+            const camera = new THREE.PerspectiveCamera();
+            camera.matrixAutoUpdate = false;
+
+            // Initialize WebXR session using "immersive-ar"
+            const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] });
+            session.updateRenderState({
+                baseLayer: new XRWebGLLayer(session, gl)
+            });
+
+            // create a position reference near the user
+            const referenceSpace = await session.requestReferenceSpace('local');
+
+            const viewerSpace = await session.requestReferenceSpace('viewer');
+
+            // hit testing with user as the origin
+            const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+
+            // for loading 3D objects
+            const gltfLoader = new THREE.GLTFLoader();
+            const objectLoader = new THREE.ObjectLoader();
+            let arrow;
+            gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
+                arrow = gltf.scene;
+                arrow.visible = false;
+                scene.add(arrow);
+            })
+
+            // let dino_idle;
+            // gltfLoader.load("./src/models/Dino_Idle.gltf", function(gltf) {
+            //     dino_idle = gltf.scene;
+            //     dino_idle.position.z = -1;
+            //     dino_idle.scale.x = 0.1;
+            //     dino_idle.scale.y = 0.1;
+            //     dino_idle.scale.z = 0.1;
+            //     scene.add(dino_idle);
+            // })
+
+            //Game Instance/Mechanics
+            let instanceHandler = new InstanceHandler(1, gameLoop);
+            instanceHandler.Init();
+
+            //get an instance and start the game
+            let game = instanceHandler.GetInstance();
+
+            instanceHandler.Start();
+
+            let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
+            player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
+            player.position.z = -1;
+            scene.add(player);
+
+            session.addEventListener("select", (event) => {
+                instanceHandler.Act(1);
+            });
+
+            function gameLoop() {
+
+                arrObjectsToDestroy = [];
+                instanceHandler.Act(Predict(instanceHandler.GetState()));
+
+                //if there are obstacles in the game
+                // if(game.gameHandler.arrObstacles.length > 0) { 
+                //     game.gameHandler.arrObstacles.forEach(enemie => {
+                //         arrCurrentEnemies.forEach(curEnemie => {
+                //             if (curEnemie.indexOf(enemie.id) == -1) {
+                //                 let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
+                //                 let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                //                 newEnemie.name = enemie.id.toString();
+                //                 arrCurrentEnemies.push(newEnemie);
+                //             }
+                //         });
+                //     });
+                // }
+
+                //Remove all objects
+                arrObjectsToDestroy.forEach(object => {
+                    removeEntity(object);
                 });
-                renderer.autoClear = false;
 
-                // disable matrix auto updates from three.js
-                const camera = new THREE.PerspectiveCamera();
-                camera.matrixAutoUpdate = false;
+                //Update Player
+                if (player === null) return;
+                player.scale.y = game.gameHandler.player.dHeight / 50;
+                player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
+            }
+        }
 
-                // Initialize WebXR session using "immersive-ar"
-                const session = await navigator.xr.requestSession("immersive-ar", {requiredFeatures: ['hit-test']});
-                session.updateRenderState({
-                    baseLayer: new XRWebGLLayer(session, gl)    
-                });
-                
-                // create a position reference near the user
-                const referenceSpace = await session.requestReferenceSpace('local');
+        function removeEntity(object) {
+            let selectedObject = scene.getObjectByName(object.name);
+            scene.remove(selectedObject);
+        }
 
-                const viewerSpace = await session.requestReferenceSpace('viewer');
+        // render loop for drawing in AR
+        const onXRFrame = (time, frame) => {
+            // next draw request
+            session.requestAnimationFrame(onXRFrame);
 
-                // hit testing with user as the origin
-                const hitTestSource = await session.requestHitTestSource({space: viewerSpace});
+            // bind graphics framebuffer to baseLayer framebuffer
+            gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
-                // for loading 3D objects
-                const gltfLoader = new THREE.GLTFLoader();
-                const objectLoader = new THREE.ObjectLoader();
-                let arrow;
-                gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function(gltf) {
-                    arrow = gltf.scene;
-                    arrow.visible = false;
-                    scene.add(arrow);
-                })
+            // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
+            const pose = frame.getViewerPose(referenceSpace);
 
-                // let dino_idle;
-                // gltfLoader.load("./src/models/Dino_Idle.gltf", function(gltf) {
-                //     dino_idle = gltf.scene;
-                //     dino_idle.position.z = -1;
-                //     dino_idle.scale.x = 0.1;
-                //     dino_idle.scale.y = 0.1;
-                //     dino_idle.scale.z = 0.1;
-                //     scene.add(dino_idle);
-                // })
+            if (pose != null) {
+                const view = pose.views[0];
 
-                //Game Instance/Mechanics
-                let instanceHandler = new InstanceHandler(1, gameLoop);
-                instanceHandler.Init();
+                const viewport = session.renderState.baseLayer.getViewport(view);
+                renderer.setSize(viewport.width, viewport.height)
 
-                //get an instance and start the game
-                let game = instanceHandler.GetInstance();
+                // Use the view's transform matrix and projection matrix to configure the THREE.camera
+                camera.matrix.fromArray(view.transform.matrix);
+                camera.projectionMatrix.fromArray(view.projectionMatrix);
+                camera.updateMatrixWorld(true);
 
-                instanceHandler.Start();
-
-                let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
-                player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-                player.position.z = -1;
-                scene.add(player);
-
-                session.addEventListener("select", (event) => {
-                    instanceHandler.Act(1);
-                });
-
-                function gameLoop() {
-
-                    arrObjectsToDestroy = [];
-                    instanceHandler.Act(Predict(instanceHandler.GetState()));
-
-                    //if there are obstacles in the game
-                    // if(game.gameHandler.arrObstacles.length > 0) { 
-                    //     game.gameHandler.arrObstacles.forEach(enemie => {
-                    //         arrCurrentEnemies.forEach(curEnemie => {
-                    //             if (curEnemie.indexOf(enemie.id) == -1) {
-                    //                 let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
-                    //                 let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
-                    //                 newEnemie.name = enemie.id.toString();
-                    //                 arrCurrentEnemies.push(newEnemie);
-                    //             }
-                    //         });
-                    //     });
-                    // }
-
-                    //Remove all objects
-                    arrObjectsToDestroy.forEach(object => {
-                        removeEntity(object);
-                    });
-                    
-                    //Update Player
-                    if (player === null) return;
-                    player.scale.y = game.gameHandler.player.dHeight / 50;
-                    player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
-                    }
+                const hitTestResults = frame.getHitTestResults(hitTestSource);
+                if (hitTestResults.length > 0 && arrow) {
+                    const hitPose = hitTestResults[0].getPose(referenceSpace);
+                    arrow.visible = true;
+                    arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+                    arrow.updateMatrixWorld(true);
                 }
-
-                function removeEntity(object) {
-                    let selectedObject = scene.getObjectByName(object.name);
-                    scene.remove(selectedObject);
-                }
-
-                // render loop for drawing in AR
-                const onXRFrame = (time, frame) => {
-                    // next draw request
-                    session.requestAnimationFrame(onXRFrame);
-
-                    // bind graphics framebuffer to baseLayer framebuffer
-                    gl.bindFramebuffer(gl.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
-
-                    // retrieve position of the device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established
-                    const pose = frame.getViewerPose(referenceSpace);
-
-                    if (pose != null) {
-                        const view = pose.views[0];
-
-                        const viewport = session.renderState.baseLayer.getViewport(view);
-                        renderer.setSize(viewport.width, viewport.height)
-
-                        // Use the view's transform matrix and projection matrix to configure the THREE.camera
-                        camera.matrix.fromArray(view.transform.matrix);
-                        camera.projectionMatrix.fromArray(view.projectionMatrix);
-                        camera.updateMatrixWorld(true);
-
-                        const hitTestResults = frame.getHitTestResults(hitTestSource);
-                        if (hitTestResults.length > 0 && arrow) {
-                            const hitPose = hitTestResults[0].getPose(referenceSpace);
-                            arrow.visible = true;
-                            arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
-                            arrow.updateMatrixWorld(true);
-                        }
-                        // render the scene
-                        renderer.render(scene, camera);
-                    }
-
-                    
-                }
-                session.requestAnimationFrame(onXRFrame);
+                // render the scene
+                renderer.render(scene, camera);
             }
 
-            //function to Predict
-            function Predict(state){
-            if(state.bGame == false ||state.arrNObstaclesID[0] == 3){
+
+        }
+        
+        session.requestAnimationFrame(onXRFrame);
+
+        //function to Predict
+        function Predict(state) {
+            if (state.bGame == false || state.arrNObstaclesID[0] == 3) {
                 return enumAction.none;
             }
 
-            if(state.arrDDistance[1]+0.12*state.nScore - state.arrDDistance[0]+0.12*state.nScore<250 && state.arrDDistance[0]<120+0.12*state.nScore && (state.arrNObstaclesID[0] == 0||state.arrNObstaclesID[0] == 1||state.arrNObstaclesID[0] == 4||state.arrNObstaclesID[0] == 5)){
-                if(bDuck){
+            if (state.arrDDistance[1] + 0.12 * state.nScore - state.arrDDistance[0] + 0.12 * state.nScore < 250 && state.arrDDistance[0] < 120 + 0.12 * state.nScore && (state.arrNObstaclesID[0] == 0 || state.arrNObstaclesID[0] == 1 || state.arrNObstaclesID[0] == 4 || state.arrNObstaclesID[0] == 5)) {
+                if (bDuck) {
                     bDuck = false;
                     return enumAction.unduck;
                 }
                 return enumAction.jump;
-            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>0+0.12*state.nScore &&(state.arrNObstaclesID[0] == 0)){
-                if(bDuck){
+            } else if (state.arrDDistance[0] < 120 + 0.12 * state.nScore && state.arrDDistance[0] > 0 + 0.12 * state.nScore && (state.arrNObstaclesID[0] == 0)) {
+                if (bDuck) {
                     bDuck = false;
                     return enumAction.unduck;
                 }
                 return enumAction.jump;
-            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>0+0.12*state.nScore &&(state.arrNObstaclesID[0] == 1)){
-                if(bDuck){
+            } else if (state.arrDDistance[0] < 120 + 0.12 * state.nScore && state.arrDDistance[0] > 0 + 0.12 * state.nScore && (state.arrNObstaclesID[0] == 1)) {
+                if (bDuck) {
                     bDuck = false;
                     return enumAction.unduck;
                 }
                 return enumAction.jump;
-            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-25-0.12*state.nScore &&(state.arrNObstaclesID[0] == 4)){
-                if(bDuck){
+            } else if (state.arrDDistance[0] < 120 + 0.12 * state.nScore && state.arrDDistance[0] > -25 - 0.12 * state.nScore && (state.arrNObstaclesID[0] == 4)) {
+                if (bDuck) {
                     bDuck = false;
                     return enumAction.unduck;
                 }
                 return enumAction.jump;
-            }else if(state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-35-0.12*state.nScore &&(state.arrNObstaclesID[0] == 5)){
-                if(bDuck){
+            } else if (state.arrDDistance[0] < 120 + 0.12 * state.nScore && state.arrDDistance[0] > -35 - 0.12 * state.nScore && (state.arrNObstaclesID[0] == 5)) {
+                if (bDuck) {
                     bDuck = false;
                     return enumAction.unduck;
                 }
                 return enumAction.jump;
-            }else if (state.arrDDistance[0]<120+0.12*state.nScore && state.arrDDistance[0]>-38&&!(state.arrNObstaclesID[0] == 0 || state.arrNObstaclesID[0] == 1|| state.arrNObstaclesID[0] == 4|| state.arrNObstaclesID[0] == 5)){
+            } else if (state.arrDDistance[0] < 120 + 0.12 * state.nScore && state.arrDDistance[0] > -38 && !(state.arrNObstaclesID[0] == 0 || state.arrNObstaclesID[0] == 1 || state.arrNObstaclesID[0] == 4 || state.arrNObstaclesID[0] == 5)) {
                 bDuck = true;
                 return enumAction.duck;
-            }else{
-                if(!state.bGrounded){
+            } else {
+                if (!state.bGrounded) {
                     bDuck = true;
                     return enumAction.duck;
                 }
@@ -243,6 +244,8 @@
                 return enumAction.unduck;
             }
         }
-        </script>
-    </body>
+
+    </script>
+</body>
+
 </html>
