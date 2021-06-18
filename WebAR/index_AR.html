@@ -169,12 +169,13 @@
                 });
 
                 //Update Player
-                //if (!player === null) {
+                if (!player === null) {
+                    console.log("Test");
                     let playerGame = game.gameHandler.player;
                     player.scale.y = playerGame.dHeight / 50;
                     player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE);
                     player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE);
-                //}
+                }
                 
                 //Remove all objects
                 arrObjectsToRemove.forEach(objectID => {
