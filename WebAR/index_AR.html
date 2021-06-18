@@ -30,7 +30,14 @@
         let arrCurrentSceneEnemieIDs = [];
         let arrCurrentGameEnemieIDs = [];
 
+        let instanceHandler;
+        let game;
+
         let player = null;
+
+        let reticlePosX = 0;
+        let reticlePosY = 0;
+        let reticlePosZ = 0;
 
         async function activateXR() {
 
@@ -95,18 +102,20 @@
             //     scene.add(dino_idle);
             // })
 
-            //Game Instance/Mechanics
-            let instanceHandler = new InstanceHandler(1, gameLoop);
-            instanceHandler.Init();
-
-            //get an instance and start the game
-            let game = instanceHandler.GetInstance();
-
-            instanceHandler.Start();
-
             session.addEventListener("select", (event) => {
-                console.log(arrow.position.x, arrow.position.y, arrow.position.z);
+                startGame();
             });
+
+            function startGame() {
+                //Game Instance/Mechanics
+                instanceHandler = new InstanceHandler(1, gameLoop);
+                instanceHandler.Init();
+
+                //get an instance and start the game
+                game = instanceHandler.GetInstance();
+
+                instanceHandler.Start();
+            }
 
             function gameLoop() {
 
