@@ -35,8 +35,12 @@
 
         let player = null;
 
-        let reticle1Pos = new THREE.Vector3(0, 0, 0);
+        //Reticles/Cursors
+        let reticle1;
+        let reticle2;
         let reticle2Pos = new THREE.Vector3(0, 0, 0);
+        let bReticle1Placed = false;
+        let bReticle2Placed = false;
 
         async function activateXR() {
 
@@ -102,11 +106,28 @@
             // })
 
             session.addEventListener("select", (event) => {
-                startGame();
+                if (!bReticle1Placed) {
+                    gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
+                        reticle1 = gltf.scene;
+                        reticle1.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
+                        scene.add(reticle1);
+                    })
+                    bReticle1Placed = true;
+                }
+                else {
+                    gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
+                        reticle2 = gltf.scene;
+                        reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
+                        //Do some fucking Vector Math, yikes
+                        arrow.visible = false;
+                        scene.add(reticle2);
+                    })
+                    bReticle2Placed = true;
+                    startGame();
+                }
             });
 
             function startGame() {
-                reticle1Pos.set(arrow.position.x, arrow.position.y, arrow.position.z);
 
                 //Game Instance/Mechanics
                 instanceHandler = new InstanceHandler(1, gameLoop);
@@ -134,9 +155,9 @@
                         let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, 25 / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
 
-                        newEnemie.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1Pos.x;
-                        newEnemie.position.y = enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE) + reticle1Pos.y;
-                        newEnemie.position.z = reticle1Pos.z;
+                        newEnemie.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1.position.x;
+                        newEnemie.position.y = enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE) + reticle1.position.y;
+                        newEnemie.position.z = reticle1.position.z;
 
                         newEnemie.name = enemieGame.nObstacleUID.toString();
 
@@ -156,7 +177,7 @@
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
-                                curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1Pos.x;
+                                curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1.position.x;
                             }
                         });
                     }
@@ -166,16 +187,16 @@
                 if (player !== null) {
                     let playerGame = game.gameHandler.player;
                     player.scale.y = playerGame.dHeight / 50;
-                    player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE) + reticle1Pos.x;
-                    player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE) + reticle1Pos.y;
+                    player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE) + reticle1.position.x;
+                    player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE) + reticle1.position.y;
                 }
                 else {
                     let playerGame = game.gameHandler.player;
                     let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                     player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-                    player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE) + reticle1Pos.x;
-                    player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE) + reticle1Pos.y;
-                    player.position.z = reticle1Pos.z;
+                    player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE) + reticle1.position.x;
+                    player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE) + reticle1.position.y;
+                    player.position.z = reticle1.position.z;
                     scene.add(player);
                 }
 
@@ -208,13 +229,16 @@
                     camera.projectionMatrix.fromArray(view.projectionMatrix);
                     camera.updateMatrixWorld(true);
 
-                    const hitTestResults = frame.getHitTestResults(hitTestSource);
-                    if (hitTestResults.length > 0 && arrow) {
-                        const hitPose = hitTestResults[0].getPose(referenceSpace);
-                        arrow.visible = true;
-                        arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
-                        arrow.updateMatrixWorld(true);
+                    if (!bReticle2Placed) {
+                        const hitTestResults = frame.getHitTestResults(hitTestSource);
+                        if (hitTestResults.length > 0 && arrow) {
+                            const hitPose = hitTestResults[0].getPose(referenceSpace);
+                            arrow.visible = true;
+                            arrow.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
+                            arrow.updateMatrixWorld(true);
+                        }
                     }
+
                     // render the scene
                     renderer.render(scene, camera);
                 }
