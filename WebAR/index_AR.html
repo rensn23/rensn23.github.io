@@ -177,7 +177,7 @@
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
-                                curEnemieObject.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1.position.x;
+                                curEnemieObject.position.x = (enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE)) * direction.x + reticle1.position.x;
                             }
                         });
                     }
