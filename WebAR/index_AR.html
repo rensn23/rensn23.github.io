@@ -206,7 +206,7 @@
                     let playerGame = game.gameHandler.player;
                     player.scale.y = playerGame.dHeight / 50;
 
-                    let playerGamePos = new THREE.Vector3(player.v2Pos.dX / SCALE + (player.dWidth / 2 / SCALE), player.v2Pos.dY / SCALE + (player.dHeight / 2 / SCALE), 0);
+                    let playerGamePos = new THREE.Vector3(playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE), playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE), 0);
                     playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
 
                     player.position.x = playerGamePos.x + reticle1.position.x;
@@ -218,7 +218,7 @@
                     let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                     player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
 
-                    let playerGamePos = new THREE.Vector3(player.v2Pos.dX / SCALE + (player.dWidth / 2 / SCALE), player.v2Pos.dY / SCALE + (player.dHeight / 2 / SCALE), 0);
+                    let playerGamePos = new THREE.Vector3(playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE), playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE), 0);
                     playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
 
                     player.position.x = playerGamePos.x + reticle1.position.x;
