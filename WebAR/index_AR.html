@@ -24,6 +24,9 @@
         const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
+        //Three.js
+        let scene;
+
         //List of Objects which get destroyed after frame
         let arrObjectsToRemove = [];
         //List of Enemies which currently exist in the scene
@@ -39,7 +42,7 @@
             const gl = canvas.getContext("webgl", { xrCompatible: true });
 
             // three.js initialization
-            const scene = new THREE.Scene();
+            scene = new THREE.Scene();
 
             const axesHelper = new THREE.AxesHelper(20);
             scene.add(axesHelper);
