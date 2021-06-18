@@ -101,59 +101,21 @@ class Game{
     constructor() {
         this.nModus = 0;
         //settings that should be changed
-        //#region Easy Difficulty
-        // this.dSpeed = 500;
-        // this.dSpeedMax = 800;
-        // this.dWidth = 1000;
-        // this.dGravitation  = 400;
-        // this.dJumpSpeed = 300;
-        // this.dAddedSpeed = 500;
-        // this.dMultiplierObstaclesTime = 0.9845;
-        // this.arrObstacleSize = 25;
-        // this.dTimeBetweenObstacles = 1;
-        // this.dTimeBetweenObstaclesMin = 0.3;
-        // this.dGravitationMultiplier = 5;
-        // this.dAddToObstaclesTimeMax = 0.5;
-        // this.dJumpSpeedMultiplier = 3;
-        // this.dFallSpeedMultiplier = 3;
-        // this.obstacleDistributionMultiplier = 0.3;
-        //#endregion
-
-        //#region Medium Difficulty
-        this.dSpeed = 600;
-        this.dSpeedMax = 1000;
+        this.dSpeed = 500;
+        this.dSpeedMax = 1500;
         this.dWidth = 1000;
         this.dGravitation  = 400;
         this.dJumpSpeed = 300;
         this.dAddedSpeed = 500;
         this.dMultiplierObstaclesTime = 0.999998;
         this.arrObstacleSize = 25;
-        this.dTimeBetweenObstacles = 0.9;
-        this.dTimeBetweenObstaclesMin = 0.2;
+        this.dTimeBetweenObstacles = 1.2;
+        this.dTimeBetweenObstaclesMin = 0.05;
         this.dGravitationMultiplier = 5;
         this.dAddToObstaclesTimeMax = 0.5;
         this.dJumpSpeedMultiplier = 3;
         this.dFallSpeedMultiplier = 3;
         this.obstacleDistributionMultiplier = 0.3;
-        //#endregion
-
-        //#region Hard Difficulty
-        // this.dSpeed = 700;
-        // this.dSpeedMax = 1300;
-        // this.dWidth = 1000;
-        // this.dGravitation  = 400;
-        // this.dJumpSpeed = 300;
-        // this.dAddedSpeed = 500;
-        // this.dMultiplierObstaclesTime = 0.9845;
-        // this.arrObstacleSize = 25;
-        // this.dTimeBetweenObstacles = 0.8;
-        // this.dTimeBetweenObstaclesMin = 0.15;
-        // this.dGravitationMultiplier = 5;
-        // this.dAddToObstaclesTimeMax = 0.5;
-        // this.dJumpSpeedMultiplier = 3;
-        // this.dFallSpeedMultiplier = 3;
-        // this.obstacleDistributionMultiplier = 0.3;
-        //#endregion
     }
 
     Play(){
@@ -279,7 +241,7 @@ class GameHandler{
             this.obstacleDistribution.ResetLastOperation();
             this.obstacleDistribution.MultiplyDistribution(nIndex, this.obstacleDistributionMultiplier)
             // console.log(nIndex);
-            let obstacle = this.arrPossibleObstacles[nIndex].Clone();
+            let obstacle = this.arrPossibleObstacles[nIndex].CloneWithNewID();
             this.arrObstacles.push(obstacle);
             this.dTimeLastObstacle = this.dTTime;
             this.dRandomObstacleTimeMultiplier = Math.random();
@@ -303,9 +265,9 @@ class GameHandler{
         }
     }
 
-    //add a velocity to the player
+    //ad a velocity to the player
     Jump(){
-        if(this.player.v2Pos.dY <= 0){
+        if(this.player.v2Pos.dY == 0){
             this.player.v2Velocity.dY = this.dJumpSpeed;
             this.player.bGrounded=false;
         }
@@ -362,12 +324,15 @@ class PlayerObj{
 
 //The obstacleObj that has all important information about the obstacle
 class Obstacle{
+    static nObstacleUID = 0;
     constructor(dWidth, dHeight, v2Pos, nObstacleID) {
         this.nObstacleID=nObstacleID;
         this.v2Pos = v2Pos;
         this.dWidth = dWidth;
         this.dHeight = dHeight;
         this.boxCol = new BoxCollider(dWidth, dHeight, v2Pos); //adding a collider
+        this.nObstacleUID = nObstacleUID;
+        nObstacleUID +=1;
     }
 
     //Move the obstacle to the left
@@ -375,7 +340,7 @@ class Obstacle{
         this.v2Pos.dX += dDelta;
     }
 
-    Clone(){
+    CloneWithNewID(){
         return new Obstacle(this.dWidth, this.dHeight, new Vector2(this.v2Pos.dX, this.v2Pos.dY), this.nObstacleID);
     }
 }
@@ -498,43 +463,6 @@ class  Distribution{
     }
 }
 
-//#region Easy Difficulty
-// function f(x){
-//     return Math.pow(x/60000,2);
-// }
-
-// function g(x){
-//     if(x>=0){
-//         if(f(x) < 1){
-//             return f(x);
-//         }
-//         return 1;
-//     }
-//     return 0;
-// }
-
-// function h(x){
-//     return Math.sin((x-60000)/6000)/4;
-// }
-
-// function i(x){
-//     if(x>60000){
-//         return g(x)+h(x);
-//     }else{
-//         return g(x);
-//     }
-// }
-
-// function j(x){
-//     return Math.cos((x-75707.96)/2000)/10;
-// }
-
-// function l(x){
-//     return (x/60000)*0.0
-// }
-//#endregion
-
-//#region Medium Difficulty
 function f(x){
     return Math.pow(x/120000,1.8);
 }
@@ -568,43 +496,6 @@ function j(x){
 function l(x){
     return (x/120000)*0.1
 }
-//#endregion
-
-//#region Hard Difficulty
-// function f(x){
-//     return Math.pow(x/60000,2);
-// }
-
-// function g(x){
-//     if(x>=0){
-//         if(f(x) < 1){
-//             return f(x);
-//         }
-//         return 1;
-//     }
-//     return 0;
-// }
-
-// function h(x){
-//     return Math.sin((x-60000)/6000)/4;
-// }
-
-// function i(x){
-//     if(x>60000){
-//         return g(x)+h(x);
-//     }else{
-//         return g(x);
-//     }
-// }
-
-// function j(x){
-//     return Math.cos((x-75707.96)/2000)/10;
-// }
-
-// function l(x){
-//     return (x/60000)*0.2
-// }
-//#endregion
 
 function k(x){
     if(x>120000){

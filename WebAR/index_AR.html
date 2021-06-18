@@ -25,7 +25,7 @@
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
         //List of Objects which get destroyed after frame
-        let arrObjectsToDestroy = [];
+        let arrObjectsToRemove = [];
         //List of Enemies which currently exist in the scene
         let arrCurrentEnemies = [];
 
@@ -124,25 +124,40 @@
 
             function gameLoop() {
 
-                arrObjectsToDestroy = [];
+                arrObjectsToRemove = [];
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
                 //if there are obstacles in the game
-                // if(game.gameHandler.arrObstacles.length > 0) { 
-                //     game.gameHandler.arrObstacles.forEach(enemie => {
-                //         arrCurrentEnemies.forEach(curEnemie => {
-                //             if (curEnemie.indexOf(enemie.id) == -1) {
-                //                 let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
-                //                 let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
-                //                 newEnemie.name = enemie.id.toString();
-                //                 arrCurrentEnemies.push(newEnemie);
-                //             }
-                //         });
-                //     });
-                // }
+                if(game.gameHandler.arrObstacles.length > 0) { 
+                    game.gameHandler.arrObstacles.forEach(enemie => {
+                        arrCurrentEnemies.forEach(curEnemie => {
+                            if (curEnemie.indexOf(enemie.nObstacleUID) == -1) {
+                                let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
+                                let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie.position.y = enemie.v2Pos.dY / SCALE + (25 * newEnemie.scale.y / SCALE);
+                                newEnemie.name = enemie.nObstacleUID.toString();
+                                arrCurrentEnemies.push(newEnemie);
+                            }
+                        });
+                    });
+                }
+
+                //Update current enemie's positions
+                arrCurrentEnemies.forEach(curEnemie => {
+                    if (curEnemie.position.x <= -1) {
+                        arrObjectsToRemove.push(curEnemie);
+                        arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
+                        return;
+                    }
+                    game.gameHandler.arrObstacles.forEach(enemie => {
+                        if (parseInt(curEnemie.name) == enemie.nObstacleUID) {
+                            curEnemie.position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
+                        }
+                    });
+                });
 
                 //Remove all objects
-                arrObjectsToDestroy.forEach(object => {
+                arrObjectsToRemove.forEach(object => {
                     removeEntity(object);
                 });
 
@@ -193,7 +208,7 @@
 
 
         }
-        
+
         session.requestAnimationFrame(onXRFrame);
 
         //function to Predict
