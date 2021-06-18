@@ -23,9 +23,10 @@
             const PLAYER_MATERIAL = new THREE.MeshBasicMaterial( {color: 0x000000} );
             const ENEMY_MATERIAL = new THREE.MeshBasicMaterial( {color: 0xffffff} );
 
-            //List of Objects which get destroyed after every frame
+            //List of Objects which get destroyed after frame
             let arrObjectsToDestroy = [];
-            let id = 1;
+            //List of Enemies which currently exist in the scene
+            let arrCurrentEnemies = [];
             
             let player = null;
 
@@ -122,46 +123,33 @@
 
                 function gameLoop() {
 
+                    arrObjectsToDestroy = [];
                     instanceHandler.Act(Predict(instanceHandler.GetState()));
+
                     //if there are obstacles in the game
-                    // if(game.gameHandler.arrObstacles.length > 0) {
-
-                    //     //Remove all objects
-                    //     arrObjectsToDestroy.forEach(object => {
-                    //         removeEntity(object);
+                    // if(game.gameHandler.arrObstacles.length > 0) { 
+                    //     game.gameHandler.arrObstacles.forEach(enemie => {
+                    //         arrCurrentEnemies.forEach(curEnemie => {
+                    //             if (curEnemie.indexOf(enemie.id) == -1) {
+                    //                 let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
+                    //                 let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                    //                 newEnemie.name = enemie.id.toString();
+                    //                 arrCurrentEnemies.push(newEnemie);
+                    //             }
+                    //         });
                     //     });
+                    // }
 
-                    //     arrObjectsToDestroy = [];
-
-                        console.log(game.gameHandler.arrObstacles);
-                        //Add each enemy to array
-                        game.gameHandler.arrObstacles.forEach(function(obstacle) {
-                    //         //draw obstacle if it is inside the canvas
-                    //         if(obstacle.v2Pos.dX >- 100) {
-                    //             gltfLoader.load("./src/models/Cactus_1x1.gltf", function(gltf) {
-                    //                 let enemy = gltf.scene;
-                    //                 enemy.name = id.toString();
-                    //                 id++;
-
-                    //                 enemy.position.x = obstacle.v2Pos.dX / 500;
-                    //                 enemy.position.y = obstacle.v2Pos.dY / 100;
-                    //                 enemy.position.z = -1;
-
-                    //                 arrObjectsToDestroy.push(enemy);
-                    //             })
-                    //         }
-                        });
-                        
-                    //     //Draw all new Objects
-                    //     arrObjectsToDestroy.forEach(object => {
-                    //         scene.add(object);
-                    //     });
-
-                        //Update Player
-                        if (player === null) return;
-                        player.scale.y = game.gameHandler.player.dHeight / 50;
-                        player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
-                    //}
+                    //Remove all objects
+                    arrObjectsToDestroy.forEach(object => {
+                        removeEntity(object);
+                    });
+                    
+                    //Update Player
+                    if (player === null) return;
+                    player.scale.y = game.gameHandler.player.dHeight / 50;
+                    player.position.y = game.gameHandler.player.v2Pos.dY / SCALE + (25 * player.scale.y / SCALE);
+                    }
                 }
 
                 function removeEntity(object) {
