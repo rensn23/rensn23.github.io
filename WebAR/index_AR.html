@@ -157,7 +157,6 @@
 
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
                         arrObjectsToRemove.push(curSceneEnemieID);
-                        console.log(curSceneEnemieID);
                         arrCurrentSceneEnemieIDs.shift();
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
@@ -170,7 +169,6 @@
 
                 //Update Player
                 if (player !== null) {
-                    console.log("Test");
                     let playerGame = game.gameHandler.player;
                     player.scale.y = playerGame.dHeight / 50;
                     player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE);
@@ -179,9 +177,7 @@
                 
                 //Remove all objects
                 arrObjectsToRemove.forEach(objectID => {
-                    console.log(objectID);
-                    let selectedObject = scene.getObjectByName(objectID.toString);
-                    console.log(selectedObject);
+                    let selectedObject = scene.getObjectByName(objectID.toString());
                     scene.remove(selectedObject);
                 });
             }
