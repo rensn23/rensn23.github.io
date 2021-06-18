@@ -128,7 +128,7 @@
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
                 game.gameHandler.arrObstacles.forEach(enemie => {
-                    if (arrCurrentEnemies.includes(enemie.nObstacleUID)) {
+                    if (!arrCurrentEnemies.includes(enemie.nObstacleUID)) {
                         console.log("Test");
                         let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
