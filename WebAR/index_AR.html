@@ -38,7 +38,7 @@
         //Reticles/Cursors
         let reticle1;
         let reticle2;
-        let reticle2Pos = new THREE.Vector3(0, 0, 0);
+        let direction; //reticle2.pos - reticle1.pos
         let bReticle1Placed = false;
         let bReticle2Placed = false;
 
@@ -118,9 +118,7 @@
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                         reticle2 = gltf.scene;
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
-                        let v1 = new THREE.Vector3(1, 1, 1);
-                        let v2 = new THREE.Vector3(1, 0, 2);
-                        console.log(v2.add(v1.negate()));
+                        direction = (reticle2.position.add(reticle1.negate())).normalize();
                         arrow.visible = false;
                         scene.add(reticle2);
                     })
@@ -157,8 +155,8 @@
                         let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, 25 / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
 
-                        newEnemie.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE) + reticle1.position.x;
-                        newEnemie.position.y = enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE) + reticle1.position.y;
+                        newEnemie.position.x = (enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE)) * direction.x + reticle1.position.x;
+                        newEnemie.position.y = (enemieGame.v2Pos.dY / SCALE + (enemieGame.dHeight / 2 / SCALE)) * direction.y + reticle1.position.y;
                         newEnemie.position.z = reticle1.position.z;
 
                         newEnemie.name = enemieGame.nObstacleUID.toString();
@@ -189,15 +187,15 @@
                 if (player !== null) {
                     let playerGame = game.gameHandler.player;
                     player.scale.y = playerGame.dHeight / 50;
-                    player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE) + reticle1.position.x;
-                    player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE) + reticle1.position.y;
+                    player.position.x = (playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE)) * direction.x + reticle1.position.x;
+                    player.position.y = (playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE)) * direction.y + reticle1.position.y;
                 }
                 else {
                     let playerGame = game.gameHandler.player;
                     let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                     player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-                    player.position.x = playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE) + reticle1.position.x;
-                    player.position.y = playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE) + reticle1.position.y;
+                    player.position.x = (playerGame.v2Pos.dX / SCALE + (playerGame.dWidth / 2 / SCALE)) * direction.x + reticle1.position.x;
+                    player.position.y = (playerGame.v2Pos.dY / SCALE + (playerGame.dHeight / 2 / SCALE)) * direction.y + reticle1.position.y;
                     player.position.z = reticle1.position.z;
                     scene.add(player);
                 }
