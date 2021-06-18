@@ -136,7 +136,7 @@
 
                     if (!arrCurrentSceneEnemieIDs.includes(enemieGame.nObstacleUID)) {
 
-                        let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, enemieGame.dWidth / SCALE);
+                        let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, 25 / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
 
                         newEnemie.position.x = enemieGame.v2Pos.dX / SCALE + (enemieGame.dWidth / 2 / SCALE);
@@ -157,7 +157,7 @@
 
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
                         arrObjectsToRemove.push(curSceneEnemieID);
-                        console.log(arrCurrentSceneEnemieIDs, curSceneEnemieID, arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
+                        console.log(curSceneEnemieID);
                         arrCurrentSceneEnemieIDs.shift();
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
@@ -179,7 +179,9 @@
                 
                 //Remove all objects
                 arrObjectsToRemove.forEach(objectID => {
+                    console.log(objectID);
                     let selectedObject = scene.getObjectByName(objectID.toString);
+                    console.log(selectedObject);
                     scene.remove(selectedObject);
                 });
             }
