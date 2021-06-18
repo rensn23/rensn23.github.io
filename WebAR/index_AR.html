@@ -118,7 +118,10 @@
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                         reticle2 = gltf.scene;
                         reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
-                        console.log(new THREE.Vector3(1, 1, 1) - new THREE.Vector3(1, 0, 1));
+                        let v1 = new THREE.Vector3(1, 1, 1);
+                        let v2 = new THREE.Vector3(1, 0, 2);
+                        console.log(v1 - v2);
+                        console.log(v1.add(-v2));
                         arrow.visible = false;
                         scene.add(reticle2);
                     })
