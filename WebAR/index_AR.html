@@ -157,7 +157,7 @@
 
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
                         arrObjectsToRemove.push(curSceneEnemieID);
-                        console.log(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
+                        console.log(arrCurrentSceneEnemieIDs, curSceneEnemieID, arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
                         arrCurrentSceneEnemieIDs.splice(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
