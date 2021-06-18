@@ -145,7 +145,8 @@
                     let curEnemieObject = scene.getObjectByName(curEnemie.toString());
                     if (curEnemieObject === null) return;
 
-                    if (curEnemieObject.position.x <= -1) {
+                    if (curEnemieObject.position.x <= 0) {
+                        console.log("test");
                         arrObjectsToRemove.push(curEnemie);
                         arrCurrentEnemies.splice(arrCurrentEnemies.indexOf(parseInt(curEnemie.name)))
                         return;
