@@ -156,10 +156,9 @@
                     if (curEnemieObject === null) return;
 
                     if (!arrCurrentGameEnemieIDs.includes(curSceneEnemieID)) {
-                        console.log(arrObjectsToRemove, arrCurrentSceneEnemieIDs);
                         arrObjectsToRemove.push(curSceneEnemieID);
+                        console.log(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
                         arrCurrentSceneEnemieIDs.splice(arrCurrentSceneEnemieIDs.indexOf(curSceneEnemieID));
-                        console.log(arrObjectsToRemove, arrCurrentSceneEnemieIDs);
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
