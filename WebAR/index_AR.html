@@ -126,9 +126,9 @@
                         let UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 
                         if (reticle2.position.z < reticle1.position.z) {
-                            reticleAngle = -UNIT_VECTOR_X.angleTo(direction);
-                        } else {
                             reticleAngle = UNIT_VECTOR_X.angleTo(direction);
+                        } else {
+                            reticleAngle = -UNIT_VECTOR_X.angleTo(direction);
                         }
 
                         arrow.visible = false;
