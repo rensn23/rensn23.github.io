@@ -148,8 +148,7 @@
                         return;
                     }
                     game.gameHandler.arrObstacles.forEach(enemie => {
-                        console.log("1");
-                        if (parseInt(curEnemie.name) == enemie.nObstacleUID) {
+                        if (curEnemie == enemie.nObstacleUID) {
                             console.log("2");
                             curEnemie.position.x = enemie.v2Pos.dX / SCALE + (25 * curEnemie.scale.x / SCALE);
                         }
