@@ -122,7 +122,13 @@
 
                         direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
                         let v1 = new THREE.Vector3(1, 0, 0);
-                        reticleAngle = v1.angleTo(direction);
+                        
+                        if (reticle2.position.z < reticle1.position.z) {
+                            reticleAngle = -v1.angleTo(direction);
+                        } else {
+                            reticleAngle = v1.angleTo(direction);
+                        }
+                        
                         console.log(reticleAngle * 180 / Math.PI);
 
                         arrow.visible = false;
