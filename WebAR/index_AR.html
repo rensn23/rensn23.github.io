@@ -131,8 +131,8 @@
                     if (!arrCurrentEnemies.includes(enemie.nObstacleUID)) {
                         let newEnemieGeometry = new THREE.BoxGeometry(enemie.dWidth / SCALE, enemie.dHeight / SCALE, enemie.dWidth / SCALE);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
-                        newEnemie.position.x = enemie.v2Pos.dX / SCALE + (enemie.v2Pos.dWidth / 2 / SCALE);
-                        newEnemie.position.y = enemie.v2Pos.dY / SCALE + (enemie.v2Pos.dHeight / 2 / SCALE);
+                        newEnemie.position.x = enemie.v2Pos.dX / SCALE + (enemie.dWidth / 2 / SCALE);
+                        newEnemie.position.y = enemie.v2Pos.dY / SCALE + (enemie.dHeight / 2 / SCALE);
                         newEnemie.position.z = -1;
                         newEnemie.name = enemie.nObstacleUID.toString();
                         arrCurrentEnemies.push(enemie.nObstacleUID);
@@ -143,7 +143,6 @@
                 //Update current enemie's positions
                 arrCurrentEnemies.forEach(curEnemie => {
                     let curEnemieObject = scene.getObjectByName(curEnemie.toString());
-                    console.log(curEnemieObject);
                     if (curEnemieObject === null) return;
 
                     if (curEnemieObject.position.x <= -1) {
@@ -153,7 +152,7 @@
                     }
                     game.gameHandler.arrObstacles.forEach(enemie => {
                         if (curEnemie == enemie.nObstacleUID) {
-                            curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (enemie.v2Pos.dWidth / 2 / SCALE); 
+                            curEnemieObject.position.x = enemie.v2Pos.dX / SCALE + (enemie.dWidth / 2 / SCALE);
                         }
                     });
                 });
