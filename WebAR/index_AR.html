@@ -117,7 +117,7 @@
                         reticle2.name = "reticle2";
 
                         direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
-                        scale = Math.min(scale, scale / direction.length());
+                        scale = scale / Math.max(1, direction.length() / 2);
 
                         if (reticle2.position.z < reticle1.position.z) {
                             reticleAngle = UNIT_VECTOR_X.angleTo(direction);
