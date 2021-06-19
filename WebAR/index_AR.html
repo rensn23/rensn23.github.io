@@ -110,31 +110,39 @@
                 //Dino
                 gltfLoader.load("./src/models/Dino.gltf", function (gltf) {
                     console.log("Dino", gltf);
+                    DINO_GEOMETRY = gltf.scene.children[0].geometry;
+                    let dino = new THREE.Mesh(DINO_GEOMETRY, PLAYER_MATERIAL);
+                    scene.add(dino);
                 })
 
                 //Bird
                 gltfLoader.load("./src/models/Bird.gltf", function (gltf) {
                     console.log("Bird", gltf);
+                    BIRD_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
                 //Cactus 1x1
                 gltfLoader.load("./src/models/Cactus_1x1.gltf", function (gltf) {
                     console.log("Cactus 1x1", gltf);
+                    CACTUS_1x1_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
                 //Cactus 1x2
                 gltfLoader.load("./src/models/Cactus_1x2.gltf", function (gltf) {
                     console.log("Cactus 1x2", gltf);
+                    CACTUS_1x2_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
                 //Cactus 2x1
                 gltfLoader.load("./src/models/Cactus_2x1.gltf", function (gltf) {
                     console.log("Cactus 2x1", gltf);
+                    CACTUS_2x1_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
                 //Cactus 2x2
                 gltfLoader.load("./src/models/Cactus_2x2.gltf", function (gltf) {
                     console.log("Cactus 2x2", gltf);
+                    CACTUS_2x2_GEOMETRY = gltf.scene.children[0].geometry;
                 })
             }
 
