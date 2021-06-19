@@ -24,10 +24,18 @@
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
         const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
+
+        //Models
         const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
+        let DINO_GEOMETRY;
+        let BIRD_GEOMETRY;
+        let CACTUS_1x1_GEOMETRY;
+        let CACTUS_1x2_GEOMETRY;
+        let CACTUS_2x1_GEOMETRY;
+        let CACTUS_2x2_GEOMETRY;
 
         let scale = 250;
-        
+
         let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
         let arrCurrentSceneEnemieIDs = [];  //List of Enemies which currently exist in the scene
         let arrCurrentGameEnemieIDs = [];   //List of Enemies which currently exist in the game
@@ -91,12 +99,46 @@
             //Hit testing with user as the origin
             const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
-            //Load the reticle model
-            gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
-                arrow = gltf.scene;
-                arrow.visible = false;
-                scene.add(arrow);
-            })
+            function loadAllModels() {
+                //Reticle
+                gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
+                    arrow = gltf.scene;
+                    arrow.visible = false;
+                    scene.add(arrow);
+                })
+
+                //Dino
+                gltfLoader.load("./src/models/Dino.gltf"), function (gltf) {
+                    console.log("Dino", gltf);
+                }
+
+                //Bird
+                gltfLoader.load("./src/models/Bird.gltf"), function (gltf) {
+                    console.log("Bird", gltf);
+                }
+
+                //Cactus 1x1
+                gltfLoader.load("./src/models/Cactus_1x1.gltf"), function (gltf) {
+                    console.log("Cactus 1x1", gltf);
+                }
+
+                //Cactus 1x2
+                gltfLoader.load("./src/models/Cactus_1x2.gltf"), function (gltf) {
+                    console.log("Cactus 1x2", gltf);
+                }
+
+                //Cactus 2x1
+                gltfLoader.load("./src/models/Cactus_2x1.gltf"), function (gltf) {
+                    console.log("Cactus 2x1", gltf);
+                }
+
+                //Cactus 2x2
+                gltfLoader.load("./src/models/Cactus_2x2.gltf"), function (gltf) {
+                    console.log("Cactus 2x2", gltf);
+                }
+            }
+
+            loadAllModels();
 
             //Is called when user touches screen
             session.addEventListener("select", (event) => {
