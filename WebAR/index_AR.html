@@ -100,6 +100,8 @@
             const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
             function loadAllModels() {
+                //1 Voxel in MagicaVoxel = 0.1 in THREE.js
+
                 //Reticle
                 gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                     arrow = gltf.scene;
@@ -107,19 +109,23 @@
                     scene.add(arrow);
                 })
 
-                //Dino
+                //Dino              21x6x21 Voxel
                 gltfLoader.load("./src/models/Dino.gltf", function (gltf) {
-                    console.log("Dino", gltf);
                     DINO_GEOMETRY = gltf.scene.children[0].geometry;
-                    let dino = new THREE.Mesh(DINO_GEOMETRY, PLAYER_MATERIAL);
-                    dino.position.y = -1;
-                    dino.position.z = -2;
-                    scene.add(dino);
+                })
+
+                //Bird              23x21x11 Voxel
+                gltfLoader.load("./src/models/Bird.gltf", function (gltf) {
+                    BIRD_GEOMETRY = gltf.scene.children[0].geometry;
+                    let bird = new THREE.Mesh(DINO_GEOMETRY, PLAYER_MATERIAL);
+                    bird.position.y = -1;
+                    bird.position.z = -2;
+                    scene.add(bird);
 
 
-                    let x = 2;
-                    let y = 2;
-                    let z = 0.5;
+                    let x = 2.3;
+                    let y = 1.1;
+                    let z = 2.1;
                     let cubeGeometry = new THREE.BoxGeometry(x, y, z);
                     let cube = new THREE.Mesh(cubeGeometry, ENEMY_MATERIAL);
                     cube.position.y = y / 2 - 1;
@@ -127,33 +133,23 @@
                     scene.add(cube);
                 })
 
-                //Bird
-                gltfLoader.load("./src/models/Bird.gltf", function (gltf) {
-                    console.log("Bird", gltf);
-                    BIRD_GEOMETRY = gltf.scene.children[0].geometry;
-                })
-
-                //Cactus 1x1
+                //Cactus 1x1        9x6x10 Voxel
                 gltfLoader.load("./src/models/Cactus_1x1.gltf", function (gltf) {
-                    console.log("Cactus 1x1", gltf);
                     CACTUS_1x1_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
-                //Cactus 1x2
+                //Cactus 1x2        12x6x20 Voxel
                 gltfLoader.load("./src/models/Cactus_1x2.gltf", function (gltf) {
-                    console.log("Cactus 1x2", gltf);
                     CACTUS_1x2_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
-                //Cactus 2x1
+                //Cactus 2x1        19x8x11 Voxel
                 gltfLoader.load("./src/models/Cactus_2x1.gltf", function (gltf) {
-                    console.log("Cactus 2x1", gltf);
                     CACTUS_2x1_GEOMETRY = gltf.scene.children[0].geometry;
                 })
 
-                //Cactus 2x2
+                //Cactus 2x2        22x8x21 Voxel
                 gltfLoader.load("./src/models/Cactus_2x2.gltf", function (gltf) {
-                    console.log("Cactus 2x2", gltf);
                     CACTUS_2x2_GEOMETRY = gltf.scene.children[0].geometry;
                 })
             }
