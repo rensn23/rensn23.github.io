@@ -118,7 +118,7 @@
                 gltfLoader.load("./src/models/Bird.gltf", function (gltf) {
                     BIRD_GEOMETRY = gltf.scene.children[0].geometry;
                     let bird = new THREE.Mesh(BIRD_GEOMETRY, PLAYER_MATERIAL);
-                    bird.position.y = -2.5;
+                    bird.position.y = -2;
                     bird.position.z = -2;
                     scene.add(bird);
 
