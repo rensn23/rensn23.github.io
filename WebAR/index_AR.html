@@ -118,17 +118,17 @@
                 gltfLoader.load("./src/models/Bird.gltf", function (gltf) {
                     BIRD_GEOMETRY = gltf.scene.children[0].geometry;
                     let bird = new THREE.Mesh(BIRD_GEOMETRY, PLAYER_MATERIAL);
-                    //bird.position.y = -1;
+                    bird.position.y = -2.5;
                     bird.position.z = -2;
                     scene.add(bird);
 
 
-                    let x = 2.3;
-                    let y = 1.1;
+                    let x = 2.2;
+                    let y = 1;
                     let z = 2;
                     let cubeGeometry = new THREE.BoxGeometry(x, y, z);
                     let cube = new THREE.Mesh(cubeGeometry, ENEMY_MATERIAL);
-                    cube.position.y = y / 2;
+                    cube.position.y = y / 2 - 2;
                     cube.position.z = -2;
                     scene.add(cube);
                 })
