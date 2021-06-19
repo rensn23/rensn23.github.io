@@ -155,17 +155,20 @@
                 playerScene = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
                 playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
                 scene.add(playerScene);
-                playerGame = game.gameHandler.player;
 
                 //Start Instance
                 instanceHandler.Start();
+
+                playerGame = game.gameHandler.player;
             }
 
             function gameLoop() {
 
+                //Reset arrays
                 arrCurrentGameEnemieIDs = [];
                 arrObjectsToRemove = [];
 
+                //Game plays automatically
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
                 game.gameHandler.arrObstacles.forEach(enemieGame => {
