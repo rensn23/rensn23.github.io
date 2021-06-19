@@ -112,6 +112,7 @@
                     console.log("Dino", gltf);
                     DINO_GEOMETRY = gltf.scene.children[0].geometry;
                     let dino = new THREE.Mesh(DINO_GEOMETRY, PLAYER_MATERIAL);
+                    dino.position.y = -1;
                     dino.position.z = -2;
                     scene.add(dino);
 
@@ -121,7 +122,7 @@
                     let z = 0.5;
                     let cubeGeometry = new THREE.BoxGeometry(x, y, z);
                     let cube = new THREE.Mesh(cubeGeometry, ENEMY_MATERIAL);
-                    cube.position.y = y / 2;
+                    cube.position.y = y / 2 - 1;
                     cube.position.z = -2;
                     scene.add(cube);
                 })
