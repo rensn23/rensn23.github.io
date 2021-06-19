@@ -24,42 +24,45 @@
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
         const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
+        const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
 
         let scale = 250;
 
-        //List of Objects which get destroyed after frame
-        let arrObjectsToRemove = [];
-        //List of Enemies which currently exist in the scene
-        let arrCurrentSceneEnemieIDs = [];
-        let arrCurrentGameEnemieIDs = [];
+        
+        let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
+        let arrCurrentSceneEnemieIDs = [];  //List of Enemies which currently exist in the scene
+        let arrCurrentGameEnemieIDs = [];   //List of Enemies which currently exist in the game
 
         let instanceHandler;
         let game;
 
-        let playerScene = null;
-        let playerGame;
+        let playerScene = null;     //Player in the 3D-Scene
+        let playerGame;             //Player in the game
 
         //Reticles/Cursors
+        let arrow;                  //The "preview" reticle that moves with the camera
         let reticle1;
         let reticle2;
-        let direction;
-        let reticleAngle = 0;
+        let direction;              //direction from reticle1 to reticle2
+        let reticleAngle = 0;       //the angle between the direction and the x-axis
         let bReticle1Placed = false;
         let bReticle2Placed = false;
 
         async function activateXR() {
 
-            // add a canvas
+            //Add a canvas
             const canvas = document.createElement("canvas");
             document.body.appendChild(canvas);
             const gl = canvas.getContext("webgl", { xrCompatible: true });
 
-            // three.js initialization
+            //Three.js initialization
             const scene = new THREE.Scene();
 
+            //Axes Helper
             const axesHelper = new THREE.AxesHelper(20);
             scene.add(axesHelper);
 
+            //Ambient Light
             const ambientLight = new THREE.AmbientLight();
             scene.add(ambientLight);
 
@@ -72,44 +75,31 @@
             });
             renderer.autoClear = false;
 
-            // disable matrix auto updates from three.js
+            //Disable matrix auto updates from three.js
             const camera = new THREE.PerspectiveCamera();
             camera.matrixAutoUpdate = false;
 
-            // Initialize WebXR session using "immersive-ar"
+            //Initialize WebXR session using "immersive-ar"
             const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] });
             session.updateRenderState({
                 baseLayer: new XRWebGLLayer(session, gl)
             });
 
-            // create a position reference near the user
+            //Create a position reference near the user
             const referenceSpace = await session.requestReferenceSpace('local');
-
             const viewerSpace = await session.requestReferenceSpace('viewer');
 
-            // hit testing with user as the origin
+            //Hit testing with user as the origin
             const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
-            // for loading 3D objects
-            const gltfLoader = new THREE.GLTFLoader();
-            const objectLoader = new THREE.ObjectLoader();
-            let arrow;
+            //Load the reticle model
             gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                 arrow = gltf.scene;
                 arrow.visible = false;
                 scene.add(arrow);
             })
 
-            // let dino_idle;
-            // gltfLoader.load("./src/models/Dino_Idle.gltf", function(gltf) {
-            //     dino_idle = gltf.scene;
-            //     dino_idle.position.z = -1;
-            //     dino_idle.scale.x = 0.1;
-            //     dino_idle.scale.y = 0.1;
-            //     dino_idle.scale.z = 0.1;
-            //     scene.add(dino_idle);
-            // })
-
+            //Is called when user touches screen
             session.addEventListener("select", (event) => {
                 if (!bReticle1Placed) {
                     gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
@@ -127,7 +117,7 @@
                         reticle2.name = "reticle2";
 
                         direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
-                        console.log(direction.length());
+                        scale /= direction.length();
 
                         if (reticle2.position.z < reticle1.position.z) {
                             reticleAngle = UNIT_VECTOR_X.angleTo(direction);
