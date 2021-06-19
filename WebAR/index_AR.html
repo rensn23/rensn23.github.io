@@ -35,7 +35,8 @@
         let instanceHandler;
         let game;
 
-        let player = null;
+        let playerScene = null;
+        let playerGame;
 
         //Reticles/Cursors
         let reticle1;
@@ -142,13 +143,21 @@
 
             function startGame() {
 
-                //Game Instance/Mechanics
+                //Create Instance-Handler
                 instanceHandler = new InstanceHandler(1, gameLoop);
                 instanceHandler.Init();
 
-                //get an instance and start the game
+                //Create an Instance
                 game = instanceHandler.GetInstance();
 
+                //Create Player
+                let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
+                playerScene = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
+                playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
+                scene.add(playerScene);
+                playerGame = game.gameHandler.player;
+
+                //Start Instance
                 instanceHandler.Start();
             }
 
@@ -183,7 +192,7 @@
                     }
                 });
 
-                //Update current enemie's positions
+                //Update the current enemie's positions
                 arrCurrentSceneEnemieIDs.forEach(curSceneEnemieID => {
                     let curEnemieObject = scene.getObjectByName(curSceneEnemieID.toString());
                     if (curEnemieObject === null) return;
@@ -194,9 +203,11 @@
                     } else {
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
+                                //Create Vector with current enemie position
                                 let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / SCALE, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / SCALE, 0);
+                                //Turn enemie around the y-axis 
                                 enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-
+                                //Apply the rotated positions
                                 curEnemieObject.position.x = enemieGamePos.x + reticle1.position.x;
                                 curEnemieObject.position.z = enemieGamePos.z + reticle1.position.z;
                             }
@@ -205,54 +216,21 @@
                 });
 
                 //Update Player
-                if (player === null) {
-                    let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
-                    player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-                    player.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
-                    scene.add(player);
-                }
-
-                let playerGame = game.gameHandler.player;
-                player.scale.y = playerGame.dHeight / 50;
-
+                //Create Vector with current player position
                 let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / SCALE, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / SCALE, 0);
+                //Turn player around the y-axis 
                 playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
+                //Apply the rotated positions
+                playerScene.position.x = playerGamePos.x + reticle1.position.x;
+                playerScene.position.y = playerGamePos.y + reticle1.position.y;
+                playerScene.position.z = playerGamePos.z + reticle1.position.z;
+                //Update Scale for Ducking/Unducking
+                playerScene.scale.y = playerGame.dHeight / 50;
 
-                player.position.x = playerGamePos.x + reticle1.position.x;
-                player.position.y = playerGamePos.y + reticle1.position.y;
-                player.position.z = playerGamePos.z + reticle1.position.z;
-
-                //Update Player
-                // if (player !== null) {
-                //     let playerGame = game.gameHandler.player;
-                //     player.scale.y = playerGame.dHeight / 50;
-
-                //     let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / SCALE, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / SCALE, 0);
-                //     playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-
-                //     player.position.x = playerGamePos.x + reticle1.position.x;
-                //     player.position.y = playerGamePos.y + reticle1.position.y;
-                //     player.position.z = playerGamePos.z + reticle1.position.z;
-                // }
-                // else {
-                //     let playerGame = game.gameHandler.player;
-                //     let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
-                //     player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-
-                //     let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / SCALE, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / SCALE, 0);
-                //     playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-                //     player.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
-
-                //     player.position.x = playerGamePos.x + reticle1.position.x;
-                //     player.position.y = playerGamePos.y + reticle1.position.y;
-                //     player.position.z = playerGamePos.z + reticle1.position.z;
-                //     scene.add(player);
-                // }
 
                 //Remove all objects
                 arrObjectsToRemove.forEach(objectID => {
-                    let selectedObject = scene.getObjectByName(objectID.toString());
-                    scene.remove(selectedObject);
+                    scene.remove(scene.getObjectByName(objectID.toString()));
                 });
             }
 
