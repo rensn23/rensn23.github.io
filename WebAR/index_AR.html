@@ -20,11 +20,12 @@
     <script>
 
         //Constants
-        const SCALE = 250;
         const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
         const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
+
+        let scale = 250;
 
         //List of Objects which get destroyed after frame
         let arrObjectsToRemove = [];
@@ -126,7 +127,7 @@
                         reticle2.name = "reticle2";
 
                         direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
-                        console.log(direction.length);
+                        console.log(direction.length());
 
                         if (reticle2.position.z < reticle1.position.z) {
                             reticleAngle = UNIT_VECTOR_X.angleTo(direction);
@@ -170,10 +171,10 @@
 
                     if (!arrCurrentSceneEnemieIDs.includes(enemieGame.nObstacleUID)) {
 
-                        let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / SCALE, enemieGame.dHeight / SCALE, 25 / SCALE);
+                        let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / scale, enemieGame.dHeight / scale, 25 / scale);
                         let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
 
-                        let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / SCALE, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / SCALE, 0);
+                        let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / scale, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / scale, 0);
                         enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
                         newEnemie.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
@@ -200,7 +201,7 @@
                         game.gameHandler.arrObstacles.forEach(enemieGame => {
                             if (curSceneEnemieID == enemieGame.nObstacleUID) {
                                 //Create Vector with current enemie position
-                                let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / SCALE, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / SCALE, 0);
+                                let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / scale, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / scale, 0);
                                 //Turn enemie around the y-axis 
                                 enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
                                 //Apply the rotated positions
@@ -213,17 +214,17 @@
 
                 //Create Player
                 if (playerScene === null) {
-                    let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
+                    let playerGeometry = new THREE.BoxGeometry(25 / scale, 50 / scale, 25 / scale);
                     playerScene = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
                     playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
                     scene.add(playerScene);
-                    
+
                     playerGame = game.gameHandler.player;
                 }
 
                 //Update Player
                 //Create Vector with current player position
-                let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / SCALE, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / SCALE, 0);
+                let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / scale, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / scale, 0);
                 //Turn player around the y-axis 
                 playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
                 //Apply the rotated positions
