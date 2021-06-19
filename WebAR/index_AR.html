@@ -208,6 +208,7 @@
                 if (player === null) {
                     let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
                     player = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
+                    player.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
                     scene.add(player);
                 }
 
