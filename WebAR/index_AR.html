@@ -151,16 +151,8 @@
                 //Create an Instance
                 game = instanceHandler.GetInstance();
 
-                //Create Player
-                let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
-                playerScene = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
-                playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
-                scene.add(playerScene);
-
                 //Start Instance
                 instanceHandler.Start();
-
-                playerGame = game.gameHandler.player;
             }
 
             function gameLoop() {
@@ -218,6 +210,16 @@
                         });
                     }
                 });
+
+                //Create Player
+                if (playerScene === null) {
+                    let playerGeometry = new THREE.BoxGeometry(25 / SCALE, 50 / SCALE, 25 / SCALE);
+                    playerScene = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
+                    playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
+                    scene.add(playerScene);
+                    
+                    playerGame = game.gameHandler.player;
+                }
 
                 //Update Player
                 //Create Vector with current player position
