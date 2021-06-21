@@ -221,6 +221,8 @@
 
                         let newEnemieGeometry;
                         let newEnemie;
+                        let offset = new THREE.Vector3(0, 0, 0);
+
                         switch (enemieGame.nObstacleID) {
                             case 0:     //Cactus 1x1
                                 newEnemieGeometry = CACTUS_1x1_GEOMETRY;
@@ -228,14 +230,26 @@
                                 newEnemie.scale.set(1 / scale, 1 / scale, 1 / scale);
                                 break;
                             case 1:     //Cactus 1x2
+                                newEnemieGeometry = CACTUS_1x2_GEOMETRY;
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie.scale.set(1 / scale, 1 / scale, 1 / scale);
                                 break;
                             case 2:     //Bird Low
-                                break;
                             case 3:     //Bird High
+                                newEnemieGeometry = BIRD_GEOMETRY;
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie.scale.set(0.43 / scale, 0.43 / scale, 0.43 / scale);
+                                offset.set(0.025, -0.3, -0.025);
                                 break;
                             case 4:     //Cactus 2x1
+                                newEnemieGeometry = CACTUS_2x1_GEOMETRY;
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie.scale.set(1 / scale, 1 / scale, 1 / scale);
                                 break;
                             case 5:     //Cactus 2x2
+                                newEnemieGeometry = CACTUS_2x2_GEOMETRY;
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie.scale.set(1 / scale, 1 / scale, 1 / scale);
                                 break;
                             default:
                                 newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / scale, enemieGame.dHeight / scale, 25 / scale);
@@ -243,7 +257,7 @@
                                 break;
                         }
 
-                        let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / scale, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / scale, 0);
+                        let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2) + offset.x) / scale, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2) + offset.x) / scale, offset.z);
                         enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
                         newEnemie.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
