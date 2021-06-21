@@ -224,7 +224,8 @@
                             case 3:     //Bird High
                                 newEnemieGeometry = BIRD_GEOMETRY;
                                 newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
-                                newEnemie.scale.set(25 * 0.43 / scale, 25 * 0.43 / scale, 25 * 0.43 / scale);
+                                //newEnemie.scale.set(25 * 0.43 / scale, 25 * 0.43 / scale, 25 * 0.43 / scale);
+                                newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                                 offset.set(0.025, -0.3, -0.025);
                                 break;
                             case 4:     //Cactus 2x1
