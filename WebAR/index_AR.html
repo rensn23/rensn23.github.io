@@ -309,6 +309,7 @@
 
                 //Update Player
                 //Create Vector with current player position
+                //let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / scale, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / scale, 0);
                 let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2) + 0.1) / scale, playerGame.v2Pos.dY / scale, 0);
                 //Turn player around the y-axis 
                 playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
