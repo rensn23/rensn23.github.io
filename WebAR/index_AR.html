@@ -212,14 +212,36 @@
                 //Game plays automatically
                 instanceHandler.Act(Predict(instanceHandler.GetState()));
 
+                //Spawn all enemies
                 game.gameHandler.arrObstacles.forEach(enemieGame => {
 
                     arrCurrentGameEnemieIDs.push(enemieGame.nObstacleUID);
 
                     if (!arrCurrentSceneEnemieIDs.includes(enemieGame.nObstacleUID)) {
 
-                        let newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / scale, enemieGame.dHeight / scale, 25 / scale);
-                        let newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                        let newEnemieGeometry;
+                        let newEnemie;
+                        switch (enemieGame.nObstacleID) {
+                            case 0:     //Cactus 1x1
+                                newEnemieGeometry = CACTUS_1x1_GEOMETRY;
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie.scale.set(1 / scale, 1 / scale, 1 / scale);
+                                break;
+                            case 1:     //Cactus 1x2
+                                break;
+                            case 2:     //Bird Low
+                                break;
+                            case 3:     //Bird High
+                                break;
+                            case 4:     //Cactus 2x1
+                                break;
+                            case 5:     //Cactus 2x2
+                                break;
+                            default:
+                                newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / scale, enemieGame.dHeight / scale, 25 / scale);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                break;
+                        }
 
                         let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2)) / scale, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2)) / scale, 0);
                         enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
