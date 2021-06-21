@@ -20,6 +20,7 @@
     <script>
 
         //Constants
+        const GRAY_MATERIAL = new THREE.MeshStandardMaterial( { color: 0x202020 } );
         const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
         const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
@@ -68,6 +69,15 @@
             //Axes Helper
             const axesHelper = new THREE.AxesHelper(20);
             scene.add(axesHelper);
+
+            //Adds a white directional light to the scene
+            function addLight(...pos) {
+                const color = 0xFFFFFF;
+                const intensity = 1;
+                const light = new THREE.DirectionalLight(color, intensity);
+                light.position.set(...pos);
+                scene.add(light);
+            }
 
             //Ambient Light
             const ambientLight = new THREE.AmbientLight();
@@ -150,6 +160,10 @@
                         reticle1.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
                         reticle1.name = "reticle1";
                         scene.add(reticle1);
+
+                        //Add Light sources
+                        addLight(reticle1.position.x - (1 / scale), reticle1.position.y + (3 / scale), reticle1.position.z - (0.5 / scale));
+                        addLight(reticle1.position.x + (1 / scale), reticle1.position.y + (2 / scale), reticle1.position.z - (2 / scale));
                     })
                     bReticle1Placed = true;
                 }
@@ -212,35 +226,35 @@
                         switch (enemieGame.nObstacleID) {
                             case 0:     //Cactus 1x1
                                 newEnemieGeometry = CACTUS_1x1_GEOMETRY;
-                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, GRAY_MATERIAL);
                                 newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                                 break;
                             case 1:     //Cactus 1x2
                                 newEnemieGeometry = CACTUS_1x2_GEOMETRY;
-                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, GRAY_MATERIAL);
                                 newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                                 break;
                             case 2:     //Bird Low
                             case 3:     //Bird High
                                 newEnemieGeometry = BIRD_GEOMETRY;
-                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, GRAY_MATERIAL);
                                 //newEnemie.scale.set(25 * 0.43 / scale, 25 * 0.43 / scale, 25 * 0.43 / scale);
                                 newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                                 offset.set(0.025, -0.3, -0.025);
                                 break;
                             case 4:     //Cactus 2x1
                                 newEnemieGeometry = CACTUS_2x1_GEOMETRY;
-                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, GRAY_MATERIAL);
                                 newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                                 break;
                             case 5:     //Cactus 2x2
                                 newEnemieGeometry = CACTUS_2x2_GEOMETRY;
-                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, GRAY_MATERIAL);
                                 newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                                 break;
                             default:
                                 newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / scale, enemieGame.dHeight / scale, 25 / scale);
-                                newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
+                                newEnemie = new THREE.Mesh(newEnemieGeometry, GRAY_MATERIAL);
                                 break;
                         }
 
@@ -285,7 +299,7 @@
                 //Create Player
                 if (playerScene === null) {
                     let playerGeometry = new THREE.BoxGeometry(25 / scale, 50 / scale, 25 / scale);
-                    playerScene = new THREE.Mesh(playerGeometry, PLAYER_MATERIAL);
+                    playerScene = new THREE.Mesh(playerGeometry, GRAY_MATERIAL);
                     playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
                     scene.add(playerScene);
 
