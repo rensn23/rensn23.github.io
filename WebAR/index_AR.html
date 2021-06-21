@@ -300,7 +300,7 @@
                 if (playerScene === null) {
                     //let playerGeometry = new THREE.BoxGeometry(25 / scale, 50 / scale, 25 / scale);
                     playerScene = new THREE.Mesh(DINO_GEOMETRY, GRAY_MATERIAL);
-                    playerScene.scale.set(25 * 0.65 / scale, 50 * 0.85 / scale, 25 * 0.7 / scale);
+                    playerScene.scale.set(25 * 0.65 / scale, 1, 25 * 0.7 / scale);
                     playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
                     scene.add(playerScene);
 
