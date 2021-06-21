@@ -298,8 +298,9 @@
 
                 //Create Player
                 if (playerScene === null) {
-                    let playerGeometry = new THREE.BoxGeometry(25 / scale, 50 / scale, 25 / scale);
-                    playerScene = new THREE.Mesh(playerGeometry, GRAY_MATERIAL);
+                    //let playerGeometry = new THREE.BoxGeometry(25 / scale, 50 / scale, 25 / scale);
+                    playerScene = new THREE.Mesh(DINO_GEOMETRY, GRAY_MATERIAL);
+                    playerScene.scale.set(25 * 0.65 / scale, 25 * 0.85 / scale, 25 * 0.7 / scale)
                     playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
                     scene.add(playerScene);
 
@@ -308,7 +309,7 @@
 
                 //Update Player
                 //Create Vector with current player position
-                let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2)) / scale, (playerGame.v2Pos.dY + (playerGame.dHeight / 2)) / scale, 0);
+                let playerGamePos = new THREE.Vector3((playerGame.v2Pos.dX + (playerGame.dWidth / 2) + 0.1) / scale, playerGame.v2Pos.dY / scale, 0);
                 //Turn player around the y-axis 
                 playerGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
                 //Apply the rotated positions
