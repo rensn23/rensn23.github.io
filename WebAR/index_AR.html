@@ -243,7 +243,7 @@
                                 break;
                         }
 
-                        let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2) + offset.x) / scale, (enemieGame.v2Pos.dY + (enemieGame.dHeight / 2) + offset.x) / scale, offset.z);
+                        let enemieGamePos = new THREE.Vector3((enemieGame.v2Pos.dX + (enemieGame.dWidth / 2) + offset.x) / scale, (enemieGame.v2Pos.dY + offset.x) / scale, offset.z);
                         enemieGamePos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
                         newEnemie.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
