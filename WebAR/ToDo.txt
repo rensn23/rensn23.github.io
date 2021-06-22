@@ -1,6 +1,6 @@
 ToDo:
 1)
-Scale all objects depending on the reticle distance
+Implement the AR-Game into the website
 
 2)
 Add (dashed) line between those 2 points
