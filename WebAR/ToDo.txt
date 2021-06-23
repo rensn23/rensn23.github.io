@@ -3,7 +3,10 @@ ToDo:
 Implement the AR-Game into the website
 
 2)
-Add (dashed) line between those 2 points
+Add Floor/Ground/Road
 
 3)
+Add (dashed) line between those 2 points
+
+4)
 Add preview while placing reticle2 to let the user see the size
