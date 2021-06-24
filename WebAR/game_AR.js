@@ -163,7 +163,7 @@ async function activateXR() {
             roadPiece.position.z = roadPos.z + reticle1.position.z;
 
             arrCurrentRoads.push(roadPiece);
-            scene.add(road);
+            scene.add(roadPiece);
         }
     }
 
