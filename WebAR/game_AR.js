@@ -4,6 +4,7 @@ let leftClippingPlane;
 let rightClippingVector;
 let rightClippingPlane;
 let arrClippingPlanes = [];
+let roadAmount = 7;
 let roadSpacing;
 
 //Constants
@@ -150,11 +151,11 @@ async function activateXR() {
 
     function spawnRoads() {
         roadSpacing = 250 / scale;
-        for (let i = -1; i < 6; i++) {
+        for (let i = 0; i < roadAmount; i++) {
             let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
             roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
 
-            let roadPos = new THREE.Vector3(i * roadSpacing, 0, 0);
+            let roadPos = new THREE.Vector3((i - 1) * roadSpacing, 0, 0);
             roadPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
             roadPiece.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
