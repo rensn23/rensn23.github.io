@@ -151,7 +151,7 @@ async function activateXR() {
         let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
         //roadPiece.position.set(25 * x / scale, 25 * (y - 0.05) / scale, 25 * z / scale);
         roadPiece.position.set(x, y, z);
-        //roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
+        roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
         arrCurrentRoads.push(roadPiece);
     }
 
@@ -192,9 +192,9 @@ async function activateXR() {
 
                 //Add Road Pieces
                 spawnRoad(1, -2, -3);
-                spawnRoad(5, -2, -3);
-                spawnRoad(9, -2, -3);
-                spawnRoad(13, -2, -3);
+                spawnRoad(4, -2, -3);
+                spawnRoad(7, -2, -3);
+                spawnRoad(11, -2, -3);
 
             })
             bReticle1Placed = true;
