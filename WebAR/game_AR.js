@@ -149,7 +149,7 @@ async function activateXR() {
 
     function spawnRoad(x, y, z) {
         let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
-        roadPiece.position.set(x / scale, (y - 0.05) / scale, z / scale);
+        roadPiece.position.set(25 * x / scale, 25 * (y - 0.05) / scale, 25 * z / scale);
         roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
         arrCurrentRoads.push(roadPiece);
     }
