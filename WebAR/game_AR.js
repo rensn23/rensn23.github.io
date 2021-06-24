@@ -150,9 +150,8 @@ async function activateXR() {
     function spawnRoad(x, y, z) {
         let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
         roadPiece.position.set(x, y - 0.05, z);
-        roadPiece.scale.set(200 / scale, 200 / scale, 200 / scale);
+        roadPiece.scale.set(12.5 / scale, 12.5 / scale, 12.5 / scale);
         arrCurrentRoads.push(roadPiece);
-        scene.add(roadPiece);
     }
 
     //Is called when user touches screen
@@ -222,6 +221,8 @@ async function activateXR() {
             road.position.x = roadPos.x + reticle1.position.x;
             road.position.y = roadPos.y + reticle1.position.y;
             road.position.z = roadPos.x + reticle1.position.z;
+
+            scene.add(road);
         });
     }
 
