@@ -169,6 +169,13 @@ async function activateXR() {
                 addLight(reticle1.position.x - (0 / scale), reticle1.position.y + (200 / scale), reticle1.position.z - (200 / scale));
                 addLight(reticle1.position.x + (200 / scale), reticle1.position.y + (300 / scale), reticle1.position.z + (0 / scale));
                 addLight(reticle1.position.x + (0 / scale), reticle1.position.y + (200 / scale), reticle1.position.z + (200 / scale));
+
+                //Add Road Pieces
+                spawnRoad(reticle1.position.x + 0, 0, 0);
+                spawnRoad(reticle1.position.x + 2, 0, 0);
+                spawnRoad(reticle1.position.x + 4, 0, 0);
+                spawnRoad(reticle1.position.x + 6, 0, 0);
+
             })
             bReticle1Placed = true;
         }
@@ -206,11 +213,6 @@ async function activateXR() {
 
         //Start Instance
         instanceHandler.Start();
-
-        spawnRoad(0, 0, 0);
-        spawnRoad(2, 0, 0);
-        spawnRoad(4, 0, 0);
-        spawnRoad(6, 0, 0);
     }
 
     function gameLoop() {
