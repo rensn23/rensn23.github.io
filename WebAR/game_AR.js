@@ -154,6 +154,30 @@ async function activateXR() {
         arrCurrentRoads.push(roadPiece);
     }
 
+    function setClippingPlanes() {
+        leftClippingVector = new THREE.Vector3(direction.x, direction.y, direction.z);
+        leftClippingVector.normalize();
+        rightClippingVector = new THREE.Vector3(-direction.x, -direction.y, -direction.z);
+        rightClippingVector.normalize();
+
+        leftClippingPlane = new THREE.Plane(leftClippingVector, 0);
+        rightClippingPlane = new THREE.Plane(rightClippingVector, 0);
+
+        let intersectionPoint = new THREE.Vector3();
+        let longDirection = direction.multiplyScalar(100);
+        let lineStart = new THREE.Vector3(reticle1.position.x + longDirection.x, reticle1.position.y + longDirection.y, reticle1.position.y + longDirection.y);
+        let lineEnd = new THREE.Vector3(reticle1.position.x - longDirection.x, reticle1.position.y - longDirection.y, reticle1.position.y - longDirection.y);
+        let directionLine = new THREE.Line3(lineStart, lineEnd);
+        leftClippingPlane.intersectsLine(directionLine, intersectionPoint);
+
+        let leftClippingPlaneOffset = leftClippingPlane.distanceToPoint(intersectionPoint);
+        leftClippingPlane.constant = leftClippingPlaneOffset;
+        rightClippingPlane.constant = -leftClippingPlaneOffset + (1000 / scale);
+
+        //arrClippingPlanes.push(leftClippingPlane);
+        //arrClippingPlanes.push(rightClippingPlane);
+    }
+
     //Is called when user touches screen
     session.addEventListener("select", (event) => {
         if (!bReticle1Placed) {
@@ -194,6 +218,8 @@ async function activateXR() {
                 }
 
                 arrow.visible = false;
+
+                setClippingPlanes();
             })
             bReticle2Placed = true;
             scene.remove(scene.getObjectByName("reticle1"));
