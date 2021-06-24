@@ -1,5 +1,13 @@
+//Planes
+let leftClippingVector;
+let leftClippingPlane;
+let rightClippingVector;
+let rightClippingPlane;
+let arrClippingPlanes = [];
+
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
+const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
 const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
@@ -20,6 +28,7 @@ let scale = 250;
 let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
 let arrCurrentSceneEnemieIDs = [];  //List of Enemies which currently exist in the scene
 let arrCurrentGameEnemieIDs = [];   //List of Enemies which currently exist in the game
+let arrCurrentRoads = [];           //List of all road segments
 
 let instanceHandler;
 let game;
@@ -71,6 +80,7 @@ async function activateXR() {
         context: gl
     });
     renderer.autoClear = false;
+    renderer.localClippingEnabled = true;
 
     //Disable matrix auto updates from three.js
     const camera = new THREE.PerspectiveCamera();
@@ -137,6 +147,14 @@ async function activateXR() {
 
     loadAllModels();
 
+    function spawnRoad(x, y, z) {
+        let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
+        roadPiece.position.set(x, y - 0.05, z);
+        roadPiece.scale.set(50 / scale, 50 / scale, 50 / scale);
+        arrCurrentRoads.push(roadPiece);
+        scene.add(roadPiece);
+    }
+
     //Is called when user touches screen
     session.addEventListener("select", (event) => {
         if (!bReticle1Placed) {
@@ -188,6 +206,11 @@ async function activateXR() {
 
         //Start Instance
         instanceHandler.Start();
+
+        spawnRoad(0, 0, 0);
+        spawnRoad(2, 0, 0);
+        spawnRoad(4, 0, 0);
+        spawnRoad(6, 0, 0);
     }
 
     function gameLoop() {
