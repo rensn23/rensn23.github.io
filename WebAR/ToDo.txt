@@ -1,9 +1,9 @@
 ToDo:
 1)
-Implement the AR-Game into the website
+Add Floor/Ground/Road
 
 2)
-Add Floor/Ground/Road
+Improve Lighting
 
 3)
 Add (dashed) line between those 2 points
