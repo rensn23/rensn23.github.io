@@ -152,9 +152,18 @@ async function activateXR() {
         roadSpacing = 250 / scale;
         for (let i = -1; i < 6; i++) {
             let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
-            roadPiece.position.set(i * roadSpacing, 0, 0);
             roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
+
+            let roadPos = new THREE.Vector3(i * roadSpacing, 0, 0);
+            roadPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
+            roadPiece.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
+
+            roadPiece.position.x = roadPos.x + reticle1.position.x;
+            roadPiece.position.y = roadPos.y + reticle1.position.y;
+            roadPiece.position.z = roadPos.z + reticle1.position.z;
+
             arrCurrentRoads.push(roadPiece);
+            scene.add(road);
         }
     }
 
@@ -234,18 +243,6 @@ async function activateXR() {
 
         //Add Road Pieces
         spawnRoads();
-
-        arrCurrentRoads.forEach(road => {
-            let roadPos = new THREE.Vector3(road.position.x, road.position.y, road.position.z);
-            roadPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-            road.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
-
-            road.position.x = roadPos.x + reticle1.position.x;
-            road.position.y = roadPos.y + reticle1.position.y;
-            road.position.z = roadPos.z + reticle1.position.z;
-
-            scene.add(road);
-        });
     }
 
     function gameLoop() {
