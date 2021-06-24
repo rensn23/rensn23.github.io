@@ -191,10 +191,10 @@ async function activateXR() {
                 addLight(reticle1.position.x + (0 / scale), reticle1.position.y + (200 / scale), reticle1.position.z + (200 / scale));
 
                 //Add Road Pieces
-                spawnRoad(0, -1, -1);
-                spawnRoad(1, -1, -1);
-                spawnRoad(2, -1, -1);
-                spawnRoad(3, -1, -1);
+                spawnRoad(0.5, 0, 0);
+                spawnRoad(1.5, 0, 0);
+                spawnRoad(2.5, 0, 0);
+                spawnRoad(3.5, 0, 0);
 
             })
             bReticle1Placed = true;
@@ -237,13 +237,13 @@ async function activateXR() {
         instanceHandler.Start();
 
         arrCurrentRoads.forEach(road => {
-            // let roadPos = new THREE.Vector3(road.position.x, road.position.y, road.position.z);
-            // roadPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
-            // road.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
+            let roadPos = new THREE.Vector3(road.position.x, road.position.y, road.position.z);
+            roadPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
+            road.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
-            // road.position.x = roadPos.x + reticle1.position.x;
-            // road.position.y = roadPos.y + reticle1.position.y;
-            // road.position.z = roadPos.x + reticle1.position.z;
+            road.position.x = roadPos.x + reticle1.position.x;
+            road.position.y = roadPos.y + reticle1.position.y;
+            road.position.z = roadPos.z + reticle1.position.z;
 
             scene.add(road);
         });
