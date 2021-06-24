@@ -171,8 +171,8 @@ async function activateXR() {
         leftClippingPlane.constant = -leftClippingPlaneOffset;
         rightClippingPlane.constant = leftClippingPlaneOffset + (1000 / scale);
 
-        //arrClippingPlanes.push(leftClippingPlane);
-        //arrClippingPlanes.push(rightClippingPlane);
+        arrClippingPlanes.push(leftClippingPlane);
+        arrClippingPlanes.push(rightClippingPlane);
     }
 
     //Is called when user touches screen
@@ -199,7 +199,7 @@ async function activateXR() {
             })
             bReticle1Placed = true;
         }
-        else {
+        else if (!bReticle2Placed) {
             gltfLoader.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
                 reticle2 = gltf.scene;
                 reticle2.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
