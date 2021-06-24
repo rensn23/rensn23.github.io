@@ -7,7 +7,7 @@ let arrClippingPlanes = [];
 
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
-const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020, clippingPlanes: arrClippingPlanes });
+const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0xb0b0b0, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
 const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
@@ -150,7 +150,7 @@ async function activateXR() {
     function spawnRoad(x, y, z) {
         let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
         roadPiece.position.set(x, y - 0.05, z);
-        roadPiece.scale.set(50 / scale, 50 / scale, 50 / scale);
+        roadPiece.scale.set(200 / scale, 200 / scale, 200 / scale);
         arrCurrentRoads.push(roadPiece);
         scene.add(roadPiece);
     }
