@@ -170,7 +170,7 @@ async function activateXR() {
         leftClippingPlane.constant = -leftClippingPlaneOffset;
         rightClippingPlane.constant = leftClippingPlaneOffset + (1000 / scale);
 
-        //arrClippingPlanes.push(leftClippingPlane);
+        arrClippingPlanes.push(leftClippingPlane);
         //arrClippingPlanes.push(rightClippingPlane);
     }
 
