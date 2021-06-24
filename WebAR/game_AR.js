@@ -1,5 +1,5 @@
 //Constants
-const GRAY_MATERIAL = new THREE.MeshStandardMaterial( { color: 0x202020 } );
+const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
 const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
 const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
@@ -7,6 +7,7 @@ const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
 //Models
 const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
+let ROAD_GEOMETRY;
 let DINO_GEOMETRY;
 let BIRD_GEOMETRY;
 let CACTUS_1x1_GEOMETRY;
@@ -126,6 +127,11 @@ async function activateXR() {
         //Cactus 2x2        22x8x21 Voxel
         gltfLoader.load("./src/models/Cactus_2x2.gltf", function (gltf) {
             CACTUS_2x2_GEOMETRY = gltf.scene.children[0].geometry;
+        })
+
+        //Road              100x20x1 Voxel
+        gltfLoader.load("./src/models/Road.gltf", function (gltf) {
+            ROAD_GEOMETRY = gltf.scene.children[0].geometry;
         })
     }
 
