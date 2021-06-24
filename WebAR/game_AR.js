@@ -171,10 +171,10 @@ async function activateXR() {
                 addLight(reticle1.position.x + (0 / scale), reticle1.position.y + (200 / scale), reticle1.position.z + (200 / scale));
 
                 //Add Road Pieces
-                spawnRoad(reticle1.position.x + 0, 0, 0);
-                spawnRoad(reticle1.position.x + 2, 0, 0);
-                spawnRoad(reticle1.position.x + 4, 0, 0);
-                spawnRoad(reticle1.position.x + 6, 0, 0);
+                spawnRoad(reticle1.position.x + 0, reticle1.position.y, reticle1.position.z);
+                spawnRoad(reticle1.position.x + 2, reticle1.position.y, reticle1.position.z);
+                spawnRoad(reticle1.position.x + 4, reticle1.position.y, reticle1.position.z);
+                spawnRoad(reticle1.position.x + 6, reticle1.position.y, reticle1.position.z);
 
             })
             bReticle1Placed = true;
