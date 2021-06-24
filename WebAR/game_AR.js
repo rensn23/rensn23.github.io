@@ -4,6 +4,7 @@ let leftClippingPlane;
 let rightClippingVector;
 let rightClippingPlane;
 let arrClippingPlanes = [];
+let roadSpacing;
 
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
@@ -147,11 +148,14 @@ async function activateXR() {
 
     loadAllModels();
 
-    function spawnRoad(x, y, z) {
-        let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
-        roadPiece.position.set(x, y, z);
-        roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
-        arrCurrentRoads.push(roadPiece);
+    function spawnRoads() {
+        roadSpacing = 250 / scale;
+        for (let i = -1; i < 6; i++) {
+            let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
+            roadPiece.position.set(i * roadSpacing, 0, 0);
+            roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
+            arrCurrentRoads.push(roadPiece);
+        }
     }
 
     function setClippingPlanes() {
@@ -229,13 +233,7 @@ async function activateXR() {
         instanceHandler.Start();
 
         //Add Road Pieces
-        spawnRoad(-1, 0, 0);
-        spawnRoad(0, 0, 0);
-        spawnRoad(1, 0, 0);
-        spawnRoad(2, 0, 0);
-        spawnRoad(3, 0, 0);
-        spawnRoad(4, 0, 0);
-        spawnRoad(5, 0, 0);
+        spawnRoads();
 
         arrCurrentRoads.forEach(road => {
             let roadPos = new THREE.Vector3(road.position.x, road.position.y, road.position.z);
