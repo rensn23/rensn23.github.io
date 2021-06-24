@@ -7,7 +7,7 @@ let arrClippingPlanes = [];
 
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
-const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0xb0b0b0, clippingPlanes: arrClippingPlanes });
+const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
 const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
@@ -149,7 +149,6 @@ async function activateXR() {
 
     function spawnRoad(x, y, z) {
         let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
-        //roadPiece.position.set(25 * x / scale, 25 * (y - 0.05) / scale, 25 * z / scale);
         roadPiece.position.set(x, y, z);
         roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
         arrCurrentRoads.push(roadPiece);
@@ -168,8 +167,8 @@ async function activateXR() {
 
         //Calculate signed distance between the plane and the reticle
         let leftClippingPlaneOffset = leftClippingPlane.distanceToPoint(reticle1.position);
-        leftClippingPlane.constant = -leftClippingPlaneOffset;
-        rightClippingPlane.constant = leftClippingPlaneOffset + (1000 / scale);
+        leftClippingPlane.constant = -leftClippingPlaneOffset + (50 / scale);
+        rightClippingPlane.constant = leftClippingPlaneOffset + (1050 / scale);
 
         arrClippingPlanes.push(leftClippingPlane);
         arrClippingPlanes.push(rightClippingPlane);
