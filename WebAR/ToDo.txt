@@ -1,12 +1,15 @@
 ToDo:
 1)
-Add Floor/Ground/Road
+Add Road
 
 2)
 Improve Lighting
 
 3)
-Add (dashed) line between those 2 points
+Add dashed line between the 2 reticles
 
 4)
-Add preview while placing reticle2 to let the user see the size
+Dino-Preview while placing the reticles
+
+5)
+Input System
