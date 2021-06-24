@@ -167,8 +167,8 @@ async function activateXR() {
 
         //Calculate signed distance between the plane and the reticle
         let leftClippingPlaneOffset = leftClippingPlane.distanceToPoint(reticle1.position);
-        leftClippingPlane.constant = -leftClippingPlaneOffset + (0 / scale);
-        rightClippingPlane.constant = leftClippingPlaneOffset + (1000 / scale);
+        leftClippingPlane.constant = -leftClippingPlaneOffset + (50 / scale);
+        rightClippingPlane.constant = leftClippingPlaneOffset + (1050 / scale);
 
         arrClippingPlanes.push(leftClippingPlane);
         arrClippingPlanes.push(rightClippingPlane);
