@@ -43,7 +43,7 @@ let arrow;                  //The "preview" reticle that moves with the camera
 let reticle1;
 let reticle2;
 let direction;              //direction from reticle1 to reticle2
-let directionNegated;       //the opposite direction
+let directionNegated = new THREE.Vector3();       //the opposite direction
 let reticleAngle = 0;       //the angle between the direction and the x-axis
 let bReticle1Placed = false;
 let bReticle2Placed = false;
@@ -214,7 +214,7 @@ async function activateXR() {
 
                 direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
                 scale = scale / Math.max(1, direction.length() / 1.5);
-                directionNegated.copy(direction);//.negate().normalize();
+                directionNegated.copy(direction).negate().normalize();
 
                 if (reticle2.position.z < reticle1.position.z) {
                     reticleAngle = UNIT_VECTOR_X.angleTo(direction);
