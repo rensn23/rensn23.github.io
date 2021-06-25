@@ -263,6 +263,9 @@ async function activateXR() {
         timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
         arrCurrentRoads.forEach(road => {
             road.position.add(directionNegated * timeBetweenFrames * game.dSpeed);
+            // if (road) {
+                
+            // }
         });
         timeBetweenFrames = Date.now();
 
