@@ -274,7 +274,6 @@ async function activateXR() {
                     let scaledDirection = new THREE.Vector3();
                     scaledDirection.copy(direction);
                     scaledDirection.multiplyScalar(roadAmount * roadSpacing);
-                    console.log(scaledDirection);
                     road.position.add(scaledDirection);
                 }
             }
