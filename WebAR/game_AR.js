@@ -219,6 +219,7 @@ async function activateXR() {
 
                 direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
                 scale = scale / Math.max(1, direction.length() / 1.5);
+                direction.normalize();
                 directionNegated.copy(direction).negate().normalize().multiplyScalar(1 / scale);
 
                 if (reticle2.position.z < reticle1.position.z) {
@@ -270,8 +271,9 @@ async function activateXR() {
             if ((playerToRoadVector.x < 0 && directionNegated.x < 0) || (playerToRoadVector.x >= 0 && directionNegated.x >= 0)) {
                 let playerToRoadDistance = playerToRoadVector.length();
                 if (playerToRoadDistance >= 2) {
-                    console.log("Test");
-                    arrCurrentRoads.shift();
+                    let scaledDirection = direction
+                    scaledDirection.multiplyScalar(roadAmount * roadSpacing);
+                    road.position.add(scaledDirection);
                 }
             }
         });
