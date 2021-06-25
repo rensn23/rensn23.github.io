@@ -273,6 +273,7 @@ async function activateXR() {
                 if (playerToRoadDistance >= 2) {
                     let scaledDirection = direction
                     scaledDirection.multiplyScalar(roadAmount * roadSpacing);
+                    console.log(scaledDirection);
                     road.position.add(scaledDirection);
                 }
             }
