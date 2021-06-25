@@ -271,6 +271,7 @@ async function activateXR() {
                 let playerToRoadDistance = playerToRoadVector.length();
                 if (playerToRoadDistance >= 2) {
                     console.log("Test");
+                    arrCurrentRoads.shift();
                 }
             }
         });
