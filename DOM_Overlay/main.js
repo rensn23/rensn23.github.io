@@ -28,7 +28,7 @@ async function activateXR() {
     camera.matrixAutoUpdate = false;
 
     //Initialize WebXR session using "immersive-ar"
-    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.body } });
+    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('ar-button') } });
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
     });
