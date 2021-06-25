@@ -40,21 +40,21 @@ async function activateXR() {
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
-    btnDuck.onclick = function() {
-        Duck();
-    }
+    // btnDuck.onclick = function() {
+    //     Duck();
+    // }
 
-    btnJump.onclick = function() {
-        Jump();
-    }
+    // btnJump.onclick = function() {
+    //     Jump();
+    // }
 
-    function Duck() {
-        console.log("Duck");
-    }
+    // function Duck() {
+    //     console.log("Duck");
+    // }
 
-    function Jump() {
-        console.log("Jump");
-    }
+    // function Jump() {
+    //     console.log("Jump");
+    // }
 
     //Create a position reference near the user
     const referenceSpace = await session.requestReferenceSpace('local');
