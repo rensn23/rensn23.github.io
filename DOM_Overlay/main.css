@@ -1,18 +1,15 @@
 .wrapper {
     height: 100vh;
     display: none;
-    background-color: transparent;
     opacity: 0;
 }
 
 #btnDuck {
     height: 50%;
     width: 100%;
-    background-color: transparent;
 }
 
 #btnJump {
     height: 50%;
     width: 100%;
-    background-color: transparent;
 }
