@@ -7,6 +7,9 @@ let arrClippingPlanes = [];
 let roadAmount = 7;
 let roadSpacing;
 
+//Time
+let timeBetweenFrames;
+
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
@@ -246,6 +249,8 @@ async function activateXR() {
 
         //Add Road Pieces
         spawnRoads();
+
+        timeBetweenFrames = Date.now();
     }
 
     function gameLoop() {
@@ -253,6 +258,13 @@ async function activateXR() {
         //Reset arrays
         arrCurrentGameEnemieIDs = [];
         arrObjectsToRemove = [];
+
+        //Update Roads
+        timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
+        arrCurrentRoads.forEach(road => {
+            road.position.add(directionNegated * timeBetweenFrames);
+        });
+        timeBetweenFrames = Date.now();
 
         //Game plays automatically
         instanceHandler.Act(Predict(instanceHandler.GetState()));
@@ -364,12 +376,6 @@ async function activateXR() {
         playerScene.position.z = playerGamePos.z + reticle1.position.z;
         //Update Scale for Ducking/Unducking
         playerScene.scale.y = playerGame.dHeight * 0.60 / scale;
-
-
-        //Update Roads
-        arrCurrentRoads.forEach(road => {
-            road.position.add(directionNegated);
-        });
 
         //Remove all objects
         arrObjectsToRemove.forEach(objectID => {
