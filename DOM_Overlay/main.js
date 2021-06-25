@@ -34,7 +34,7 @@ async function activateXR() {
     });
 
     if (session) {
-        btnJump.innerHTML = "This is a test of a DOM overlay";
+        btnJump.innerHTML = "Jump";
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
