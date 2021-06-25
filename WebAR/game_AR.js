@@ -214,7 +214,7 @@ async function activateXR() {
 
                 direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
                 scale = scale / Math.max(1, direction.length() / 1.5);
-                directionNegated.copy(direction).negate().normalize();
+                directionNegated.copy(direction).negate().normalize().multiplyScalar(0.05);
 
                 if (reticle2.position.z < reticle1.position.z) {
                     reticleAngle = UNIT_VECTOR_X.angleTo(direction);
@@ -368,8 +368,7 @@ async function activateXR() {
 
         //Update Roads
         arrCurrentRoads.forEach(road => {
-            console.log("Test");
-            road.position.add(directionNegated.multiplyScalar(0.5));
+            road.position.add(directionNegated);
         });
 
         //Remove all objects
