@@ -10,6 +10,7 @@ let roadSpacing;
 //Time
 let timeBetweenFrames;
 
+
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
@@ -46,7 +47,8 @@ let arrow;                  //The "preview" reticle that moves with the camera
 let reticle1;
 let reticle2;
 let direction;              //direction from reticle1 to reticle2
-let directionNegated = new THREE.Vector3();       //the opposite direction
+let directionNegated = new THREE.Vector3();         //the opposite direction
+let directionScaled = new THREE.Vector3();          //scaled direction for updating road position
 let reticleAngle = 0;       //the angle between the direction and the x-axis
 let bReticle1Placed = false;
 let bReticle2Placed = false;
@@ -261,8 +263,9 @@ async function activateXR() {
 
         //Update Roads
         timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
+        directionScaled.copy(directionNegated).multiplyScalar(timeBetweenFrames * game.gameHandler.dSpeed);
         arrCurrentRoads.forEach(road => {
-            road.position.add(directionNegated * timeBetweenFrames * game.gameHandler.dSpeed);
+            road.position.add(directionScaled);
             // if (road) {
                 
             // }
