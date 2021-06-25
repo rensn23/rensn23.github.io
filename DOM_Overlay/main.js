@@ -5,6 +5,7 @@ async function activateXR() {
     const gl = canvas.getContext("webgl", { xrCompatible: true });
 
     let btnJump = document.getElementById('btnJump');
+    let btnDuck = document.getElementById('btnDuck');
 
     //Three.js initialization
     const scene = new THREE.Scene();
@@ -34,9 +35,9 @@ async function activateXR() {
     });
 
     if (session) {
-        btnJump.style.display = 'block';
-        btnJump.innerHTML = "Jump";
-        btnJump.disabled = false;
+        btnDuck.style.display = 'block';
+        btnDuck.innerHTML = "Duck";
+        btnDuck.disabled = false;
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
