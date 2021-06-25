@@ -36,7 +36,7 @@ async function activateXR() {
     });
 
     if (session) {
-        divButtons.style.display = 'hidden';
+        divButtons.style.display = 'block';
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
