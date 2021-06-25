@@ -1,7 +1,13 @@
 async function activateXR() {
+    //Add a canvas
     const canvas = document.createElement("canvas");
     document.body.appendChild(canvas);
     const gl = canvas.getContext("webgl", { xrCompatible: true });
+
+    document.body.appendChild( ARButton.createButton( renderer, {
+        optionalFeatures: [ 'dom-overlay', 'dom-overlay-for-handheld-ar' ],
+        domOverlay: { root: document.body } } )
+    );
 
     //Three.js initialization
     const scene = new THREE.Scene();
