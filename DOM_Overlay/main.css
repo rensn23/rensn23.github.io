@@ -1,15 +1,15 @@
 .wrapper {
-    height: 100vh;
+    height: 60vh;
     display: none;
     visibility: hidden;
 }
 
 #btnDuck {
-    height: 30%;
+    height: 50%;
     width: 100%;
 }
 
 #btnJump {
-    height: 30%;
+    height: 50%;
     width: 100%;
 }
