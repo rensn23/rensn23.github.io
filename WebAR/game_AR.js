@@ -266,9 +266,13 @@ async function activateXR() {
         directionScaled.copy(directionNegated).multiplyScalar(timeBetweenFrames * game.gameHandler.dSpeed);
         arrCurrentRoads.forEach(road => {
             road.position.add(directionScaled);
-            // if (road) {
-                
-            // }
+            let playerToRoadVector = new THREE.Vector3(road.position.x - playerScene.position.x, road.position.y - playerScene.position.y, road.position.z - playerScene.position.z);
+            if ((playerToRoadVector.x < 0 && directionNegated.x < 0) || (playerToRoadVector.x >= 0 && directionNegated.x >= 0)) {
+                let playerToRoadDistance = playerToRoadVector.length();
+                if (playerToRoadDistance >= 2) {
+                    console.log("Test");
+                }
+            }
         });
         timeBetweenFrames = Date.now();
 
