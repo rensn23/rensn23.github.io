@@ -262,7 +262,7 @@ async function activateXR() {
         //Update Roads
         timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
         arrCurrentRoads.forEach(road => {
-            road.position.add(directionNegated * timeBetweenFrames);
+            road.position.add(directionNegated * timeBetweenFrames * game.dSpeed);
         });
         timeBetweenFrames = Date.now();
 
