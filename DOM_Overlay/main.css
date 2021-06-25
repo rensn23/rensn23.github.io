@@ -7,9 +7,11 @@
 #btnDuck {
     height: 50%;
     width: 100%;
+    background-color: transparent;
 }
 
 #btnJump {
     height: 50%;
     width: 100%;
+    background-color: transparent;
 }
