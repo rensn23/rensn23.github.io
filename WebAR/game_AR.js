@@ -271,7 +271,8 @@ async function activateXR() {
             if ((playerToRoadVector.x < 0 && directionNegated.x < 0) || (playerToRoadVector.x >= 0 && directionNegated.x >= 0)) {
                 let playerToRoadDistance = playerToRoadVector.length();
                 if (playerToRoadDistance >= 2) {
-                    let scaledDirection = direction
+                    let scaledDirection = new THREE.Vector3();
+                    scaledDirection.copy(direction);
                     scaledDirection.multiplyScalar(roadAmount * roadSpacing);
                     console.log(scaledDirection);
                     road.position.add(scaledDirection);
