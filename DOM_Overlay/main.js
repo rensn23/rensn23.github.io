@@ -4,7 +4,7 @@ async function activateXR() {
     document.body.appendChild(canvas);
     const gl = canvas.getContext("webgl", { xrCompatible: true });
 
-    let xrButton = document.getElementById('xr-button');
+    let btnJump = document.getElementById('btnJump');
 
     //Three.js initialization
     const scene = new THREE.Scene();
@@ -28,13 +28,13 @@ async function activateXR() {
     camera.matrixAutoUpdate = false;
 
     //Initialize WebXR session using "immersive-ar"
-    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('ar-button') } });
+    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('ar-buttons') } });
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
     });
 
     if (session) {
-        xrButton.innerHTML = "This is a test of a DOM overlay";
+        btnJump.innerHTML = "This is a test of a DOM overlay";
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 

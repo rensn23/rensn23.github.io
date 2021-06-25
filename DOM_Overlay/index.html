@@ -15,9 +15,12 @@
 
     <style>
         .wrapper {
-            text-align: center;
-            position: absolute;
-            top: 50%;
+            height: 100vh;
+        }
+
+        #btnJump {
+            width: 50%;
+            height: 50%;
         }
     </style>
 
@@ -27,8 +30,8 @@
 
     <button onclick="activateXR()">Start WebXR</button>
 
-    <div id="ar-button" class="wrapper">
-        <button id="xr-button" disabled></button>
+    <div id="ar-buttons" class="wrapper">
+        <button id="btnJump" disabled></button>
     </div>
 
     <div id="session-info"></div>
