@@ -2,6 +2,7 @@
     height: 100vh;
     display: none;
     background-color: transparent;
+    opacity: 0;
 }
 
 #btnDuck {
