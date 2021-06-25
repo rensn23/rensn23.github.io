@@ -34,7 +34,7 @@ async function activateXR() {
     });
 
     if (session) {
-        btnJump.style.display = visible;
+        btnJump.style.display = 'visible';
         btnJump.innerHTML = "Jump";
         btnJump.disabled = false;
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
