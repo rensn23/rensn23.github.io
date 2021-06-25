@@ -37,7 +37,6 @@ async function activateXR() {
 
     if (session) {
         divButtons.style.display = 'block';
-        divButtons.style.visibility = 'hidden';
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 

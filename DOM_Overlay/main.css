@@ -1,6 +1,7 @@
 .wrapper {
     height: 100vh;
     display: none;
+    visibility: hidden;
 }
 
 #btnDuck {
