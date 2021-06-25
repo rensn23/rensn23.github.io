@@ -35,24 +35,24 @@ async function activateXR() {
     camera.matrixAutoUpdate = false;
 
     //Initialize WebXR session using "immersive-ar"
-    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] }, { optionalFeatures: ['dom-overlay'], domOverlay: { root: document.body } }).then(onSessionStarted, onRequestSessionError);
-    // session.updateRenderState({
-    //     baseLayer: new XRWebGLLayer(session, gl)
-    // });
+    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] }, { optionalFeatures: ['dom-overlay'], domOverlay: { root: document.body } });
+    session.updateRenderState({
+        baseLayer: new XRWebGLLayer(session, gl)
+    });
 
-    function onSessionStarted(session) {
-        xrSession = session;
-        xrButton.innerHTML = "This is a Test of a DOM Overlay";
-
-        session.updateRenderState({
-            baseLayer: new XRWebGLLayer(session, gl)
-        });
+    if (session) {
+        xrButton.innerHTML = "This is a test of a DOM overlay";
     }
 
-    function onRequestSessionError(ex) {
-        alert("Failed to start immersive AR session");
-        console.error(ex.message);
-    }
+    // function onSessionStarted(session) {
+    //     xrSession = session;
+    //     xrButton.innerHTML = "This is a Test of a DOM Overlay";
+    // }
+
+    // function onRequestSessionError (ex) {
+    //     alert("Failed to start immersive AR session");
+    //     console.error(ex.message);
+    // }
 
     //Create a position reference near the user
     const referenceSpace = await session.requestReferenceSpace('local');
