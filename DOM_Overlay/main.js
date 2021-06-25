@@ -42,6 +42,7 @@ async function activateXR() {
 
     if (session) {
         xrButton.innerHTML = "This is a test of a DOM overlay";
+        document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
     // function onSessionStarted(session) {
