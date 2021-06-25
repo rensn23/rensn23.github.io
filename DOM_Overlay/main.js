@@ -36,14 +36,24 @@ async function activateXR() {
     });
 
     if (session) {
-        divButtons.style.display = 'block';
-        btnDuck.innerHTML = "Duck";
-        // btnDuck.disabled = false;
-
-        btnJump.innerHTML = "Jump";
-        // btnJump.disanled = false;
-        
+        divButtons.style.display = 'hidden';
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
+    }
+
+    btnDuck.onclick = function() {
+        Duck();
+    }
+
+    btnJump.onclick = function() {
+        Jump();
+    }
+
+    function Duck() {
+        console.log("Duck");
+    }
+
+    function Jump() {
+        console.log("Jump");
     }
 
     //Create a position reference near the user
