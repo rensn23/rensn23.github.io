@@ -190,8 +190,8 @@ async function activateXR() {
         leftClippingPlane.constant = -leftClippingPlaneOffset + (50 / scale);
         rightClippingPlane.constant = leftClippingPlaneOffset + (1050 / scale);
 
-        arrClippingPlanes.push(leftClippingPlane);
-        arrClippingPlanes.push(rightClippingPlane);
+        //arrClippingPlanes.push(leftClippingPlane);
+        //arrClippingPlanes.push(rightClippingPlane);
     }
 
     //Is called when user touches screen
