@@ -1,5 +1,11 @@
 .wrapper {
     height: 100vh;
+    display: hidden;
+}
+
+#btnDuck {
+    height: 50%;
+    width: 100%;
 }
 
 #btnJump {

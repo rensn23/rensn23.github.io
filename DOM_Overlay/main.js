@@ -4,6 +4,7 @@ async function activateXR() {
     document.body.appendChild(canvas);
     const gl = canvas.getContext("webgl", { xrCompatible: true });
 
+    let divButtons = document.getElementById('ar-buttons');
     let btnJump = document.getElementById('btnJump');
     let btnDuck = document.getElementById('btnDuck');
 
@@ -35,9 +36,13 @@ async function activateXR() {
     });
 
     if (session) {
-        btnDuck.style.display = 'block';
+        divButtons.style.display = 'block';
         btnDuck.innerHTML = "Duck";
-        btnDuck.disabled = false;
+        // btnDuck.disabled = false;
+
+        btnJump.innerHTML = "Jump";
+        // btnJump.disanled = false;
+        
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
