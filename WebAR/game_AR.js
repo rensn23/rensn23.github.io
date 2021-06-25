@@ -19,6 +19,10 @@ const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
+//UI-Elements
+const btn_duck = document.getElementById("btn_game_duck");
+const btn_jump = document.getElementById("btn_game_jump");
+
 //Models
 const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
 let ROAD_GEOMETRY;
@@ -95,7 +99,7 @@ async function activateXR() {
     camera.matrixAutoUpdate = false;
 
     //Initialize WebXR session using "immersive-ar"
-    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] });
+    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('ar-buttons') } });
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
     });

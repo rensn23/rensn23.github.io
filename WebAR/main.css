@@ -1,0 +1,15 @@
+#div_game_controls.wrapper {
+    height: 100vh;
+    display: none;
+    opacity: 0;
+}
+
+#btn_game_duck {
+    height: 50%;
+    width: 100%;
+}
+
+#btn_game_jump {
+    height: 50%;
+    width: 100%;
+}
