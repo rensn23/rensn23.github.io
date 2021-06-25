@@ -368,7 +368,8 @@ async function activateXR() {
 
         //Update Roads
         arrCurrentRoads.forEach(road => {
-            road.position.add(directionNegated.multiplyScalar(0.05));
+            console.log("Test");
+            road.position.add(directionNegated.multiplyScalar(0.5));
         });
 
         //Remove all objects
