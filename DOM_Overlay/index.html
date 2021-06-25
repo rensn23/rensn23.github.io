@@ -13,13 +13,23 @@
     <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="./main.js"></script>
 
+    <style>
+        .wrapper {
+            text-align: center;
+            position: absolute;
+            top: 50%;
+        }
+    </style>
+
 </head>
 
 <body>
 
     <button onclick="activateXR()">Start WebXR</button>
 
-    <button id="xr-button" class="barebones-button" disabled></button>
+    <div class="wrapper">
+        <button id="xr-button" disabled></button>
+    </div>
 
     <div id="session-info"></div>
 
