@@ -40,12 +40,20 @@ async function activateXR() {
         document.getElementById('session-info').innerHTML = "DOM Overlay type: " + session.domOverlayState.type;
     }
 
-    btnDuck.onclick = function() {
+    btnDuck.ontouchstart = function() {
         Duck();
     }
 
-    btnJump.onclick = function() {
+    btnDuck.ontouchend = function() {
+        console.log("Stop Ducking");
+    }
+
+    btnJump.ontouchstart = function() {
         Jump();
+    }
+
+    btnJump.ontouchend = function() {
+        console.log("Stop Jumping");
     }
 
     function Duck() {
