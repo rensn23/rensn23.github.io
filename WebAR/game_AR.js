@@ -20,6 +20,7 @@ const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
 //UI-Elements
+let div_game_controls;
 let btn_duck;
 let btn_jump;
 let bJumping = false;
@@ -63,6 +64,7 @@ async function activateXR() {
 
     btn_duck = document.getElementById("btn_game_duck");
     btn_jump = document.getElementById("btn_game_jump");
+    div_game_controls = document.getElementById("div_game_controls");
 
     //Add a canvas
     const canvas = document.createElement("canvas");
@@ -108,6 +110,10 @@ async function activateXR() {
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
     });
+
+    if (session) {
+        div_game_controls.style.display = 'block';
+    }
 
     //Create a position reference near the user
     const referenceSpace = await session.requestReferenceSpace('local');
