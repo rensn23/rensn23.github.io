@@ -294,23 +294,24 @@ async function activateXR() {
         arrObjectsToRemove = [];
 
         //Update Roads
-        timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
-        directionScaled.copy(directionNegated).multiplyScalar(timeBetweenFrames * game.gameHandler.dSpeed);
-        arrCurrentRoads.forEach(road => {
-            road.position.add(directionScaled);
-            let playerToRoadVector = new THREE.Vector3(road.position.x - playerScene.position.x, road.position.y - playerScene.position.y, road.position.z - playerScene.position.z);
-            if ((playerToRoadVector.x < 0 && directionNegated.x < 0) || (playerToRoadVector.x >= 0 && directionNegated.x >= 0)) {
-                let playerToRoadDistance = playerToRoadVector.length();
-                if (playerToRoadDistance >= 2) {
-                    let scaledDirection = new THREE.Vector3();
-                    scaledDirection.copy(direction);
-                    scaledDirection.multiplyScalar(roadAmount * roadSpacing);
-                    road.position.add(scaledDirection);
+        if (game.gameHandler.bPlay) {
+            timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
+            directionScaled.copy(directionNegated).multiplyScalar(timeBetweenFrames * game.gameHandler.dSpeed);
+            arrCurrentRoads.forEach(road => {
+                road.position.add(directionScaled);
+                let playerToRoadVector = new THREE.Vector3(road.position.x - playerScene.position.x, road.position.y - playerScene.position.y, road.position.z - playerScene.position.z);
+                if ((playerToRoadVector.x < 0 && directionNegated.x < 0) || (playerToRoadVector.x >= 0 && directionNegated.x >= 0)) {
+                    let playerToRoadDistance = playerToRoadVector.length();
+                    if (playerToRoadDistance >= 2) {
+                        let scaledDirection = new THREE.Vector3();
+                        scaledDirection.copy(direction);
+                        scaledDirection.multiplyScalar(roadAmount * roadSpacing);
+                        road.position.add(scaledDirection);
+                    }
                 }
-            }
-        });
-        timeBetweenFrames = Date.now();
-
+            });
+            timeBetweenFrames = Date.now();
+        }
         //Game plays automatically
         //instanceHandler.Act(Predict(instanceHandler.GetState()));
 
