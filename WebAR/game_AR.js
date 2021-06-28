@@ -212,21 +212,17 @@ async function activateXR() {
     btn_jump.ontouchstart = function() {
         bJumping = true;
         bDucking = false;
-        console.log("Jump");
     }
     btn_jump.ontouchend = function() {
         bJumping = false;
-        console.log("Stop Jumping");
     }
 
     btn_duck.ontouchstart = function() {
         bDucking = true;
         bJumping = false;
-        console.log("Duck");
     }
     btn_duck.ontouchend = function() {
         bDucking = false;
-        console.log("Stop Ducking");
     }
 
     //Is called when user touches screen
