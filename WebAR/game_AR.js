@@ -20,8 +20,8 @@ const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
 //UI-Elements
-const btn_duck;
-const btn_jump;
+let btn_duck;
+let btn_jump;
 let bJumping = false;
 let bDucking = false;
 
