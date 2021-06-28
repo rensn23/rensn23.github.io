@@ -293,7 +293,7 @@ async function activateXR() {
         arrCurrentGameEnemieIDs = [];
         arrObjectsToRemove = [];
 
-        //Update Roads
+        //Update Roads if game is still running
         if (game.gameHandler.bPlay) {
             timeBetweenFrames = (Date.now() - timeBetweenFrames) / 1000;
             directionScaled.copy(directionNegated).multiplyScalar(timeBetweenFrames * game.gameHandler.dSpeed);
