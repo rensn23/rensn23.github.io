@@ -22,6 +22,8 @@ const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 //UI-Elements
 const btn_duck = document.getElementById("btn_game_duck");
 const btn_jump = document.getElementById("btn_game_jump");
+let bJumping = false;
+let bDucking = false;
 
 //Models
 const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
@@ -198,6 +200,26 @@ async function activateXR() {
         arrClippingPlanes.push(rightClippingPlane);
     }
 
+    btn_jump.ontouchstart = function() {
+        bJumping = true;
+        bDucking = false;
+        console.log("Jump");
+    }
+    btn_jump.ontouchend = function() {
+        bJumping = false;
+        console.log("Stop Jumping");
+    }
+
+    btn_duck.ontouchstart = function() {
+        bDucking = true;
+        bJumping = false;
+        console.log("Duck");
+    }
+    btn_duck.ontouchend = function() {
+        bDucking = false;
+        console.log("Stop Ducking");
+    }
+
     //Is called when user touches screen
     session.addEventListener("select", (event) => {
         if (!bReticle1Placed) {
@@ -285,7 +307,19 @@ async function activateXR() {
         timeBetweenFrames = Date.now();
 
         //Game plays automatically
-        instanceHandler.Act(Predict(instanceHandler.GetState()));
+        //instanceHandler.Act(Predict(instanceHandler.GetState()));
+
+        //Check Inputs
+        if (bJumping) {
+            instanceHandler.Act(enumAction.jump);
+            instanceHandler.Act(enumAction.unduck);
+        }
+        else if (bDucking) {
+            instanceHandler.Act(enumAction.duck);
+        }
+        else {
+            instanceHandler.Act(enumAction.unduck);
+        }
 
         //Spawn all enemies
         game.gameHandler.arrObstacles.forEach(enemieGame => {
