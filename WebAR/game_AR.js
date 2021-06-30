@@ -10,7 +10,6 @@ let roadSpacing;
 //Time
 let timeBetweenFrames;
 
-
 //Constants
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
