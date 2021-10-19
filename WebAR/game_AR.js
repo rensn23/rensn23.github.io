@@ -216,6 +216,7 @@ async function activateXR() {
     }
 
     btn_jump.ontouchstart = function() {
+        console.log("Jump");
         bJumping = true;
         bDucking = false;
     }
@@ -224,6 +225,7 @@ async function activateXR() {
     }
 
     btn_duck.ontouchstart = function() {
+        console.log("Duck");
         bDucking = true;
         bJumping = false;
     }
@@ -296,12 +298,12 @@ async function activateXR() {
     function gameLoop() {
 
         //Update Dom-Overlay depending on the state of the player
-        if (game.gameHandler.bPlayerDead && !bPlayerDead) { //If the player dies in the game and isn't dead yet in the scene
+        if (game.gameHandler.bPlayerDead && !bPlayerDead) {             //If the player dies in the game and isn't dead yet in the scene
             console.log("Player un-alived himself :buhu:");
             bPlayerDead = true;
             div_game_controls.style.display = 'none';
             div_game_over_screen.style.display = 'flex';
-        } else if (bPlayerDead) {                           //If the player lives in the game but is still dead in the scene
+        } else if (!game.gameHandler.bPlayerDead && bPlayerDead) {      //If the player lives in the game but is still dead in the scene
             console.log("Player lives again :wuhu:");
             bPlayerDead = false;
             div_game_over_screen.style.display = 'none';
