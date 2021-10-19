@@ -40,8 +40,8 @@ let CACTUS_1x2_GEOMETRY;
 let CACTUS_2x1_GEOMETRY;
 let CACTUS_2x2_GEOMETRY;
 
-let scale = 300;
-let percentShowing = 0.5;
+let scale = 150;
+let percentShowing = 0.8;
 
 let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
 let arrCurrentSceneEnemieIDs = [];  //List of Enemies which currently exist in the scene
