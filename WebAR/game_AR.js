@@ -19,6 +19,10 @@ const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
 //UI-Elements
+let btn_restart;
+let btn_main_menu;
+let div_dom_overlay;
+let div_game_over_screen;
 let div_game_controls;
 let btn_duck;
 let btn_jump;
@@ -61,6 +65,9 @@ let bReticle1Placed = false;
 let bReticle2Placed = false;
 
 async function activateXR() {
+
+    btn_restart = document.getElementById("btn_restart_game");
+    btn_main_menu = document.getElementById("btn_quit_singleplayer_game");
 
     div_dom_overlay = document.getElementById("div_dom_overlay_singleplayer");
 
@@ -237,6 +244,16 @@ async function activateXR() {
     }
     btn_duck.ontouchend = function() {
         bDucking = false;
+    }
+
+    btn_restart.onclick = function () {
+        console.log("Restart");
+        //Restart Game
+    }
+
+    btn_main_menu.onclick = function () {
+        console.log("Main Menu");
+        //Shut Down XR Session;
     }
 
     //Is called when user touches screen
