@@ -121,6 +121,12 @@ async function activateXR() {
         div_game_controls.style.display = 'block';
     }
 
+    session.onend = function() {
+        div_dom_overlay.style.display = 'none';
+        div_game_over_screen.style.display = 'none';
+        div_game_controls.style.display = 'none';
+    }
+
     //Create a position reference near the user
     const referenceSpace = await session.requestReferenceSpace('local');
     const viewerSpace = await session.requestReferenceSpace('viewer');
