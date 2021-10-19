@@ -14,7 +14,7 @@ let timeBetweenFrames;
 const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
-const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff });
+const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff, clippingPlanes: arrClippingPlanes });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
