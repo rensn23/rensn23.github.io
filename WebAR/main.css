@@ -1,8 +1,8 @@
-body {
+/* body {
     background-color: #242424;
     margin: 0;
     font-family: 'Poppins', sans-serif;
-}
+} */
 
 .white-text {
     color: #ffffff;
@@ -562,6 +562,10 @@ body {
 
     opacity: 0.5;
     background: #000000;
+}
+
+#div_game_over_screen_singleplayer * {
+    opacity: 1;
 }
 
 .div-img-game-over {
