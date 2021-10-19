@@ -250,6 +250,7 @@ async function activateXR() {
         instanceHandler.Restart();
 
         bPlayerDead = false;
+        playerGame = game.gameHandler.player;
 
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
