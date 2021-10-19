@@ -40,7 +40,8 @@ let CACTUS_1x2_GEOMETRY;
 let CACTUS_2x1_GEOMETRY;
 let CACTUS_2x2_GEOMETRY;
 
-let scale = 250;
+let scale = 300;
+let percentShowing = 0.5;
 
 let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
 let arrCurrentSceneEnemieIDs = [];  //List of Enemies which currently exist in the scene
@@ -222,7 +223,7 @@ async function activateXR() {
         //Calculate signed distance between the plane and the reticle
         let leftClippingPlaneOffset = leftClippingPlane.distanceToPoint(reticle1.position);
         leftClippingPlane.constant = -leftClippingPlaneOffset + (50 / scale);
-        rightClippingPlane.constant = leftClippingPlaneOffset + (1050 / scale);
+        rightClippingPlane.constant = leftClippingPlaneOffset + (((percentShowing * 1000) + 50) / scale);
 
         arrClippingPlanes.push(leftClippingPlane);
         arrClippingPlanes.push(rightClippingPlane);
@@ -247,7 +248,9 @@ async function activateXR() {
     btn_restart.onclick = function () {
         //Restart Game
         instanceHandler.Restart();
-        
+
+        bPlayerDead = false;
+
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
         div_game_controls.style.display = 'block';
