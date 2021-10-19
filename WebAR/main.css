@@ -559,13 +559,18 @@
 
     height: 100%;
     width: 100%;
+}
+
+.div-black-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    height: 100%;
+    width: 100%;
 
     opacity: 0.5;
     background: #000000;
-}
-
-#div_game_over_screen_singleplayer * {
-    opacity: 1;
 }
 
 .div-img-game-over {
