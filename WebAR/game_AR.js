@@ -229,7 +229,6 @@ async function activateXR() {
     }
 
     btn_jump.ontouchstart = function() {
-        console.log("Jump");
         bJumping = true;
         bDucking = false;
     }
@@ -238,7 +237,6 @@ async function activateXR() {
     }
 
     btn_duck.ontouchstart = function() {
-        console.log("Duck");
         bDucking = true;
         bJumping = false;
     }
@@ -247,8 +245,12 @@ async function activateXR() {
     }
 
     btn_restart.onclick = function () {
-        console.log("Restart");
         //Restart Game
+        instanceHandler.Restart();
+        
+        div_dom_overlay.style.display = 'block';
+        div_game_over_screen.style.display = 'none';
+        div_game_controls.style.display = 'block';
     }
 
     btn_main_menu.onclick = function () {
@@ -356,6 +358,8 @@ async function activateXR() {
             });
             timeBetweenFrames = Date.now();
         }
+
+
         //Game plays automatically
         //instanceHandler.Act(Predict(instanceHandler.GetState()));
 
