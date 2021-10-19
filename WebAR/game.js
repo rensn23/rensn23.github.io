@@ -119,11 +119,11 @@ class Game{
     }
 
     Play(){
-        this.gameHandler.bPlayerDead = false;
         if(this.gameHandler == null){
             this.gameHandler = new GameHandler(this.dSpeed, this.dWidth, this.dGravitation, this.dJumpSpeed, this.dAddedSpeed, this.dMultiplierObstaclesTime, this.arrObstacleSize, this.dTimeBetweenObstacles, this.dAddToObstaclesTimeMax, this.dSpeedMax, this.dJumpSpeedMultiplier, this.dFallSpeedMultiplier,this.obstacleDistributionMultiplier, this.dTimeBetweenObstaclesMin);
         }
         this.gameHandler.bPlay = true;
+        this.gameHandler.bPlayerDead = false;
     }
 
     Stop(){
