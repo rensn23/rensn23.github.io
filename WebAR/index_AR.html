@@ -23,9 +23,24 @@
 
     <button onclick="activateXR()">Start WebXR</button>
 
-    <div id="div_game_controls">
-        <button id="btn_game_duck"></button>
-        <button id="btn_game_jump"></button>
+    <div id="div_dom_overlay_singleplayer">
+        <div id="div_game_singleplayer_controls">
+            <button id="btn_game_duck"></button>
+            <button id="btn_game_jump"></button>
+        </div>
+
+        <div id="div_game_over_screen_singleplayer">
+            <div class="div-img-game-over">
+                <img src="./src/images/Game_Over.png" alt="Game Over" class="img-game-over black-dropshadow">
+            </div>
+    
+            <div id="div_btn_restart_game" class="btn-restart-game">
+                <button id="btn_restart_game" class="white-text black-dropshadow green-background big-button-2"><span class="green-dropshadow big-text-size">Restart</span></button>
+            </div>
+            <div id="div_btn_quit_singleplayer_game" class="btn-quit-game">
+                <button id="btn_quit_singleplayer_game" class="white-text black-dropshadow gray-background big-button-2"><span class="black-dropshadow big-text-size">Main Menu</span></button>
+            </div>
+        </div>
     </div>
 
 </body>

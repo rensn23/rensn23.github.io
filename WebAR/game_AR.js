@@ -24,6 +24,7 @@ let btn_duck;
 let btn_jump;
 let bJumping = false;
 let bDucking = false;
+let bPlayerDead = false;
 
 //Models
 const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
@@ -61,9 +62,13 @@ let bReticle2Placed = false;
 
 async function activateXR() {
 
+    div_dom_overlay = document.getElementById("div_dom_overlay_singleplayer");
+
+    div_game_controls = document.getElementById("div_game_singleplayer_controls");
     btn_duck = document.getElementById("btn_game_duck");
     btn_jump = document.getElementById("btn_game_jump");
-    div_game_controls = document.getElementById("div_game_controls");
+
+    div_game_over_screen = document.getElementById("div_game_over_screen_singleplayer");
 
     //Add a canvas
     const canvas = document.createElement("canvas");
@@ -105,12 +110,14 @@ async function activateXR() {
     camera.matrixAutoUpdate = false;
 
     //Initialize WebXR session using "immersive-ar"
-    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('div_game_controls') } });
+    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('div_dom_overlay_singleplayer') } });
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
     });
 
     if (session) {
+        div_dom_overlay.style.display = 'block';
+        div_game_over_screen.style.display = 'none';
         div_game_controls.style.display = 'block';
     }
 
@@ -287,6 +294,19 @@ async function activateXR() {
     }
 
     function gameLoop() {
+
+        //Update Dom-Overlay depending on the state of the player
+        if (game.gameHandler.bPlayerDead && !bPlayerDead) { //If the player dies in the game and isn't dead yet in the scene
+            console.log("Player un-alived himself :buhu:");
+            bPlayerDead = true;
+            div_game_controls.style.display = 'none';
+            div_game_over_screen.style.display = 'flex';
+        } else if (bPlayerDead) {                           //If the player lives in the game but is still dead in the scene
+            console.log("Player lives again :wuhu:");
+            bPlayerDead = false;
+            div_game_over_screen.style.display = 'none';
+            div_game_controls.style.display = 'block';
+        }
 
         //Reset arrays
         arrCurrentGameEnemieIDs = [];

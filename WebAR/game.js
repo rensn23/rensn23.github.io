@@ -119,6 +119,7 @@ class Game{
     }
 
     Play(){
+        this.gameHandler.bPlayerDead = false;
         if(this.gameHandler == null){
             this.gameHandler = new GameHandler(this.dSpeed, this.dWidth, this.dGravitation, this.dJumpSpeed, this.dAddedSpeed, this.dMultiplierObstaclesTime, this.arrObstacleSize, this.dTimeBetweenObstacles, this.dAddToObstaclesTimeMax, this.dSpeedMax, this.dJumpSpeedMultiplier, this.dFallSpeedMultiplier,this.obstacleDistributionMultiplier, this.dTimeBetweenObstaclesMin);
         }
@@ -217,6 +218,7 @@ class GameHandler{
             //check if a collider is triggered
             if(this.player.boxCol.IsColliding(this.arrObstacles[i].boxCol)){
                 console.log("RIP");
+                this.bPlayerDead = true;
                 this.bPlay = false; //end the game
             }
             //remove a obstacle after it has passed out of view
@@ -278,6 +280,7 @@ class GameHandler{
         this.state.bGame = this.bPlay;
         this.state.nScore = this.nScore;
         this.state.bGrounded = this.player.bGrounded;
+        this.state.bPlayerDead = this.bPlayerDead;
         
         for(var i = 0; i<this.arrObstacles.length; i++){
             this.state.arrDDistance[i] = this.arrObstacles[i].v2Pos.dX-this.player.v2Pos.dX-this.arrObstacles[i].dWidth/2;
@@ -386,6 +389,7 @@ class Vector2{
 class State{
     constructor(){
         this.bGame = false;
+        this.bPlayerDead = false;
         this.bGrounded=true;
         this.dSpeed = null;
         this.nScore = null;
