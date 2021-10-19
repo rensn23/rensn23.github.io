@@ -534,17 +534,11 @@
 #btn_game_duck {
     height: 50%;
     width: 100%;
-
-    display: none;
-    z-index: 1;
 }
 
 #btn_game_jump {
     height: 50%;
     width: 100%;
-
-    display: none;
-    z-index: 1;
 }
 
 #div_game_over_screen_singleplayer {

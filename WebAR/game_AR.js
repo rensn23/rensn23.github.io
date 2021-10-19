@@ -253,7 +253,7 @@ async function activateXR() {
 
     btn_main_menu.onclick = function () {
         console.log("Main Menu");
-        //Shut Down XR Session;
+        shutdownXR(session);
     }
 
     //Is called when user touches screen
@@ -523,3 +523,11 @@ async function activateXR() {
     }
     session.requestAnimationFrame(onXRFrame);
 }
+
+async function shutdownXR(session) {
+    if (session) {
+      await session.end();
+  
+      /* At this point, WebXR is fully shut down */
+    }
+  }
