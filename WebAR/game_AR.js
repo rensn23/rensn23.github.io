@@ -2,8 +2,7 @@ if (navigator.xr) {
     navigator.xr.isSessionSupported('immersive-ar')
     .then((isSupported) => {
         if (!isSupported) {
-            alert("WebXR is not supported on this device");
-            div_error_message.innerHTML = "WebXR is not supported on this device";
+            document.getElementById("div_error_message").innerHTML = "WebXR is not supported on this device";
         }
     });
 }
@@ -39,8 +38,6 @@ let btn_jump;
 let bJumping = false;
 let bDucking = false;
 let bPlayerDead = false;
-
-let div_error_message;
 
 //Models
 const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
@@ -89,8 +86,6 @@ async function activateXR() {
     btn_jump = document.getElementById("btn_game_jump");
 
     div_game_over_screen = document.getElementById("div_game_over_screen_singleplayer");
-
-    div_error_message = document.getElementById("div_error_message");
 
     //Add a canvas
     const canvas = document.createElement("canvas");
