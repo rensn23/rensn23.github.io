@@ -1,3 +1,13 @@
+if (navigator.xr) {
+    navigator.xr.isSessionSupported('immersive-ar')
+    .then((isSupported) => {
+        if (!isSupported) {
+            alert("WebXR is not supported on this device");
+            div_error_message.innerHTML = "WebXR is not supported on this device";
+        }
+    });
+}
+
 //Planes
 let leftClippingVector;
 let leftClippingPlane;
@@ -131,9 +141,6 @@ async function activateXR() {
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
         div_game_controls.style.display = 'block';
-    } else {
-        alert("WebXR is not supported on this device");
-        div_error_message.innerHTML = "WebXR is not supported on this device";
     }
 
     session.onend = function() {
