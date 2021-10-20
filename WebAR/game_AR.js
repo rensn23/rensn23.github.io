@@ -131,8 +131,7 @@ async function activateXR() {
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
         div_game_controls.style.display = 'block';
-    }
-    else {
+    } else {
         alert("WebXR is not supported on this device");
         div_error_message.innerHTML = "WebXR is not supported on this device";
     }
