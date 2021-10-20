@@ -2,6 +2,7 @@ if (navigator.xr) {
     navigator.xr.isSessionSupported('immersive-ar')
     .then((isSupported) => {
         if (!isSupported) {
+            document.getElementById("btn_activate_xr").disabled = true;
             document.getElementById("div_error_message").innerHTML = "WebXR is not supported on this device";
         }
     });
