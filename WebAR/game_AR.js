@@ -30,6 +30,8 @@ let bJumping = false;
 let bDucking = false;
 let bPlayerDead = false;
 
+let div_error_message;
+
 //Models
 const gltfLoader = new THREE.GLTFLoader();  //For loading 3D objects
 let ROAD_GEOMETRY;
@@ -77,6 +79,8 @@ async function activateXR() {
     btn_jump = document.getElementById("btn_game_jump");
 
     div_game_over_screen = document.getElementById("div_game_over_screen_singleplayer");
+
+    div_error_message = document.getElementById("div_error_message");
 
     //Add a canvas
     const canvas = document.createElement("canvas");
@@ -127,6 +131,10 @@ async function activateXR() {
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
         div_game_controls.style.display = 'block';
+    }
+    else {
+        alert("WebXR is not supported on this device");
+        div_error_message.innerHTML = "WebXR is not supported on this device";
     }
 
     session.onend = function() {
@@ -260,7 +268,7 @@ async function activateXR() {
     btn_main_menu.onclick = function () {
         bReticle1Placed = false;
         bReticle1Placed = false;
-        
+
         shutdownXR(session);
     }
 
