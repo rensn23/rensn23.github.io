@@ -251,8 +251,6 @@ async function activateXR() {
 
         bPlayerDead = false;
         playerGame = game.gameHandler.player;
-        bReticle1Placed = false;
-        bReticle1Placed = false;
 
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
@@ -260,7 +258,9 @@ async function activateXR() {
     }
 
     btn_main_menu.onclick = function () {
-        console.log("Main Menu");
+        bReticle1Placed = false;
+        bReticle1Placed = false;
+        
         shutdownXR(session);
     }
 
