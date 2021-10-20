@@ -251,6 +251,8 @@ async function activateXR() {
 
         bPlayerDead = false;
         playerGame = game.gameHandler.player;
+        bReticle1Placed = false;
+        bReticle1Placed = false;
 
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
