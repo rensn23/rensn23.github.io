@@ -11,9 +11,12 @@ if (navigator.xr) {
 //Planes
 let leftClippingVector;
 let leftClippingPlane;
+let leftClippingPlane2;
 let rightClippingVector;
 let rightClippingPlane;
+let rightClippingPlane2;
 let arrClippingPlanes = [];
+let arrClippingPlanes2 = [];
 let roadAmount = 7;
 let roadSpacing;
 
@@ -25,7 +28,7 @@ const GRAY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
 const ENEMY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020, clippingPlanes: arrClippingPlanes });
-const FLOOR_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x000000, clippingPlanes: arrClippingPlanes });
+const FLOOR_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x000000, clippingPlanes: arrClippingPlanes2 });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
@@ -250,14 +253,23 @@ async function activateXR() {
         //Create Planes
         leftClippingPlane = new THREE.Plane(leftClippingVector, 0);
         rightClippingPlane = new THREE.Plane(rightClippingVector, 0);
+        //Clipping Planes for floor
+        leftClippingPlane2 = new THREE.Plane(leftClippingVector, 0);
+        rightClippingPlane2 = new THREE.Plane(rightClippingVector, 0);
 
         //Calculate signed distance between the plane and the reticle
         let leftClippingPlaneOffset = leftClippingPlane.distanceToPoint(reticle1.position);
         leftClippingPlane.constant = -leftClippingPlaneOffset + (50 / scale);
         rightClippingPlane.constant = leftClippingPlaneOffset + (((percentShowing * 750) + 50) / scale);
 
+        leftClippingPlane2.constant = -leftClippingPlane + (52 / scale);
+        rightClippingPlane2.constant = leftClippingPlaneOffset + (((percentShowing * 750) + 52) / scale);
+
         arrClippingPlanes.push(leftClippingPlane);
         arrClippingPlanes.push(rightClippingPlane);
+
+        arrClippingPlanes2.push(leftClippingPlane2);
+        arrClippingPlanes2.push(rightClippingPlane2);
     }
 
     btn_jump.ontouchstart = function() {
