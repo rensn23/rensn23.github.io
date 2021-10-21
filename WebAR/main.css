@@ -520,43 +520,6 @@
     display: none;
 }
 
-#div_game_singleplayer_controls {
-    display: none;
-
-    height: 100%;
-    width: 100%;
-
-    position: relative;
-    top: 0;
-    left: 0;
-
-    opacity: 0;
-}
-
-#btn_game_duck {
-    height: 50%;
-    width: 100%;
-}
-
-#btn_game_jump {
-    height: 50%;
-    width: 100%;
-}
-
-#div_game_over_screen_singleplayer {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    position: relative;
-    top: 0;
-    left: 0;
-
-    height: 100%;
-    width: 100%;
-}
-
 .div-black-overlay {
     position: absolute;
     top: 0;
@@ -569,28 +532,6 @@
     background: #000000;
 }
 
-.div-img-game-over {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: auto;
-}
-
-.img-game-over {
-    max-width: 50%;
-    height: auto;
-}
-
-.btn-restart-game {
-    margin-top: 50px;
-}
-
-.btn-quit-game {
-    margin-top: 20px;
-}
-
-
 @keyframes animateSlideFromTop {
     from {margin-top: -300px; opacity: 0}
     to {margin-top: 0; opacity: 1}
@@ -602,7 +543,126 @@
 }
 
 
+@media screen and (orientation:portrait) { 
+    #div_game_singleplayer_controls {
+        display: none;
+        flex-direction: column;
+    
+        height: 100%;
+        width: 100%;
+    
+        position: relative;
+        top: 0;
+        left: 0;
+    
+        opacity: 0;
+    }
 
+    #btn_game_duck {
+        height: 50%;
+        width: 100%;
+    }
+    
+    #btn_game_jump {
+        height: 50%;
+        width: 100%;
+    }
+
+    #div_game_over_screen_singleplayer {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    
+        position: relative;
+        top: 0;
+        left: 0;
+    
+        height: 100%;
+        width: 100%;
+    }
+    
+    .div-img-game-over {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+        width: auto;
+    }
+    
+    .img-game-over {
+        max-width: 50%;
+        height: auto;
+    }
+    
+    .btn-restart-game {
+        margin-top: 50px;
+    }
+    
+    .btn-quit-game {
+        margin-top: 20px;
+    }
+}
+
+@media screen and (orientation:landscape) { 
+    #div_game_singleplayer_controls {
+        display: none;
+    
+        height: 100%;
+        width: 100%;
+    
+        position: relative;
+        top: 0;
+        left: 0;
+    
+        opacity: 0;
+    }
+
+    #btn_game_duck {
+        height: 100%;
+        width: 50%;
+    }
+    
+    #btn_game_jump {
+        height: 100%;
+        width: 50%;
+    }
+
+    #div_game_over_screen_singleplayer {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    
+        position: relative;
+        top: 0;
+        left: 0;
+    
+        height: 100%;
+        width: 100%;
+    }
+    
+    .div-img-game-over {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+        width: auto;
+    }
+    
+    .img-game-over {
+        max-width: 30%;
+        height: auto;
+    }
+    
+    .btn-restart-game {
+        margin-top: 50px;
+    }
+    
+    .btn-quit-game {
+        margin-top: 20px;
+    }
+}
 
 
 

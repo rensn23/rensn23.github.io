@@ -21,11 +21,10 @@ let roadSpacing;
 let timeBetweenFrames;
 
 //Constants
-const FANCY_MATERIAL = new THREE.MeshNormalMaterial({ clippingPlanes:arrClippingPlanes });
-const GRAY_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x202020 });
-const ROAD_MATERIAL = new THREE.MeshStandardMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
-const PLAYER_MATERIAL = new THREE.MeshBasicMaterial({ color: 0x000000 });
-const ENEMY_MATERIAL = new THREE.MeshBasicMaterial({ color: 0xffffff, clippingPlanes: arrClippingPlanes });
+const GRAY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
+const ROAD_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
+const PLAYER_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
+const ENEMY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020, clippingPlanes: arrClippingPlanes });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
@@ -52,7 +51,8 @@ let CACTUS_2x1_GEOMETRY;
 let CACTUS_2x2_GEOMETRY;
 
 let scale = 150;
-let percentShowing = 0.8;
+let distanceScale = 4;
+let percentShowing = 1;
 
 let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
 let arrCurrentSceneEnemieIDs = [];  //List of Enemies which currently exist in the scene
@@ -103,11 +103,14 @@ async function activateXR() {
 
     //Adds a white directional light to the scene
     function addLight(...pos) {
-        const color = 0xFFFFFF;
-        const intensity = 1;
-        const light = new THREE.DirectionalLight(color, intensity);
+        let color = 0xFFFFFF;
+        let intensity = 1;
+        let light = new THREE.DirectionalLight(color, intensity);
         light.position.set(...pos);
-        scene.add(light);
+        let helper = new THREE.DirectionalLightHelper( light, 1 );
+        scene.add(light)
+        scene.add(helper);
+        light.target = playerScene;
     }
 
     //Ambient Light
@@ -137,7 +140,7 @@ async function activateXR() {
     if (session) {
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
-        div_game_controls.style.display = 'block';
+        div_game_controls.style.display = 'flex';
     }
 
     session.onend = function() {
@@ -204,7 +207,7 @@ async function activateXR() {
     function spawnRoads() {
         roadSpacing = 250 / scale;
         for (let i = 0; i < roadAmount; i++) {
-            let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, FANCY_MATERIAL);
+            let roadPiece = new THREE.Mesh(ROAD_GEOMETRY, ROAD_MATERIAL);
             roadPiece.scale.set(25 / scale, 25 / scale, 25 / scale);
 
             let roadPos = new THREE.Vector3((i - 1) * roadSpacing, 0, 0);
@@ -234,7 +237,7 @@ async function activateXR() {
         //Calculate signed distance between the plane and the reticle
         let leftClippingPlaneOffset = leftClippingPlane.distanceToPoint(reticle1.position);
         leftClippingPlane.constant = -leftClippingPlaneOffset + (50 / scale);
-        rightClippingPlane.constant = leftClippingPlaneOffset + (((percentShowing * 1000) + 50) / scale);
+        rightClippingPlane.constant = leftClippingPlaneOffset + (((percentShowing * 750) + 50) / scale);
 
         arrClippingPlanes.push(leftClippingPlane);
         arrClippingPlanes.push(rightClippingPlane);
@@ -265,7 +268,7 @@ async function activateXR() {
 
         div_dom_overlay.style.display = 'block';
         div_game_over_screen.style.display = 'none';
-        div_game_controls.style.display = 'block';
+        div_game_controls.style.display = 'flex';
     }
 
     btn_main_menu.onclick = function () {
@@ -283,12 +286,6 @@ async function activateXR() {
                 reticle1.position.set(arrow.position.x, arrow.position.y, arrow.position.z)
                 reticle1.name = "reticle1";
                 scene.add(reticle1);
-
-                //Add Light sources
-                addLight(reticle1.position.x - (200 / scale), reticle1.position.y + (300 / scale), reticle1.position.z - (0 / scale));
-                addLight(reticle1.position.x - (0 / scale), reticle1.position.y + (200 / scale), reticle1.position.z - (200 / scale));
-                addLight(reticle1.position.x + (200 / scale), reticle1.position.y + (300 / scale), reticle1.position.z + (0 / scale));
-                addLight(reticle1.position.x + (0 / scale), reticle1.position.y + (200 / scale), reticle1.position.z + (200 / scale));
             })
             bReticle1Placed = true;
         }
@@ -299,7 +296,8 @@ async function activateXR() {
                 reticle2.name = "reticle2";
 
                 direction = new THREE.Vector3(reticle2.position.x - reticle1.position.x, 0, reticle2.position.z - reticle1.position.z);
-                scale = scale / Math.max(1, direction.length() / 1.5);
+                scale = 750 / direction.length();
+                //scale = scale / Math.max(1, direction.length() / 1.5);
                 direction.normalize();
                 directionNegated.copy(direction).negate().normalize().multiplyScalar(1 / scale);
 
@@ -349,7 +347,7 @@ async function activateXR() {
             console.log("Player lives again :wuhu:");
             bPlayerDead = false;
             div_game_over_screen.style.display = 'none';
-            div_game_controls.style.display = 'block';
+            div_game_controls.style.display = 'flex';
         }
 
         //Reset arrays
@@ -365,7 +363,7 @@ async function activateXR() {
                 let playerToRoadVector = new THREE.Vector3(road.position.x - playerScene.position.x, road.position.y - playerScene.position.y, road.position.z - playerScene.position.z);
                 if ((playerToRoadVector.x < 0 && directionNegated.x < 0) || (playerToRoadVector.x >= 0 && directionNegated.x >= 0)) {
                     let playerToRoadDistance = playerToRoadVector.length();
-                    if (playerToRoadDistance >= 2) {
+                    if (playerToRoadDistance >= 500 / scale) {
                         let scaledDirection = new THREE.Vector3();
                         scaledDirection.copy(direction);
                         scaledDirection.multiplyScalar(roadAmount * roadSpacing);
@@ -406,35 +404,35 @@ async function activateXR() {
                 switch (enemieGame.nObstacleID) {
                     case 0:     //Cactus 1x1
                         newEnemieGeometry = CACTUS_1x1_GEOMETRY;
-                        newEnemie = new THREE.Mesh(newEnemieGeometry, FANCY_MATERIAL);
+                        newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                         break;
                     case 1:     //Cactus 1x2
                         newEnemieGeometry = CACTUS_1x2_GEOMETRY;
-                        newEnemie = new THREE.Mesh(newEnemieGeometry, FANCY_MATERIAL);
+                        newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                         break;
                     case 2:     //Bird Low
                     case 3:     //Bird High
                         newEnemieGeometry = BIRD_GEOMETRY;
-                        newEnemie = new THREE.Mesh(newEnemieGeometry, FANCY_MATERIAL);
+                        newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         //newEnemie.scale.set(25 * 0.43 / scale, 25 * 0.43 / scale, 25 * 0.43 / scale);
                         newEnemie.scale.set(25 * 0.8 / scale, 25 * 0.8 / scale, 25 * 0.8 / scale);
                         offset.set(0.025, -0.3, -0.025);
                         break;
                     case 4:     //Cactus 2x1
                         newEnemieGeometry = CACTUS_2x1_GEOMETRY;
-                        newEnemie = new THREE.Mesh(newEnemieGeometry, FANCY_MATERIAL);
+                        newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                         break;
                     case 5:     //Cactus 2x2
                         newEnemieGeometry = CACTUS_2x2_GEOMETRY;
-                        newEnemie = new THREE.Mesh(newEnemieGeometry, FANCY_MATERIAL);
+                        newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         newEnemie.scale.set(25 / scale, 25 / scale, 25 / scale);
                         break;
                     default:
                         newEnemieGeometry = new THREE.BoxGeometry(enemieGame.dWidth / scale, enemieGame.dHeight / scale, 25 / scale);
-                        newEnemie = new THREE.Mesh(newEnemieGeometry, FANCY_MATERIAL);
+                        newEnemie = new THREE.Mesh(newEnemieGeometry, ENEMY_MATERIAL);
                         break;
                 }
 
@@ -479,12 +477,15 @@ async function activateXR() {
         //Create Player
         if (playerScene === null) {
             //let playerGeometry = new THREE.BoxGeometry(25 / scale, 50 / scale, 25 / scale);
-            playerScene = new THREE.Mesh(DINO_GEOMETRY, FANCY_MATERIAL);
+            playerScene = new THREE.Mesh(DINO_GEOMETRY, PLAYER_MATERIAL);
             playerScene.scale.set(25 * 0.65 / scale, 1, 25 * 1 / scale);
             playerScene.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
             scene.add(playerScene);
 
             playerGame = game.gameHandler.player;
+
+            //Add Light sources after player spawned
+            addLight(reticle1.position.x - (100 / scale), reticle1.position.y + (100 / scale), reticle1.position.z - (50 / scale));
         }
 
         //Update Player

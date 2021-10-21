@@ -103,7 +103,7 @@ class Game{
         //settings that should be changed
         this.dSpeed = 500;
         this.dSpeedMax = 1500;
-        this.dWidth = 1000;
+        this.dWidth = 750;
         this.dGravitation  = 400;
         this.dJumpSpeed = 300;
         this.dAddedSpeed = 500;
