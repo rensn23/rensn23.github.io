@@ -94,15 +94,15 @@ async function activateXR() {
     div_game_over_screen = document.getElementById("div_game_over_screen_singleplayer");
 
     //Add a canvas
-    const canvas = document.createElement("canvas");
+    let canvas = document.createElement("canvas");
     document.body.appendChild(canvas);
-    const gl = canvas.getContext("webgl", { xrCompatible: true });
+    let gl = canvas.getContext("webgl", { xrCompatible: true });
 
     //Three.js initialization
-    const scene = new THREE.Scene();
+    let scene = new THREE.Scene();
 
     //Axes Helper
-    const axesHelper = new THREE.AxesHelper(20);
+    let axesHelper = new THREE.AxesHelper(20);
     scene.add(axesHelper);
 
     //Adds a white directional light to the scene
@@ -117,11 +117,11 @@ async function activateXR() {
     }
 
     //Ambient Light
-    const ambientLight = new THREE.AmbientLight();
+    let ambientLight = new THREE.AmbientLight();
     scene.add(ambientLight);
 
     // WebGLRenderer
-    const renderer = new THREE.WebGLRenderer({
+    let renderer = new THREE.WebGLRenderer({
         alpha: true,
         preserveDrawingBuffer: true,
         canvas: canvas,
@@ -131,11 +131,11 @@ async function activateXR() {
     renderer.localClippingEnabled = true;
 
     //Disable matrix auto updates from three.js
-    const camera = new THREE.PerspectiveCamera();
+    let camera = new THREE.PerspectiveCamera();
     camera.matrixAutoUpdate = false;
 
     //Initialize WebXR session using "immersive-ar"
-    const session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('div_dom_overlay_singleplayer') } });
+    let session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('div_dom_overlay_singleplayer') } });
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, gl)
     });
@@ -153,11 +153,11 @@ async function activateXR() {
     }
 
     //Create a position reference near the user
-    const referenceSpace = await session.requestReferenceSpace('local');
-    const viewerSpace = await session.requestReferenceSpace('viewer');
+    let referenceSpace = await session.requestReferenceSpace('local');
+    let viewerSpace = await session.requestReferenceSpace('viewer');
 
     //Hit testing with user as the origin
-    const hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+    let hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
     function loadAllModels() {
         //1 Voxel in MagicaVoxel = 0.1 in THREE.js
@@ -577,8 +577,13 @@ async function activateXR() {
 
 async function shutdownXR(session) {
     if (session) {
-      await session.end();
+        await session.end();
   
-      /* At this point, WebXR is fully shut down */
+        /* At this point, WebXR is fully shut down */
+        while(scene.children.length > 0){ 
+            scene.remove(scene.children[0]); 
+        }
+
+        document.getElementsByTagName("canvas")[0].remove();
     }
   }
