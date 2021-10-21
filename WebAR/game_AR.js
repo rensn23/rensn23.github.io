@@ -228,7 +228,7 @@ async function activateXR() {
         let floorGeometry = new THREE.BoxGeometry(250 / scale, 2.5 / scale, 55 / scale);
         let floor = new THREE.Mesh(floorGeometry, FLOOR_MATERIAL);
 
-        let floorPos = new THREE.Vector3(250 / scale, 0 , 0);
+        let floorPos = new THREE.Vector3(125 / scale, 0 , 0);
         floorPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
         floor.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
