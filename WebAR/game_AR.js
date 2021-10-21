@@ -225,7 +225,7 @@ async function activateXR() {
 
 
         //Floor under the roads
-        let floorGeometry = new THREE.BoxGeometry(25 / scale, 5.5 / scale, 0.25 / scale);
+        let floorGeometry = new THREE.BoxGeometry(250 / scale, 2.5 / scale, 55 / scale);
         let floor = new THREE.Mesh(floorGeometry, FLOOR_MATERIAL);
 
         let floorPos = new THREE.Vector3(250 / scale, 0 , 0);
