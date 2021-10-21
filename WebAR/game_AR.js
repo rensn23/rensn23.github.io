@@ -225,10 +225,10 @@ async function activateXR() {
 
 
         //Floor under the roads
-        let floorGeometry = new THREE.BoxGeometry(250 / scale, 2.5 / scale, 55 / scale);
+        let floorGeometry = new THREE.BoxGeometry(1000 / scale, 2.5 / scale, 55 / scale);
         let floor = new THREE.Mesh(floorGeometry, FLOOR_MATERIAL);
 
-        let floorPos = new THREE.Vector3(125 / scale, 0 , 0);
+        let floorPos = new THREE.Vector3(500 / scale, 0 , 0);
         floorPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
         floor.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
