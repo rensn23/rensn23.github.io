@@ -25,6 +25,7 @@ const GRAY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
 const ENEMY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020, clippingPlanes: arrClippingPlanes });
+const FLOOR_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x000000,  });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
@@ -221,6 +222,21 @@ async function activateXR() {
             arrCurrentRoads.push(roadPiece);
             scene.add(roadPiece);
         }
+
+
+        //Floor under the roads
+        let floorGeometry = new THREE.BoxGeometry(25 / scale, 5.5 / scale, 0.25 / scale);
+        let floor = new THREE.Mesh(floorGeometry, FLOOR_MATERIAL);
+
+        let floorPos = new THREE.Vector3(250 / scale, 0 , 0);
+        floorPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
+        floor.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
+
+        floor.position.x = floorPos.x + reticle1.position.x;
+        floor.position.y = floorPos.y + reticle1.position.y;
+        floor.position.z = floorPos.z + reticle1.position.z;
+
+        scene.add(floor);
     }
 
     function setClippingPlanes() {
