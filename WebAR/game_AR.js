@@ -25,7 +25,7 @@ const GRAY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
 const ROAD_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x404040, clippingPlanes: arrClippingPlanes });
 const PLAYER_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020 });
 const ENEMY_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x202020, clippingPlanes: arrClippingPlanes });
-const FLOOR_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x000000 });
+const FLOOR_MATERIAL = new THREE.MeshPhongMaterial({ color: 0x000000, clippingPlanes: arrClippingPlanes });
 const UNIT_VECTOR_X = new THREE.Vector3(1, 0, 0);
 const UNIT_VECTOR_Y = new THREE.Vector3(0, 1, 0);
 
@@ -108,10 +108,9 @@ async function activateXR() {
         let intensity = 1;
         let light = new THREE.DirectionalLight(color, intensity);
         light.position.set(...pos);
-        let helper = new THREE.DirectionalLightHelper( light, 1 );
-        //scene.add(light)
-        //scene.add(helper);
-        //light.target = reticle1;
+        let helper = new THREE.DirectionalLightHelper( light, 0.3 );
+        scene.add(light)
+        light.target = reticle1;
     }
 
     //Ambient Light
@@ -228,9 +227,9 @@ async function activateXR() {
         let floorGeometry = new THREE.BoxGeometry();
         let floor = new THREE.Mesh(floorGeometry, FLOOR_MATERIAL);
 
-        floor.scale.set(1200 / scale, 2.5 / scale, 55 / scale);
+        floor.scale.set(1100 / scale, 2.5 / scale, 55 / scale);
 
-        let floorPos = new THREE.Vector3(450 / scale, 1 / scale , 0);
+        let floorPos = new THREE.Vector3(400 / scale, 1 / scale , 0);
         floorPos.applyAxisAngle(UNIT_VECTOR_Y, reticleAngle);
         floor.rotateOnAxis(UNIT_VECTOR_Y, reticleAngle);
 
