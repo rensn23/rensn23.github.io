@@ -586,4 +586,4 @@ async function shutdownXR(session) {
 
         document.getElementsByTagName("canvas")[0].remove();
     }
-  }
+}
