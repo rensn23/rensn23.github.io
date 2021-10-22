@@ -55,7 +55,6 @@ let CACTUS_2x1_GEOMETRY;
 let CACTUS_2x2_GEOMETRY;
 
 let scale = 150;
-let distanceScale = 4;
 let percentShowing = 1;
 
 let arrObjectsToRemove = [];        //List of Objects which get destroyed after frame
