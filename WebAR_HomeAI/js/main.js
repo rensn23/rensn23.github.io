@@ -22,7 +22,6 @@ const ROOM_OBJECT_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x2fd7ed, o
 const WINDOW_MATERIAL = new THREE.MeshLambertMaterial( { color: 0xdbdbdb, opacity: 0.8 , transparent: true } );
 const DOOR_MATERIAL = new THREE.MeshLambertMaterial( { color: 0xcc5531, opacity: 0.8 , transparent: true } );
 
-const JSON_CONVERTER = new JSON_API_Converter();
 
 //Scene
 const scene = new THREE.Scene();
