@@ -1,6 +1,5 @@
 import { plot3 } from './js/demoHouse03.js';
-import * as SCENE from './js/JS_Classes.js';
-import { drawPlot, drawHouse, drawRoom, drawRoomObject, drawWall, drawFloor, drawRoof, drawBorder } from './js/main.js';
+import { drawPlot, scene } from './getScene.js';
 
 // Models
 const GLTFLOADER = new THREE.GLTFLoader(); // For loading 3D objects
@@ -8,8 +7,6 @@ const GLTFLOADER = new THREE.GLTFLoader(); // For loading 3D objects
 // Reticles
 // let reticle;
 
-// Three.js scene
-const scene = new THREE.Scene();
 
 async function activateXR() {
     drawPlot(plot3);
