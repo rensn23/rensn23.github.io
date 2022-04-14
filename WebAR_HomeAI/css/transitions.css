@@ -1,0 +1,3 @@
+.navbar-button, .small-button, .button, .div-room, .div-room-relationship, .img-result-navigation-arrow-result {
+    transition: transform 100ms ease-in-out;
+}

@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <script type="module" src="./forceBasedAlgorithm.js"></script>
+</head>
+
+<body>
+    <style>
+        .GridView {
+            border: none;
+        }
+
+        .GridView td {
+            width: 5px;
+            height: 5px;
+        }
+    </style>
+    <div id="output"></div>
+</body>
+<script>
+    var out = document.getElementById("output");
+
+    /*Prints the string in a new line like Console.WriteLine()*/
+    function WriteLine(strToPrint) {
+        out.innerHTML += strToPrint + "</br>";
+    }
+
+</script>
+
+</html>
+<script type="module">
+    import { Plot, House, Staircase, SocialRoom, LivingRoom, StaircaseType, StaircaseMaterial, ConnectionRoom, ServiceRoom, Kitchen, Hallway, ToiletRoom, Bedroom, Bathroom, OfficeRoom, RoomRelationship, RoomRelationshipType, RoofType, PrivateRoom, Design, InsulationType, HeatingSource, FloorMaterial, WindowMaterial, HeatingType, DoorType } from '../Parameter_Classes.js';
+    import { ForceBasedAlgorithm, CPStaircase } from "./forceBasedAlgorithm.js";
+    import { ConstrainedGrowth } from './constrainedGrowth.js';
+    import { Algorithm } from './algorithm.js';
+    import { SolutionGenerator } from './solutiongenerator.js';
+
+    let liCPStaircases = [];
+
+    let userAPIHouse = Algorithm.getSample();
+    
+    //let algorithm = new Algroithm((str)=>{WriteLine(str)})
+    //algorithm.execute(userAPIHouse);
+
+    let solutionGenerator = new SolutionGenerator((str)=>{WriteLine(str)});
+    let liResults = []
+    solutionGenerator.startGeneration(userAPIHouse, liResults);
+
+    WriteLine("Execution worked");
+    //WriteLine(fb.ToHTML());
+
+</script>
