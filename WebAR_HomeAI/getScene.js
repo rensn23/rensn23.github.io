@@ -20,7 +20,7 @@ const DOOR_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xcc5531, opacity: 
 //Converts Point Class to Vector3 Class
 function pointsToVector3s(points) {
     var vertices = [];
-    
+
     points.forEach(point => {
         var vertex = new THREE.Vector3(point.x / 50, point.y / 50, -point.z / 50);   // look at that a fine scale of 50
         vertices.push(vertex);
@@ -49,15 +49,15 @@ export function drawPlot(plot) {
     console.log(plot);
 
     if (plot.plotSize instanceof SCENE.RectanglePlotSize) {
-        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.length, 0.2, plot.plotSize.width);
+        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.length / 50, 0.2, plot.plotSize.width / 50);
         var plotMesh = new THREE.Mesh(plotGeometry, PLOT_MATERIAL);
-        plotMesh.position.set(plot.plotSize.length / 2, -0.1, plot.plotSize.width / 2);
+        plotMesh.position.set(plot.plotSize.length / 2, -0.1, -plot.plotSize.width / 2);
         scene.add(plotMesh);
     }
     else if (plot.plotSize instanceof SCENE.SquarePlotSize) {
-        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.sideLength, 0.2, plot.plotSize.sideLength);
+        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.sideLength / 50, 0.2, plot.plotSize.sideLength / 50);
         var plotMesh = new THREE.Mesh(plotGeometry, PLOT_MATERIAL);
-        plotMesh.position.set(plot.plotSize.sideLength / 2, -0.1, plot.plotSize.sideLength / 2);
+        plotMesh.position.set(plot.plotSize.sideLength / 2, -0.1, -plot.plotSize.sideLength / 2);
         scene.add(plotMesh);
     }
     else if (plot.plotSize instanceof SCENE.PlotSize) {
