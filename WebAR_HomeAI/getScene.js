@@ -7,6 +7,8 @@ import { LineMaterial } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines
 
 const BORDER_WIDTH = 0.002; //Border Line-thickness
 
+const SCALE = 0.02; //Used for scaling in AR
+
 const PLOT_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x7edb3b, opacity: 0.8, transparent: true });
 const OUTER_WALL_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x242424, opacity: 0.95, transparent: true });
 const INNER_WALL_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x484848, opacity: 0.95, transparent: true });
@@ -22,7 +24,7 @@ function pointsToVector3s(points) {
     var vertices = [];
 
     points.forEach(point => {
-        var vertex = new THREE.Vector3(point.x / 50, point.y / 50, -point.z / 50);   // look at that a fine scale of 50
+        var vertex = new THREE.Vector3(point.x * SCALE, point.y * SCALE, -point.z * SCALE);
         vertices.push(vertex);
     });
     return vertices;
@@ -33,11 +35,10 @@ function pointsToVector3s(points) {
 function pointsToPositions(points) {
     var positions = [];
     points.forEach(point => {
-        positions.push(point.x / 50, point.y / 50, -point.z / 50);   // 50 is the scale
+        positions.push(point.x * SCALE, point.y * SCALE, -point.z * SCALE);
     });
     //Close the border
-    // scaling is now 50
-    positions.push(points[0].x / 50, points[0].y / 50, -points[0].z / 50)
+    positions.push(points[0].x * SCALE, points[0].y * SCALE, -points[0].z * SCALE)
     return positions;
 }
 
@@ -49,15 +50,15 @@ export function drawPlot(plot) {
     console.log(plot);
 
     if (plot.plotSize instanceof SCENE.RectanglePlotSize) {
-        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.length / 50, 0.2, plot.plotSize.width / 50);
+        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.length * SCALE, 0.2, plot.plotSize.width * SCALE);
         var plotMesh = new THREE.Mesh(plotGeometry, PLOT_MATERIAL);
-        plotMesh.position.set(plot.plotSize.length / 100, -0.1, -plot.plotSize.width / 100);
+        plotMesh.position.set(plot.plotSize.length * (SCALE / 2), -0.1, -plot.plotSize.width * (SCALE / 2));
         scene.add(plotMesh);
     }
     else if (plot.plotSize instanceof SCENE.SquarePlotSize) {
-        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.sideLength / 50, 0.2, plot.plotSize.sideLength / 50);
+        var plotGeometry = new THREE.BoxGeometry(plot.plotSize.sideLength * SCALE, 0.2, plot.plotSize.sideLength * SCALE);
         var plotMesh = new THREE.Mesh(plotGeometry, PLOT_MATERIAL);
-        plotMesh.position.set(plot.plotSize.sideLength / 100, -0.1, -plot.plotSize.sideLength / 100);
+        plotMesh.position.set(plot.plotSize.sideLength * (SCALE / 2), -0.1, -plot.plotSize.sideLength * (SCALE / 2));
         scene.add(plotMesh);
     }
     else if (plot.plotSize instanceof SCENE.PlotSize) {
