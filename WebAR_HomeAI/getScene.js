@@ -5,6 +5,8 @@ import { Line2 } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines/Line2.
 import { LineGeometry } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines/LineGeometry.js';
 import { LineMaterial } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines/LineMaterial.js';
 
+const BORDER_WIDTH = 0.002; //Border Line-thickness
+
 const PLOT_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x7edb3b, opacity: 0.8 , transparent: true } );
 const OUTER_WALL_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x242424, opacity: 0.95 , transparent: true } );
 const INNER_WALL_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x484848, opacity: 0.95 , transparent: true } );
