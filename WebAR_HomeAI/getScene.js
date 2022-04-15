@@ -1,5 +1,10 @@
 import * as SCENE from './js/JS_Classes.js';
 
+import { ConvexGeometry } from 'https://unpkg.com/three@0.126.0/examples/jsm/geometries/ConvexGeometry.js';
+import { Line2 } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines/Line2.js';
+import { LineGeometry } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines/LineGeometry.js';
+import { LineMaterial } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines/LineMaterial.js';
+
 const PLOT_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x7edb3b, opacity: 0.8 , transparent: true } );
 const OUTER_WALL_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x242424, opacity: 0.95 , transparent: true } );
 const INNER_WALL_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x484848, opacity: 0.95 , transparent: true } );
