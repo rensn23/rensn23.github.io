@@ -57,7 +57,7 @@ export async function activateXR() {
     // let viewerSpace = await session.requestReferenceSpace('viewer');
 
     // Hit testing with user as origin
-    let hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
+    // let hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
     // GLTFLOADER.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
     //     reticle = gltf.scene;
