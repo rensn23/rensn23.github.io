@@ -20,20 +20,23 @@ const DOOR_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xcc5531, opacity: 
 //Converts Point Class to Vector3 Class
 function pointsToVector3s(points) {
     var vertices = [];
+    
     points.forEach(point => {
-        var vertex = new THREE.Vector3(point.x / 50, point.y / 50, point.z / 50);
+        var vertex = new THREE.Vector3(point.x / 50, point.y / 50, point.z / 50);   // look at that a fine scale of 50
         vertices.push(vertex);
     });
     return vertices;
 }
 
+
 //Converts Point Class to a list of coordinates
 function pointsToPositions(points) {
     var positions = [];
     points.forEach(point => {
-        positions.push(point.x / 50, point.y / 50, point.z / 50);
+        positions.push(point.x / 50, point.y / 50, point.z / 50);   // 50 is the scale
     });
     //Close the border
+    // scaling is now 50
     positions.push(points[0].x / 50, points[0].y / 50, points[0].z / 50)
     return positions;
 }
