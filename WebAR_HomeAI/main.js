@@ -8,7 +8,7 @@ const GLTFLOADER = new THREE.GLTFLoader(); // For loading 3D objects
 // let reticle;
 
 
-async function activateXR() {
+export async function activateXR() {
     drawPlot(plot3);
 
     // Add canvas
