@@ -46,18 +46,11 @@ export async function activateXR() {
     camera.matrixAutoUpdate = false;
 
     // Initialize WebXR session using "immersive-ar"
-    let session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('PATH TO OVERLAY HERE') } });
+    let session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'] });
     session.updateRenderState({
         baseLayer: new XRWebGLLayer(session, ctx)
     });
 
-    if (session) {
-        div_dom_overlay.style.display = 'block';
-    }
-
-    session.onend = function () {
-        div_dom_overlay.style.display = 'none';
-    }
 
     // Create a position reference near user
     let referenceSpace = await session.requestReferenceSpace('local');
