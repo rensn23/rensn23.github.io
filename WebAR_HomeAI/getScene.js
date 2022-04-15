@@ -21,7 +21,7 @@ const DOOR_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xcc5531, opacity: 
 function pointsToVector3s(points) {
     var vertices = [];
     points.forEach(point => {
-        var vertex = new THREE.Vector3(point.x / 10, point.y / 10, point.z / 10);
+        var vertex = new THREE.Vector3(point.x / 50, point.y / 50, point.z / 50);
         vertices.push(vertex);
     });
     return vertices;
@@ -31,10 +31,10 @@ function pointsToVector3s(points) {
 function pointsToPositions(points) {
     var positions = [];
     points.forEach(point => {
-        positions.push(point.x / 10, point.y / 10, point.z / 10);
+        positions.push(point.x / 50, point.y / 50, point.z / 50);
     });
     //Close the border
-    positions.push(points[0].x / 10, points[0].y / 10, points[0].z / 10)
+    positions.push(points[0].x / 50, points[0].y / 50, points[0].z / 50)
     return positions;
 }
 
