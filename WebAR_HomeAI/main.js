@@ -12,9 +12,9 @@ export async function activateXR() {
     drawPlot(plot3);
 
     // Add canvas
-    const CANVAS = document.createElement("canvas");
+    let canvas = document.createElement("canvas");
     document.body.appendChild(canvas);
-    const CTX = canvas.getContext("webgl", { xrCompatible: true });
+    let ctx = canvas.getContext("webgl", { xrCompatible: true });
 
     // Add white directional light to scene
     function addLight(...pos) {
@@ -35,8 +35,8 @@ export async function activateXR() {
     let renderer = new THREE.WebGLRenderer({
         alpha: true,
         preserveDrawingBuffer: true,
-        canvas: CANVAS,
-        context: CTX
+        canvas: canvas,
+        context: ctx
     });
     renderer.autoClear = false;
     renderer.localClippingEnabled = true;
@@ -48,7 +48,7 @@ export async function activateXR() {
     // Initialize WebXR session using "immersive-ar"
     let session = await navigator.xr.requestSession("immersive-ar", { requiredFeatures: ['hit-test'], optionalFeatures: ['dom-overlay'], domOverlay: { root: document.getElementById('PATH TO OVERLAY HERE') } });
     session.updateRenderState({
-        baseLayer: new XRWebGLLayer(session, CTX)
+        baseLayer: new XRWebGLLayer(session, ctx)
     });
 
     if (session) {
@@ -78,7 +78,7 @@ export async function activateXR() {
         session.requestAnimationFrame(onXRFrame);
 
         // Bind graphics framebuffer to base layer framebuffer
-        CTX.bindFramebuffer(CTX.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
+        ctx.bindFramebuffer(ctx.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
         // Retrieve position of device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established"
         let position = frame.getViewerPose(referenceSpace);
