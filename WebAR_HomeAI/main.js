@@ -76,7 +76,8 @@ export async function activateXR() {
         ctx.bindFramebuffer(ctx.FRAMEBUFFER, session.renderState.baseLayer.framebuffer);
 
         // Retrieve position of device WARNING: "XRFrame.getViewerPose" can return null when tracking is tried to be first established"
-        let position = frame.getViewerPose(referenceSpace);
+        // fixed the var name
+        let pose = frame.getViewerPose(referenceSpace);
 
         if (pose !== null) {
             let view = pose.views[0];
