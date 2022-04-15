@@ -51,13 +51,13 @@ export function drawPlot(plot) {
     if (plot.plotSize instanceof SCENE.RectanglePlotSize) {
         var plotGeometry = new THREE.BoxGeometry(plot.plotSize.length / 50, 0.2, plot.plotSize.width / 50);
         var plotMesh = new THREE.Mesh(plotGeometry, PLOT_MATERIAL);
-        plotMesh.position.set(plot.plotSize.length / 2, -0.1, -plot.plotSize.width / 2);
+        plotMesh.position.set(plot.plotSize.length / 100, -0.1, -plot.plotSize.width / 100);
         scene.add(plotMesh);
     }
     else if (plot.plotSize instanceof SCENE.SquarePlotSize) {
         var plotGeometry = new THREE.BoxGeometry(plot.plotSize.sideLength / 50, 0.2, plot.plotSize.sideLength / 50);
         var plotMesh = new THREE.Mesh(plotGeometry, PLOT_MATERIAL);
-        plotMesh.position.set(plot.plotSize.sideLength / 2, -0.1, -plot.plotSize.sideLength / 2);
+        plotMesh.position.set(plot.plotSize.sideLength / 100, -0.1, -plot.plotSize.sideLength / 100);
         scene.add(plotMesh);
     }
     else if (plot.plotSize instanceof SCENE.PlotSize) {
