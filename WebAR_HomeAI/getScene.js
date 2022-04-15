@@ -20,7 +20,7 @@ const DOOR_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xcc5531, opacity: 
 //Converts Point Class to Vector3 Class
 function pointsToVector3s(points) {
     var vertices = [];
-
+    
     points.forEach(point => {
         var vertex = new THREE.Vector3(point.x / 50, point.y / 50, point.z / 50);   // look at that a fine scale of 50
         vertices.push(vertex);
@@ -194,11 +194,6 @@ function drawBorder(border) {
     if (border === null || border === undefined) return;
 
     var borderGeometry = new LineGeometry();
-    border.liPoints.forEach(point => {
-        point.x /= 50;
-        point.y /= 50;
-        point.z /= 50;
-    });
     borderGeometry.setPositions(pointsToPositions(border.liPoints));
     var borderLine = new Line2(borderGeometry, BORDER_MATERIAL);
 

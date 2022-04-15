@@ -57,7 +57,7 @@ export async function activateXR() {
     // let viewerSpace = await session.requestReferenceSpace('viewer');
 
     // Hit testing with user as origin
-    
+
     // below line not needed as of rn
     // let hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
 
@@ -66,6 +66,9 @@ export async function activateXR() {
     //     reticle.visible = false;
     //     scene.add(reticle);
     // })
+
+    const axesHelper = new THREE.AxesHelper(5);
+    scene.add(axesHelper);
 
     // Render loop for drawing
     const onXRFrame = (time, frame) => {
