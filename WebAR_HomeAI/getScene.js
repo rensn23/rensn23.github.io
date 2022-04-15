@@ -7,21 +7,21 @@ import { LineMaterial } from 'https://unpkg.com/three@0.126.1/examples/jsm/lines
 
 const BORDER_WIDTH = 0.002; //Border Line-thickness
 
-const PLOT_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x7edb3b, opacity: 0.8 , transparent: true } );
-const OUTER_WALL_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x242424, opacity: 0.95 , transparent: true } );
-const INNER_WALL_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x484848, opacity: 0.95 , transparent: true } );
-const FLOOR_MATERIAL = new THREE.MeshLambertMaterial( { color: 0xc79044, opacity: 0.95 , transparent: true } );
-const ROOF_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x121212, opacity: 0.95 , transparent: true } );
-const BORDER_MATERIAL = new LineMaterial( { color: 0xffffff, linewidth: BORDER_WIDTH } );   //0xdb4e3b
-const ROOM_OBJECT_MATERIAL = new THREE.MeshLambertMaterial( { color: 0x2fd7ed, opacity: 0.8 , transparent: true } );
-const WINDOW_MATERIAL = new THREE.MeshLambertMaterial( { color: 0xdbdbdb, opacity: 0.8 , transparent: true } );
-const DOOR_MATERIAL = new THREE.MeshLambertMaterial( { color: 0xcc5531, opacity: 0.8 , transparent: true } );
+const PLOT_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x7edb3b, opacity: 0.8, transparent: true });
+const OUTER_WALL_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x242424, opacity: 0.95, transparent: true });
+const INNER_WALL_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x484848, opacity: 0.95, transparent: true });
+const FLOOR_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xc79044, opacity: 0.95, transparent: true });
+const ROOF_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x121212, opacity: 0.95, transparent: true });
+const BORDER_MATERIAL = new LineMaterial({ color: 0xffffff, linewidth: BORDER_WIDTH });   //0xdb4e3b
+const ROOM_OBJECT_MATERIAL = new THREE.MeshLambertMaterial({ color: 0x2fd7ed, opacity: 0.8, transparent: true });
+const WINDOW_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xdbdbdb, opacity: 0.8, transparent: true });
+const DOOR_MATERIAL = new THREE.MeshLambertMaterial({ color: 0xcc5531, opacity: 0.8, transparent: true });
 
 //Converts Point Class to Vector3 Class
 function pointsToVector3s(points) {
     var vertices = [];
     points.forEach(point => {
-        var vertex = new THREE.Vector3(point.x, point.y, point.z);
+        var vertex = new THREE.Vector3(point.x / 10, point.y / 10, point.z / 10);
         vertices.push(vertex);
     });
     return vertices;
@@ -31,18 +31,17 @@ function pointsToVector3s(points) {
 function pointsToPositions(points) {
     var positions = [];
     points.forEach(point => {
-        positions.push(point.x, point.y, point.z);
+        positions.push(point.x / 10, point.y / 10, point.z / 10);
     });
     //Close the border
-    positions.push(points[0].x, points[0].y, points[0].z)
+    positions.push(points[0].x / 10, points[0].y / 10, points[0].z / 10)
     return positions;
 }
 
 export const scene = new THREE.Scene();
 
 //Draws the plot + children
-export function drawPlot(plot)
-{
+export function drawPlot(plot) {
     if (plot === null || plot === undefined) return;
     console.log(plot);
 
@@ -74,8 +73,7 @@ export function drawPlot(plot)
 }
 
 //Draws the house + children
-function drawHouse(house)
-{
+function drawHouse(house) {
     if (house === null || house === undefined) return;
 
     house.liWalls.forEach(outerWall => {
@@ -100,8 +98,7 @@ function drawHouse(house)
 }
 
 //Draws Room + children
-function drawRoom(room)
-{
+function drawRoom(room) {
     if (room === null || room === undefined) return;
 
     room.liBorders.forEach(border => {
@@ -110,11 +107,10 @@ function drawRoom(room)
 }
 
 //Draws a Room Object
-function drawRoomObject(roomObject)
-{
+function drawRoomObject(roomObject) {
     if (roomObject === null || roomObject === undefined) return;
 
-    if (roomObject instanceof SCENE.RoomExit && !(roomObject instanceof SCENE.Door)) return; 
+    if (roomObject instanceof SCENE.RoomExit && !(roomObject instanceof SCENE.Door)) return;
 
     if (roomObject instanceof SCENE.RoomObject) {
         var roomObjectGeometry = new ConvexGeometry(pointsToVector3s(roomObject.liPoints));
@@ -135,8 +131,7 @@ function drawRoomObject(roomObject)
 }
 
 //Draws any wall
-function drawWall(wall)
-{
+function drawWall(wall) {
     if (wall === null || wall === undefined) return;
 
     if (wall instanceof SCENE.Floor || wall instanceof SCENE.PolyFloor) {
@@ -159,13 +154,12 @@ function drawWall(wall)
     else {
         var wallMesh = new THREE.Mesh(wallGeometry, OUTER_WALL_MATERIAL);
     }
-    
+
     scene.add(wallMesh);
 }
 
 //Draws a floor
-function drawFloor(floor)
-{
+function drawFloor(floor) {
     if (floor === null || floor === undefined) return;
 
     if (floor instanceof SCENE.Floor) {
@@ -179,8 +173,7 @@ function drawFloor(floor)
 }
 
 //Draws a roof
-function drawRoof(roof)
-{
+function drawRoof(roof) {
     if (roof === null || roof === undefined) return;
 
     if (roof instanceof SCENE.Roof) {
@@ -194,8 +187,7 @@ function drawRoof(roof)
 }
 
 //Draw a border
-function drawBorder(border)
-{
+function drawBorder(border) {
     if (border === null || border === undefined) return;
 
     var borderGeometry = new LineGeometry();
