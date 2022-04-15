@@ -4,9 +4,6 @@ import { drawPlot, scene } from './getScene.js';
 // Models
 const GLTFLOADER = new THREE.GLTFLoader(); // For loading 3D objects
 
-// Reticles
-// let reticle;
-
 
 export async function activateXR() {
     drawPlot(plot3);
@@ -54,21 +51,7 @@ export async function activateXR() {
 
     // Create a position reference near user
     let referenceSpace = await session.requestReferenceSpace('local');
-    // let viewerSpace = await session.requestReferenceSpace('viewer');
-
-    // Hit testing with user as origin
-
-    // below line not needed as of rn
-    // let hitTestSource = await session.requestHitTestSource({ space: viewerSpace });
-
-    // GLTFLOADER.load("https://immersive-web.github.io/webxr-samples/media/gltf/reticle/reticle.gltf", function (gltf) {
-    //     reticle = gltf.scene;
-    //     reticle.visible = false;
-    //     scene.add(reticle);
-    // })
-
-    const axesHelper = new THREE.AxesHelper(5);
-    scene.add(axesHelper);
+    
 
     // Render loop for drawing
     const onXRFrame = (time, frame) => {
